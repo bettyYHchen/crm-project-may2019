@@ -1,0 +1,73 @@
+<!-- method="post" action="/gustbook.html"  -->
+<form [formGroup]="postForm" (ngSubmit)="onSubmit()" novalidate>
+  <div *ngIf="validMessage != ''">
+    <h3 class="has-info">{{ validMessage }}</h3>
+  </div>
+
+
+<!--
+  <fieldset formGroupName="jobType">
+      <div class="form-group">
+        <label>Job Type:</label>
+        <br/>
+        <select class="form-control" formControlName="id" required>
+            <option value="">Please select a job type</option>
+            <option *ngFor="let item of jobTypeList"
+                    [value]="item.id">
+                    {{  item.jobTypeName }}
+            </option>
+        </select>
+      </div>
+    </fieldset> -->
+
+    <div class="form-group">
+      <label for="firstName">First Name:</label>
+      <input type="text" value="" class="form-control" id="firstName" formControlName="firstName" />
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Last Name:</label>
+      <input type="text" value="" class="form-control" id="lastName" formControlName="lastName" />
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone:</label>
+      <input type="text" value="" class="form-control" id="phone" formControlName="phone" />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="text" value="" class="form-control" id="email" formControlName="email" />
+    </div>
+
+    <div class="form-group">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Course</th>
+          <th>Term</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>
+          <ng-multiselect-dropdown formControlName="courseName"  name="courseName" class="form-control" id="courseName" [data]="courseDropdownList" [(ngModel)]="selectedCourse"
+                [settings]="courseDropdownSettings"  (onSelect)="onCourseSelect($event)" (onDeSelect)="OnCourseDeSelect($event)" >
+        </ng-multiselect-dropdown>
+          </td>
+          <td>
+            <ng-multiselect-dropdown formControlName="batch"  name="batch" class="form-control" id="batch" [data]="termDropdownList" [(ngModel)]="selectedTerm"
+                [settings]="termDropdownSettings"  (onSelect)="onTermSelect($event)" (onDeSelect)="OnTermDeSelect($event)">
+            </ng-multiselect-dropdown>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+
+  <input type="submit" value="Post" class="btn btn-primary">
+</form>
+
+

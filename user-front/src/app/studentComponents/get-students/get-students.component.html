@@ -1,0 +1,25 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>FirstName</th>
+    <th>LastName</th>
+    <th>Phone</th>
+    <th>E-mail</th>
+    <th>Class Taken</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let student of students">
+    <td>{{student.firstName}}</td>
+    <td>{{student.lastName}}</td>
+    <td>{{student.phone}}</td>
+    <td>{{student.email}}</td>
+    <td>{{student.aTrainingClassName}}</td>
+    <button class="btn btn-primary mr-3"
+            style="width:80px;"
+            type="button"
+            [routerLink]="['/students/view',student.email]">Edit
+    </button>
+  </tr>
+  </tbody>
+</table>

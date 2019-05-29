@@ -1,0 +1,38 @@
+<!-- <main>
+  <div class="container">
+      <div class="row row-offcanvas row-offcanvas-right">
+          <div class="col-xs-12 col-sm-9">
+              <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+                  <li class="breadcrumb-item active">Admin</li>
+              </ol>
+              <div class="jumbotron">
+                  <h1>Admin Panel</h1>
+              </div>
+              <router-outlet></router-outlet>
+          </div>
+          <router-outlet name="sidemenu-admin"></router-outlet>
+      </div>
+  </div>
+</main> -->
+<main>
+    <div class="container">
+        <div class="row row-offcanvas row-offcanvas-right">
+
+            <div class="col-sm-8">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+                    <li class="breadcrumb-item active">Admin</li>
+                </ol>
+                <div class="jumbotron">
+                    <h1>Admin Panel</h1>
+                </div>
+                <router-outlet></router-outlet>
+            </div>
+            <div class="col-sm-4">
+              <router-outlet name="sidemenu-admin"></router-outlet>
+            </div>
+        </div>
+    </div>
+  </main>
+

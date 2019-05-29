@@ -1,0 +1,99 @@
+
+<form [formGroup]="editForm" (ngSubmit)="onUpdate()" novalidate>
+  <div *ngIf="validMessage != ''">
+    <h3 class="has-info">{{ validMessage }}</h3>
+  </div>
+
+   <div class="form-group">
+    <label>Name:</label>
+    <input type="text" value="" class="form-control" id="name" formControlName="name" />
+  </div>
+
+   <div class="form-group">
+    <label>Username:</label>
+    <input type="text" value="" class="form-control" id="username" formControlName="username" />
+  </div>
+
+  <div class="form-group">
+    <label>Email:</label>
+    <input type="text" value="" class="form-control" id="email" formControlName="email" />
+  </div>
+
+  <!-- <div formArrayName="positions"
+  *ngFor="let position of formData.controls; let i = index;">
+  <div [formGroupName]="i">
+    <input formControlName="name" placeholder="Position">
+  </div>
+
+  Chosen position: {{ formData.controls[i].controls.name.value }}
+</div> -->
+
+
+<div class="checkbox-group" style="margin-top:40px">
+  <div class="checkbox-wrap" id="postionsContainer">
+    <h4>Select positions for the user:</h4>
+      <div class="form-group" *ngFor="let position of positionArray;let i=index">
+        <input [checked]="position == formData.controls[i]?.value"  type="checkbox" (change)="onChange($event.target.checked, position)"/>
+        <label [for]="i"> {{ position }} </label>
+      </div>
+  </div>
+</div>
+
+
+
+<div class="form-group">
+    <label for="status">Status:</label>
+    <select formControlName="status" placeholder="status" name="status" class="form-control" id="status" >
+            <option value="YES">YES</option>
+            <option value="NO">NO</option>
+  </select>
+</div>
+
+<div class="form-group">
+    <label for="statusAsOfDay">Status As Of Day:</label>
+    <input type="text" formControlName="statusAsOfDay" placeholder="statusAsOfDay" name="statusAsOfDay" class="form-control" id="statusAsOfDay" readonly="true">
+</div>
+
+
+
+
+  <!-- <div class="checkbox-group" style="margin-top:40px">
+      <div class="checkbox-wrap" id="productsContainer">
+          <input type="checkbox" id="all">
+          <label for="all">All Roles</label>
+          <div *ngFor="let role of rolesArray; let i = index">
+              <input type="checkbox" [id]="i" (change)="onChange($event.target.checked, role)"/>
+              <label [for]="i"> {{ role }} </label>
+          </div>
+      </div>
+  </div> -->
+
+
+
+
+  <button class="btn btn-primary mr-3"
+            style="width:80px;"
+            type="submit"
+            [disabled]="!editForm.valid"> Save
+  </button>
+  <button class="btn btn-outline-secondary mr-3"
+            style="width:80px;"
+            type="button"
+            [routerLink]="['/admin']">Cancel
+  </button>
+  <button class="btn btn-outline-warning"
+            style="width:80px"
+            type="button"
+            title="Delete this product"
+            (click)="onDelete()"> Delete
+  </button>
+
+
+</form>
+
+
+<!-- <ng-template #loading>
+  Loading job information
+</ng-template> -->
+
+

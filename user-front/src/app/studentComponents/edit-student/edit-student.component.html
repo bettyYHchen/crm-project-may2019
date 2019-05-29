@@ -1,0 +1,91 @@
+<form [formGroup]="editForm" (ngSubmit)="onUpdate()" novalidate>
+  <div *ngIf="validMessage != ''">
+    <h3 class="has-info">{{ validMessage }}</h3>
+  </div>
+
+
+  <div class="form-group">
+    <label for="firstName">First Name:</label>
+    <input type="text" value="" class="form-control" formControlName="firstName" />
+  </div>
+
+  <div class="form-group">
+    <label for="lastName">Last Name:</label>
+    <input type="text" value="" class="form-control" formControlName="lastName" />
+  </div>
+
+  <div class="form-group">
+    <label for="phone">Phone:</label>
+    <input type="text" value="" class="form-control" formControlName="phone" />
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="text" value="" class="form-control" formControlName="email" />
+  </div>
+
+  <div class="form-group">
+    <label>Selected Payment Plan:</label>
+    <br/>
+      <select class="form-control" formControlName="paymentPlan" required>
+          <option value="">Please select a payment plan</option>
+          <option *ngFor="let item of paymentPlanList"
+                  [value]="item">
+                  {{  item }}
+          </option>
+      </select>
+  </div>
+
+  <div class="form-group">
+    <label for="remainingBalance">Outstanding Balance:</label>
+    <input type="text" value="" class="form-control" formControlName="remainingBalance" />
+  </div>
+
+  <div class="form-group">
+    <label for="classFinished">Finished Training: </label>
+    <input type="checkbox" formControlName="classFinished">
+  </div>
+
+
+
+  <div class="form-group">
+    <label>Selected Class:</label>
+    <br/>
+      <select class="form-control" formControlName="aTrainingClassName" required>
+          <option value="">Please select a class</option>
+          <option *ngFor="let item of classList"
+                  [value]="item">
+                  {{  item }}
+          </option>
+      </select>
+  </div>
+
+
+
+
+
+  <button class="btn btn-primary mr-3"
+            style="width:80px;"
+            type="submit"
+            [disabled]="!editForm.valid"> Save
+  </button>
+  <button class="btn btn-outline-secondary mr-3"
+            style="width:80px;"
+            type="button"
+            [routerLink]="['/students']">Cancel
+  </button>
+  <button class="btn btn-outline-warning"
+            style="width:80px"
+            type="button"
+            title="Delete this lead"
+            (click)="onDelete()"> Delete
+  </button>
+  <button class="btn btn-primary mr-3"
+            style="width:100px"
+            type="button"
+            title="Change to intern"
+            (click)="onConvertToIntern()"> To Intern
+  </button>
+
+
+</form>

@@ -1,0 +1,30 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>FirstName</th>
+    <th>LastName</th>
+    <th>Phone</th>
+    <th>E-mail</th>
+    <th>Class Interested</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let lead of leads">
+    <td>{{lead.firstName}}</td>
+    <td>{{lead.lastName}}</td>
+    <td>{{lead.phone}}</td>
+    <td>{{lead.email}}</td>
+    <td>{{lead.aTrainingClassName}}</td>
+    <button class="btn btn-primary mr-3"
+            style="width:80px;"
+            type="button"
+            [routerLink]="['/leads/view',lead.email]">Edit
+    </button>
+  </tr>
+  </tbody>
+  <!-- <button class="btn btn-primary mr-3"
+            style="width:80px;"
+            type="button"
+            [routerLink]="['/signUpLead']">Add
+  </button> -->
+</table>
