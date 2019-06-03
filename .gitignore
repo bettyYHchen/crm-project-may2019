@@ -2,7 +2,7 @@ HELP.md
 .gradle
 /build/
 !gradle/wrapper/gradle-wrapper.jar
-
+.DS_Store
 ### STS ###
 .apt_generated
 .classpath
@@ -30,4 +30,4 @@ HELP.md
 .vscode/
 
 ### Angular ###
-front-end/node_modules
+user-front/node_modules

@@ -1,0 +1,67 @@
+SignUp a lead by sales:
+POST REQUEST WITH BEARER TOKEN
+http://localhost:8060/api/auth/signupLead 
+{
+	"firstName": "Kim",
+	"lastName": "Ellen",
+	"phone": "2267891111",
+	"email": "Kim_Ellen@test.com",
+	"paidDeposit": false,
+	"paymentPlan": "CASH",
+	"paymentPlan": "PAY_IN_FULL_ONCE",
+	"paymentPlanAgreement": "current_directory",
+	"leadSource": "SEARCH_ENGINE",
+	"leadStatus": "CONFIRMED",
+	"courseName": ["SCRUM_MASTER"],
+	"batch": ["WINTER 2019"],
+	"comment": "N/A"
+	
+}
+
+{
+	"firstName": "Grace",
+	"lastName": "Kelly",
+	"phone": "2267898888",
+	"email": "grace_kelly@test.com",
+	"paidDeposit": false,
+	"paymentPlan": "CREDIT_CARD",
+	"paymentPlan": "TEN_PAYMENT_WEEKLY",
+	"paymentPlanAgreement": "current_directory",
+	"leadSource": "SEARCH_ENGINE",
+	"leadStatus": "CONFIRMED",
+	"courseName": ["SCRUM_MASTER"],
+	"batch": ["WINTER 2019"],
+	"comment": "N/A"
+	
+}
+
+Obtained a list of leads:
+GET REQUEST WITH BEARER TOKEN
+http://localhost:8060/pm/leads
+
+Update lead information:
+PUT REQUEST WITH BEARER TOKEN
+http://localhost:8060/pm/leads/Kim_Ellen@test.com
+{
+    "firstName": "Kim",
+    "lastName": "Ellen",
+    "phone": "2267891111",
+    "email": "Kim_Ellen@test.com",
+    "paidDeposit": false,
+    "paymentPlan": "EMAIL_MONEY",
+    "paymentPlan": "PAY_IN_FULL_ONCE",
+    "paymentPlanAgreement": "current_directory",
+    "leadSource": "SEARCH_ENGINE",
+    "leadStatus": "CONFIRMED",
+    "aTrainingClassName": "SCRUM_MASTER WINTER 2019",
+    "comment": "N/A"
+}
+
+Delete a lead
+DELETE REQUEST WITH BEARER TOKEN
+http://localhost:8060/pm/leads/grace_kelly@test.com
+
+
+
+
+

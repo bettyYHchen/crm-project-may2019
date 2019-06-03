@@ -17,10 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 @Service
 public class StudentService {
@@ -45,9 +44,11 @@ public class StudentService {
             String[] tmp = s.getName().split(" ");
             String firstName = tmp[0];
             String lastName = tmp[1];
-            studentResponses.add(new StudentResponse(firstName,lastName,
-                    s.getPhone(), s.getEmail(), s.getPaymentPlan(),s.getRemainingBalance(),
-                    s.finishedClass(), s.getTrainingClass().getName()));
+            studentResponses.add(new StudentResponse(firstName, lastName,
+                    s.getPhone(), s.getEmail(), s.getPaymentPlan(),
+                    s.getPaymentPlanStatus(), s.getPaymentPlanAgreement(),
+                    s.getTrainingClass().getName(), s.getComment(), s.getStatusAsOfDay(),
+                    s.getModifiedTime(), s.getAmountPaid(), s.getRemainingBalance(), s.finishedClass()));
 
         }
         return studentResponses;
@@ -59,9 +60,10 @@ public class StudentService {
         String[] tmp = student.getName().split(" ");
         String firstName = tmp[0];
         String lastName = tmp[1];
-        return new StudentResponse(firstName,lastName,
-                student.getPhone(), student.getEmail(), student.getPaymentPlan(),student.getRemainingBalance(),
-                student.finishedClass(), student.getTrainingClass().getName());
+        return new StudentResponse(firstName, lastName, student.getPhone(), student.getEmail(), student.getPaymentPlan(),
+                student.getPaymentPlanStatus(), student.getPaymentPlanAgreement(),
+                student.getTrainingClass().getName(), student.getComment(), student.getStatusAsOfDay(), student.getModifiedTime(),
+                student.getAmountPaid(), student.getRemainingBalance(), student.finishedClass());
     }
 
     public ResponseEntity<StudentResponse> updateStudent(String email, StudentRequest studentRequest) {
@@ -75,9 +77,13 @@ public class StudentService {
             recordUpdated.setEmail(studentRequest.getEmail());
             recordUpdated.setPhone(studentRequest.getPhone());
             recordUpdated.setPaymentPlan(studentRequest.getPaymentPlan());
-            recordUpdated.setRemainingBalance(studentRequest.getRemainingBalance());
+            recordUpdated.setPaymentPlanStatus(studentRequest.getPaymentPlanStatus());
+            recordUpdated.setPaymentPlanAgreement(studentRequest.getPaymentPlanAgreement());
             recordUpdated.setTrainingClass(trainingClass);
-            recordUpdated.setStatusAsOfDay(LocalDateTime.now().toString());
+            recordUpdated.setComment(studentRequest.getComment());
+            recordUpdated.setAmountPaid(studentRequest.getAmountPaid());
+            recordUpdated.updateBalance();
+            recordUpdated.setModifiedTime(LocalDateTime.now().toString());
             this.studentRepository.save(recordUpdated);
             StudentResponse studentResponse = new StudentResponse();
             BeanUtils.copyProperties(studentRequest,studentResponse);
@@ -116,12 +122,16 @@ public class StudentService {
         else if (student.getRemainingBalance() != 0) { coopStatus = CoopStatus.PENDING_TO_START_FEE_NOT_CLEAR.toString();}
         else { coopStatus = CoopStatus.IN_PROGRESS.toString();}
 
-        Intern intern = new Intern(student.getName(),student.getUsername(),student.getEmail(),student.getPassword(), newPositionSet,
-                student.getStatus(),student.getStatusAsOfDay(),student.getPhone(), coopStatus, student.getTrainingClass().getName());
-
-
-//        Student student = new Student(student.getFirstName(), student.getLastName(), student.getPhone(), student.getEmail(),
-//                trainingClass, PaymentPlan.OneTime.toString(), trainingClass.getCourseFee()-300);
+        LocalDate today = LocalDate.now();
+        LocalDate threeMonthsAfter = today.plus(90, ChronoUnit.DAYS);
+        Intern intern = new Intern();
+        BeanUtils.copyProperties(student,intern);
+        intern.setaTrainingClassName(student.getTrainingClass().getName());
+        intern.setCoopStatus(coopStatus);
+        intern.setCoopStartDate(today.toString());
+        intern.setCoopEndDate(threeMonthsAfter.toString());
+        intern.setProjectAssigned("");
+        intern.setPerformance("");
 
         studentRepository.deleteByEmail(email);
         internRepository.save(intern);

@@ -6,7 +6,6 @@ import com.busyqa.crm.message.response.LeadResponse;
 import com.busyqa.crm.model.user.Lead;
 import com.busyqa.crm.model.user.Position;
 import com.busyqa.crm.model.user.Student;
-import com.busyqa.crm.model.academic.PaymentPlan;
 import com.busyqa.crm.model.academic.TrainingClass;
 import com.busyqa.crm.repo.LeadRepository;
 import com.busyqa.crm.repo.PositionRepository;
@@ -47,8 +46,14 @@ public class LeadService {
             String[] tmp = l.getName().split(" ");
             String firstName = tmp[0];
             String lastName = tmp[1];
+            System.out.println(l.getPhone());
+            System.out.println(l.getEmail());
+            System.out.println(l.getPaidDeposit());
+            System.out.println(l.getPaymentPlan());
             leadResponses.add(new LeadResponse(firstName,lastName,
-                    l.getPhone(),l.getEmail(),l.getPaidDeposite(),l.getaTrainingClassName()));
+                    l.getPhone(),l.getEmail(), l.getPaidDeposit(),
+                    l.getPaymentPlan(), l.getPaymentPlanStatus(), l.getPaymentPlanAgreement(),
+                    l.getLeadSource(),l.getLeadStatus(),l.getaTrainingClassName(),l.getComment(),l.getStatusAsOfDay(),l.getModifiedTime()));
 
         }
         return leadResponses;
@@ -61,10 +66,12 @@ public class LeadService {
         String firstName = tmp[0];
         String lastName = tmp[1];
         return new LeadResponse(firstName,lastName,
-                lead.getPhone(),lead.getEmail(),lead.getPaidDeposite(),lead.getaTrainingClassName());
+                lead.getPhone(),lead.getEmail(), lead.getPaidDeposit(),
+                lead.getPaymentPlan(), lead.getPaymentPlanStatus(), lead.getPaymentPlanAgreement(),
+                lead.getLeadSource(),lead.getLeadStatus(),lead.getaTrainingClassName(),lead.getComment(),lead.getStatusAsOfDay(),lead.getModifiedTime());
+
     }
 
-//        return this.leadRepository.getOne(id);}
 
 
 
@@ -76,28 +83,20 @@ public class LeadService {
             recordUpdated.setUsername(leadRequest.getEmail());
             recordUpdated.setEmail(leadRequest.getEmail());
             recordUpdated.setPhone(leadRequest.getPhone());
+            recordUpdated.setPaidDeposit(leadRequest.getPaidDeposit());
+            recordUpdated.setPaymentPlan(leadRequest.getPaymentPlan());
+            recordUpdated.setPaymentPlanStatus(leadRequest.getPaymentPlanStatus());
+            recordUpdated.setPaymentPlanAgreement(leadRequest.getPaymentPlanAgreement());
+            recordUpdated.setLeadSource(leadRequest.getLeadSource());
+            recordUpdated.setLeadStatus(leadRequest.getLeadStatus());
             recordUpdated.setaTrainingClassName(leadRequest.getaTrainingClassName());
-            recordUpdated.setPaidDeposite(leadRequest.isPaidDeposite());
-            recordUpdated.setStatusAsOfDay(LocalDateTime.now().toString());
+            recordUpdated.setComment(leadRequest.getComment());
+            recordUpdated.setModifiedTime(LocalDateTime.now().toString());
             this.leadRepository.save(recordUpdated);
             LeadResponse leadResponse = new LeadResponse();
             BeanUtils.copyProperties(leadRequest,leadResponse);
             return ResponseEntity.ok().body(leadResponse);
                  }).orElse(ResponseEntity.notFound().build());
-
-
-
-//        return leadRepository.findById(id).map(recordUpdated -> {
-//            recordUpdated.setFirstName(lead.getFirstName());
-//            recordUpdated.setLastName(lead.getLastName());
-//            recordUpdated.setEmail(lead.getEmail());
-//            recordUpdated.setPhone(lead.getPhone());
-//            recordUpdated.setaTrainingClassName(lead.getaTrainingClassName());
-//            recordUpdated.setPaidDeposite(lead.getPaidDeposite());
-//            this.leadRepository.save(recordUpdated);
-//            return ResponseEntity.ok().body(recordUpdated);
-//        }).orElse(ResponseEntity.notFound().build());
-
 
     }
 
@@ -125,10 +124,13 @@ public class LeadService {
 
         Set<Position> newPositionSet = new HashSet<>();
         newPositionSet.add(position);
-        Student student = new Student(lead.getName(),lead.getUsername(),lead.getEmail(),lead.getPassword(), newPositionSet,
-                lead.getStatus(),lead.getStatusAsOfDay(),lead.getPhone(),trainingClass,PaymentPlan.OneTime.toString(),
-                trainingClass.getCourseFee()-300);
-
+        Student student = new Student();
+        BeanUtils.copyProperties(lead,student);
+        student.setTrainingClass(trainingClass);
+        student.setAmountPaid(300);
+        student.setRemainingBalance(trainingClass.getCourseFee()-300);
+        student.setStatusAsOfDay(LocalDateTime.now().toString());
+        student.setModifiedTime(LocalDateTime.now().toString());
 
 //        Student student = new Student(lead.getFirstName(), lead.getLastName(), lead.getPhone(), lead.getEmail(),
 //                trainingClass, PaymentPlan.OneTime.toString(), trainingClass.getCourseFee()-300);
@@ -138,7 +140,6 @@ public class LeadService {
         return student;
 
     }
-
 
 
 

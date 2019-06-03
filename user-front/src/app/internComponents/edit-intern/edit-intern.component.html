@@ -6,12 +6,12 @@
 
   <div class="form-group">
     <label for="firstName">First Name:</label>
-    <input type="text" value="" class="form-control" formControlName="firstName" />
+    <input type="text" value="" class="form-control" formControlName="firstName" readonly="true"/>
   </div>
 
   <div class="form-group">
     <label for="lastName">Last Name:</label>
-    <input type="text" value="" class="form-control" formControlName="lastName" />
+    <input type="text" value="" class="form-control" formControlName="lastName" readonly="true"/>
   </div>
 
   <div class="form-group">
@@ -22,6 +22,16 @@
   <div class="form-group">
     <label for="email">Email:</label>
     <input type="text" value="" class="form-control" formControlName="email" />
+  </div>
+
+  <div class="form-group">
+    <label for="paymentPlan">Payment Plan:</label>
+    <input type="text" value="" class="form-control" formControlName="paymentPlan" readonly="true"/>
+  </div>
+
+  <div class="form-group">
+    <label for="paymentPlanStatus">Payment Plan Status:</label>
+    <input type="text" value="" class="form-control" formControlName="paymentPlanStatus" readonly="true"/>
   </div>
 
   <div class="form-group">
@@ -37,20 +47,32 @@
   </div>
 
 
+   <div class="form-group">
+    <label for="coopStartDate">Coop Start Date:</label>
+    <input type="text" value="" class="form-control" formControlName="coopStartDate" />
+  </div>
+
+   <div class="form-group">
+    <label for="coopEndDate">Coop End Date:</label>
+    <input type="text" value="" class="form-control" formControlName="coopEndDate" />
+  </div>
+
+  <div class="form-group">
+    <label for="projectAssigned">Project Assigned:</label>
+    <input type="text" value="" class="form-control" formControlName="projectAssigned" />
+  </div>
+
+  <div class="form-group">
+    <label for="aTrainingClassName">Class Taken:</label>
+    <input type="text" value="" class="form-control" formControlName="aTrainingClassName" readonly="true"/>
+  </div>
+
 
 
   <div class="form-group">
-    <label>Selected Class:</label>
-    <br/>
-      <select class="form-control" formControlName="aTrainingClassName" required>
-          <option value="">Please select a class</option>
-          <option *ngFor="let item of classList"
-                  [value]="item">
-                  {{  item }}
-          </option>
-      </select>
+    <label>Performance:</label>
+    <textarea placeholder="" class="form-control" formControlName="performance"></textarea>
   </div>
-
 
 
 

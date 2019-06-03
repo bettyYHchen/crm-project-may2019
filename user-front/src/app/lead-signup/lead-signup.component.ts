@@ -16,6 +16,42 @@ export class LeadSignupComponent implements OnInit {
   currentYear = new Date().getFullYear().toString();
   postForm: FormGroup;
   validMessage = '';
+  paymentPlanList = [
+    'One_Time_Credit_Card',
+    'One_Time_Debit_Card_Or_Cash',
+    'One_Time_Email_Money',
+    'Automated_Weekly',
+    'Automated_BiWeekly'
+  ];
+
+  paymentPlanStatusList = [
+    'CONFIRMED',
+    'UNCONFIRMED'
+  ];
+
+  leadSourceList = [
+    'Advertisement',
+    'Cold_Call',
+    'Employee_Referral',
+    'External_Referral',
+    'Online_Store',
+    'Partner',
+    'Public_Relations',
+    'Sales_Email_Alias',
+    'Seminar_Partner',
+    'Internal_Seminar',
+    'Trade_Show',
+    'Web_Download',
+    'Web_Research',
+    'Chat'
+  ];
+
+  leadStatusList = [
+    'CONFIRMED',
+    'UNCONFIRMED'
+  ];
+
+
 
   selectedCourse = [];
   courseDropdownList = [];
@@ -116,8 +152,15 @@ export class LeadSignupComponent implements OnInit {
       lastName: '',
       phone: '',
       email: ['', Validators.required],
+      paidDeposit: false,
+      paymentPlan: '',
+      paymentPlanStatus: '',
+      paymentPlanAgreement: '',
+      leadSource: '',
+      leadStatus: '',
       courseName: [],
-      batch: []
+      batch: [],
+      comment: ''
     });
   }
 

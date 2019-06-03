@@ -1,13 +1,8 @@
 package com.busyqa.crm.controller;
 
 
-import com.busyqa.crm.message.request.LeadSignUpForm;
-import com.busyqa.crm.message.request.LoginForm;
-import com.busyqa.crm.message.request.SignUpForm;
-import com.busyqa.crm.message.response.ApiResponse;
-import com.busyqa.crm.message.response.JwtResponse;
-import com.busyqa.crm.message.response.ResponseMessage;
-import com.busyqa.crm.message.response.UserResponse;
+import com.busyqa.crm.message.request.*;
+import com.busyqa.crm.message.response.*;
 import com.busyqa.crm.model.user.Lead;
 import com.busyqa.crm.model.user.Employee;
 import com.busyqa.crm.model.user.Position;
@@ -16,11 +11,14 @@ import com.busyqa.crm.repo.EmployeeRepository;
 import com.busyqa.crm.repo.PositionRepository;
 import com.busyqa.crm.repo.UserRepository;
 import com.busyqa.crm.security.JwtProvider;
+import com.busyqa.crm.services.ClientService;
 import com.busyqa.crm.services.CrudService;
+import com.busyqa.crm.services.LeadService;
 import com.busyqa.crm.services.UserPrinciple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -67,6 +65,12 @@ public class AuthRestAPIs {
 
     @Autowired
     JwtProvider jwtProvider;
+
+    @Autowired
+    LeadService leadService;
+
+    @Autowired
+    ClientService clientService;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
@@ -135,6 +139,7 @@ public class AuthRestAPIs {
 
     }
 
+    // for the use of an employee
     @PostMapping("/signupLead")
     public ResponseEntity<?> registerLead(@Valid @RequestBody LeadSignUpForm leadSignUpForm) {
         String name = leadSignUpForm.getFirstName() + " " + leadSignUpForm.getLastName();
@@ -162,8 +167,16 @@ public class AuthRestAPIs {
                 encoder.encode(leadSignUpForm.getPassword()),
                 positionSet,"YES", LocalDateTime.now().toString(),
                 leadSignUpForm.getPhone(),
-                false,
-                aTrainingClassName);
+                leadSignUpForm.isPaidDeposit(),
+                leadSignUpForm.getPaymentPlan(),
+                leadSignUpForm.getPaymentPlanStatus(),
+                leadSignUpForm.getPaymentPlanAgreement(),
+                leadSignUpForm.getLeadSource(),
+                leadSignUpForm.getLeadStatus(),
+                aTrainingClassName,
+                leadSignUpForm.getComment(),
+                LocalDateTime.now().toString()
+                );
         leadRepository.save(lead);
         UserPrinciple userPrinciple = UserPrinciple.build(lead);
 
@@ -174,6 +187,9 @@ public class AuthRestAPIs {
 
     }
 
+    // for the use of a lead to set up his/her profile
+
+
 
 
     // reset your passoword
@@ -182,6 +198,45 @@ public class AuthRestAPIs {
         return new ApiResponse<>(HttpStatus.OK.value(), "Password reset successfully.",
                 crudService.resetPassword(username, loginForm));
     }
+
+    // Get Your personal info
+    @GetMapping("/myInfo/{username}")
+    public ApiResponse<UserResponse> getOne(@PathVariable String username){
+        return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.",crudService.getByUsername(username));
+    }
+
+
+
+    // The lead register page to update lead info after the portal link of resetting password
+    @GetMapping("changeLeadInfo/{email}")
+    public LeadResponse getLead(@PathVariable("email") String email) {
+        return this.leadService.listLeadByEmail(email);
+
+    }
+
+    @PutMapping("changeLeadInfo/{email}")
+    public ResponseEntity<ClientResponse> updateLeadInfo(@PathVariable("email") String email, @RequestBody LeadClientRequest leadClientRequest) {
+        return this.clientService.updateLeadInfo(email, leadClientRequest);
+
+    }
+
+    // The client page to update client info by himself
+    @GetMapping("changeClientInfo/{email}")
+    public ClientResponse getClient(@PathVariable("email") String email) {
+        return this.clientService.listClientByEmail(email);
+
+    }
+
+
+    @PutMapping("changeClientInfo/{email}")
+    public ResponseEntity<ClientResponse> updateClientInfo(@PathVariable("email") String email, @RequestBody ClientRequest clientRequest) {
+        return this.clientService.updateClientInfo(email, clientRequest);
+
+    }
+
+
+
+
 
 
 

@@ -7,22 +7,32 @@ public class StudentRequest {
     private String phone;
     private String email;
     private String paymentPlan;
+    private String paymentPlanStatus;
+    private String paymentPlanAgreement;
+    private String aTrainingClassName;
+    private String comment;
+    private String modifiedTime;
+    private int amountPaid;
     private int remainingBalance;
     private boolean classFinished;
-    private String aTrainingClassName;
 
     public StudentRequest() {
     }
 
-    public StudentRequest(String firstName, String lastName, String phone, String email, String paymentPlan, int remainingBalance, boolean classFinished, String aTrainingClassName) {
+    public StudentRequest(String firstName, String lastName, String phone, String email, String paymentPlan, String paymentPlanStatus, String paymentPlanAgreement, String aTrainingClassName, String comment, String modifiedTime, int amountPaid, int remainingBalance, boolean classFinished) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.email = email;
         this.paymentPlan = paymentPlan;
+        this.paymentPlanStatus = paymentPlanStatus;
+        this.paymentPlanAgreement = paymentPlanAgreement;
+        this.aTrainingClassName = aTrainingClassName;
+        this.comment = comment;
+        this.modifiedTime = modifiedTime;
+        this.amountPaid = amountPaid;
         this.remainingBalance = remainingBalance;
         this.classFinished = classFinished;
-        this.aTrainingClassName = aTrainingClassName;
     }
 
     public String getFirstName() {
@@ -57,6 +67,7 @@ public class StudentRequest {
         this.email = email;
     }
 
+
     public String getPaymentPlan() {
         return paymentPlan;
     }
@@ -65,12 +76,53 @@ public class StudentRequest {
         this.paymentPlan = paymentPlan;
     }
 
-    public int getRemainingBalance() {
-        return remainingBalance;
+    public String getPaymentPlanStatus() {
+        return paymentPlanStatus;
     }
 
-    public void setRemainingBalance(int remainingBalance) {
-        this.remainingBalance = remainingBalance;
+    public void setPaymentPlanStatus(String paymentPlanStatus) {
+        this.paymentPlanStatus = paymentPlanStatus;
+    }
+
+    public String getPaymentPlanAgreement() {
+        return paymentPlanAgreement;
+    }
+
+    public void setPaymentPlanAgreement(String paymentPlanAgreement) {
+        this.paymentPlanAgreement = paymentPlanAgreement;
+    }
+
+
+    public String getaTrainingClassName() {
+        return aTrainingClassName;
+    }
+
+    public void setaTrainingClassName(String aTrainingClassName) {
+        this.aTrainingClassName = aTrainingClassName;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getModifiedTime() {
+        return modifiedTime;
+    }
+
+    public void setModifiedTime(String modifiedTime) {
+        this.modifiedTime = modifiedTime;
+    }
+
+    public int getAmountPaid() {
+        return amountPaid;
+    }
+
+    public void setAmountPaid(int amountPaid) {
+        this.amountPaid = amountPaid;
     }
 
     public boolean isClassFinished() {
@@ -81,11 +133,11 @@ public class StudentRequest {
         this.classFinished = classFinished;
     }
 
-    public String getaTrainingClassName() {
-        return aTrainingClassName;
+    public int getRemainingBalance() {
+        return remainingBalance;
     }
 
-    public void setaTrainingClassName(String aTrainingClassName) {
-        this.aTrainingClassName = aTrainingClassName;
+    public void setRemainingBalance(int remainingBalance) {
+        this.remainingBalance = remainingBalance;
     }
 }

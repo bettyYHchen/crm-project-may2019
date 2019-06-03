@@ -107,6 +107,7 @@ public class CrudService {
     }
 
     public boolean resetPassword(String username, LoginForm loginForm) {
+        System.out.println("the username is " + username);
         User user = userRepository.findByUsername(username).
                 orElseThrow(() -> new RuntimeException("Fail! -> Cause: User not found."));
         user.setPassword(encoder.encode(loginForm.getPassword()));

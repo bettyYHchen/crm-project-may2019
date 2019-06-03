@@ -1,0 +1,106 @@
+<form [formGroup]="editForm" (ngSubmit)="onUpdate()" novalidate>
+  <div *ngIf="validMessage != ''">
+    <h3 class="has-info">{{ validMessage }}</h3>
+  </div>
+
+
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" value="" class="form-control" formControlName="name" readonly="true"/>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="text" value="" class="form-control" formControlName="email" readonly="true"/>
+  </div>
+
+  <div class="form-group">
+    <label for="phone">Phone:</label>
+    <input type="text" value="" class="form-control" formControlName="phone" />
+  </div>
+
+  <div class="form-group">
+    <label for="address">Address:</label>
+    <textarea placeholder="" class="form-control" formControlName="address"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Selected Class:</label>
+    <br/>
+      <select class="form-control" formControlName="aTrainingClassName" required>
+          <option value="">Please select a class</option>
+          <option *ngFor="let item of classList"
+                  [value]="item">
+                  {{  item }}
+          </option>
+      </select>
+  </div>
+
+  <div class="form-group">
+    <label>What is your employment status?</label>
+    <br/>
+      <select class="form-control" formControlName="employmentStatus" required>
+          <option value="">Please select an employment status</option>
+          <option *ngFor="let item of employmentStatusList"
+                  [value]="item">
+                  {{  item }}
+          </option>
+      </select>
+  </div>
+
+
+
+  <div class="form-group">
+    <label for="currentJob">What is your current job? </label>
+    <input type="text" value="" class="form-control" formControlName="currentJob" />
+  </div>
+
+  <div class="form-group">
+    <label for="desiredJob">What is your desired job? </label>
+    <input type="text" value="" class="form-control" formControlName="desiredJob" />
+  </div>
+
+   <div class="form-group">
+    <label>How do you want to pay? </label>
+    <br/>
+      <select class="form-control" formControlName="paymentPlan" required>
+          <option value="">Please select a payment plan</option>
+          <option *ngFor="let item of paymentPlanList"
+                  [value]="item">
+                  {{  item }}
+          </option>
+      </select>
+  </div>
+
+  <div class="form-group">
+    <label for="paymentPlanAgreement">Please upload the signed payment plan agreement.</label>
+    <input type="text" value="" class="form-control" formControlName="paymentPlanAgreement" />
+  </div>
+
+
+
+  <div class="form-group">
+    <label>How did you hear about us?</label>
+    <br/>
+      <select class="form-control" formControlName="leadSource" required>
+          <option value="">Please select a lead source</option>
+          <option *ngFor="let item of leadSourceList"
+                  [value]="item">
+                  {{  item }}
+          </option>
+      </select>
+  </div>
+
+
+
+
+  <button class="btn btn-primary mr-3"
+            style="width:80px;"
+            type="submit"
+            [disabled]="!editForm.valid"> Submit
+  </button>
+
+
+
+
+</form>

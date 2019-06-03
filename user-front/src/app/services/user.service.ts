@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {ApiResponse} from "../services/api.response";
 import { TokenStorageService } from '../auth/token-storage.service';
@@ -11,6 +11,10 @@ import { LeadRequest } from '../model/lead-request';
 import { Lead } from '../model/lead';
 import { Student } from '../model/student';
 import { Intern } from '../model/intern';
+import { StudentRequest } from '../model/student-request';
+import { InternRequest } from '../model/intern-request';
+import { LeadClientRequest } from '../model/lead-client-request';
+import { ClientRequest } from '../model/client-request';
 
 const httpOptions = {
   'Content-Type': 'application/json'
@@ -25,6 +29,9 @@ export class UserService {
   private pmUrl = this.apiUrl +'/pm';
   private adminUrl = this.apiUrl +'/admin';
   private leadSignUpUrl = this.apiUrl + '/api/auth/signupLead';
+  private myInfoUrl = this.apiUrl + '/api/auth/myInfo/';
+  private changeLeadInfoUrl = this.apiUrl + '/api/auth/changeLeadInfo/';
+  private changeClientInfoUrl = this.apiUrl + '/api/auth/changeClientInfo/';
   info: any;
 
   constructor(private http: HttpClient, private token: TokenStorageService) { }
@@ -47,13 +54,13 @@ export class UserService {
       username: this.token.getUsername(),
       authorities: this.token.getAuthorities()
     }
-    //this is to get information to test in postman
+    // this is to get information to test in postman
     console.log(this.info.token);
     return this.http.get<ApiResponse>(this.adminUrl + "/users/"+ this.info.username);
   }
 
   getUserByUsername(username: string): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(this.adminUrl + "/user/" + username);
+    return this.http.get<ApiResponse>(this.myInfoUrl + username);
   }
 
   updateUser(username: string, user: UserRequest): Observable<ApiResponse> {
@@ -63,6 +70,7 @@ export class UserService {
   deleteUser(username: string): Observable<ApiResponse> {
     return this.http.delete<ApiResponse>(this.adminUrl + "/user/" + username);
   }
+
 
   // getPmUserByTeam(): Observable<ApiResponse> {
   //   this.info = {
@@ -89,9 +97,9 @@ export class UserService {
     return this.http.get(this.pmUrl + '/leads/' + email);
   }
 
-  updateLead(email: string, lead: Lead) {
-    let body = JSON.stringify(lead);
-    return this.http.put(this.pmUrl + '/leads/' + email, lead);
+  updateLead(email: string, leadRequest: LeadRequest) {
+    let body = JSON.stringify(leadRequest);
+    return this.http.put(this.pmUrl + '/leads/' + email, leadRequest);
   }
 
   deleteLead(email: string) {
@@ -120,9 +128,9 @@ export class UserService {
     return this.http.get(this.userUrl + '/students/' + email);
   }
 
-  updateStudent(email: string, student: Student) {
-    let body = JSON.stringify(student);
-    return this.http.put(this.userUrl + '/students/' + email, student);
+  updateStudent(email: string, studentRequest: StudentRequest) {
+    let body = JSON.stringify(studentRequest);
+    return this.http.put(this.userUrl + '/students/' + email, studentRequest);
   }
 
   deleteStudent(email: string) {
@@ -142,13 +150,32 @@ export class UserService {
     return this.http.get(this.userUrl + '/interns/' + email);
   }
 
-  updateIntern(email: string, intern: Intern) {
-    let body = JSON.stringify(intern);
-    return this.http.put(this.userUrl + '/interns/' + email, intern);
+  updateIntern(email: string, internRequest: InternRequest) {
+    let body = JSON.stringify(internRequest);
+    return this.http.put(this.userUrl + '/interns/' + email, internRequest);
   }
 
   deleteIntern(email: string) {
     return this.http.delete(this.userUrl + '/interns/' + email);
   }
 
+  // get lead for first time client info update
+  listLeadClientByEmail(email: string) {
+    return this.http.get(this.changeLeadInfoUrl + email);
+  }
+
+  updateLeadClient(email: string, leadClientRequest: LeadClientRequest) {
+    let body = JSON.stringify(leadClientRequest);
+    return this.http.put(this.changeLeadInfoUrl + email, leadClientRequest);
+  }
+
+  // get client in the personal page for updating his info
+  listClientByEmail(email: string) {
+    return this.http.get(this.changeClientInfoUrl + email);
+  }
+
+  updateClient(email: string, clientRequest: ClientRequest) {
+    let body = JSON.stringify(clientRequest);
+    return this.http.put(this.changeClientInfoUrl + email, clientRequest);
+  }
 }

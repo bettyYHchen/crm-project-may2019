@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -32,6 +33,10 @@ import { SidemenuAccountComponent } from './sidemenu-account/sidemenu-account.co
 import { EditStudentComponent } from './studentComponents/edit-student/edit-student.component';
 import { GetInternsComponent } from './internComponents/get-interns/get-interns.component';
 import { EditInternComponent } from './internComponents/edit-intern/edit-intern.component';
+import { ClientResetPasswordComponent } from './leadPortalComponents/client-reset-password/client-reset-password.component';
+import { WhatIamComponent } from './what-iam/what-iam.component';
+import { ClientFirstTimeUpdateComponent } from './leadPortalComponents/client-first-time-update/client-first-time-update.component';
+
 
 
 @NgModule({
@@ -58,7 +63,10 @@ import { EditInternComponent } from './internComponents/edit-intern/edit-intern.
     SidemenuAccountComponent,
     EditStudentComponent,
     GetInternsComponent,
-    EditInternComponent
+    EditInternComponent,
+    ClientResetPasswordComponent,
+    WhatIamComponent,
+    ClientFirstTimeUpdateComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +75,9 @@ import { EditInternComponent } from './internComponents/edit-intern/edit-intern.
     ReactiveFormsModule,
     HttpClientModule,
     NgMultiSelectDropDownModule.forRoot(),
-    FlexLayoutModule
+    FlexLayoutModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

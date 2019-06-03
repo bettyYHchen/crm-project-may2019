@@ -8,6 +8,7 @@ import { SignUpInfo } from './signup-info';
 import { environment } from '../../environments/environment';
 import { ApiResponse } from '../services/api.response';
 import { TokenStorageService } from './token-storage.service';
+import { ResetPasswordForm } from './reset-password-form';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -22,6 +23,7 @@ export class AuthService {
   private signupUrl = this.apiUrl + '/api/auth/signup';
   private resetCredentialUrl = this.apiUrl + '/api/auth/resetpassword/';
   info: any;
+  clientCredential: AuthLoginInfo;
 
   constructor(private http: HttpClient, private token: TokenStorageService) {
   }
@@ -42,5 +44,14 @@ export class AuthService {
 
     return this.http.put<ApiResponse>(this.resetCredentialUrl + this.info.username, credentials, httpOptions);
   }
+
+  resetClientPassword(email: string, resetPasswordForm: ResetPasswordForm): Observable<ApiResponse> {
+    this.clientCredential  = new AuthLoginInfo(resetPasswordForm.username, resetPasswordForm.password);
+    return this.http.put<ApiResponse>(this.resetCredentialUrl + email, this.clientCredential, httpOptions);
+  }
+
+
+
+
 
 }

@@ -28,12 +28,14 @@ public class InternService {
         if (interns.isEmpty()) throw new RuntimeException("Empty intern list!");
         List<InternResponse> internResponses = new ArrayList<>();
         System.out.println(interns.size());
-        for (Intern s: interns) {
-            String[] tmp = s.getName().split(" ");
+        for (Intern i: interns) {
+            String[] tmp = i.getName().split(" ");
             String firstName = tmp[0];
             String lastName = tmp[1];
-            internResponses.add(new InternResponse(firstName,lastName,
-                    s.getPhone(), s.getEmail(), s.getCoopStatus(), s.getaTrainingClassName()));
+            internResponses.add(new InternResponse(firstName, lastName, i.getPhone(), i.getEmail(), i.getPaymentPlan(),
+                    i.getPaymentPlanStatus(), i.getPaymentPlanAgreement(), i.getaTrainingClassName(), i.getStatusAsOfDay(),
+                    i.getModifiedTime(), i.getAmountPaid(), i.getRemainingBalance(), i.getCoopStatus(), i.getCoopStartDate(),
+                    i.getCoopEndDate(), i.getProjectAssigned(), i.getPerformance()));
 
         }
         return internResponses;
@@ -45,8 +47,10 @@ public class InternService {
         String[] tmp = intern.getName().split(" ");
         String firstName = tmp[0];
         String lastName = tmp[1];
-        return new InternResponse(firstName,lastName,
-                intern.getPhone(), intern.getEmail(), intern.getCoopStatus(), intern.getaTrainingClassName());
+        return new InternResponse(firstName, lastName, intern.getPhone(), intern.getEmail(), intern.getPaymentPlan(),
+                intern.getPaymentPlanStatus(), intern.getPaymentPlanAgreement(), intern.getaTrainingClassName(), intern.getStatusAsOfDay(),
+                intern.getModifiedTime(), intern.getAmountPaid(), intern.getRemainingBalance(), intern.getCoopStatus(), intern.getCoopStartDate(),
+                intern.getCoopEndDate(), intern.getProjectAssigned(), intern.getPerformance());
     }
 
     public ResponseEntity<InternResponse> updateIntern(String email, InternRequest internRequest) {
@@ -57,9 +61,15 @@ public class InternService {
             recordUpdated.setUsername(internRequest.getEmail());
             recordUpdated.setEmail(internRequest.getEmail());
             recordUpdated.setPhone(internRequest.getPhone());
+            recordUpdated.setPaymentPlan(internRequest.getPaymentPlan());
+            recordUpdated.setPaymentPlanStatus(internRequest.getPaymentPlanStatus());
+            recordUpdated.setAmountPaid(internRequest.getAmountPaid());
             recordUpdated.setCoopStatus(internRequest.getCoopStatus());
-            recordUpdated.setaTrainingClassName(internRequest.getaTrainingClassName());
-            recordUpdated.setStatusAsOfDay(LocalDateTime.now().toString());
+            recordUpdated.setCoopStartDate(internRequest.getCoopStartDate());
+            recordUpdated.setCoopEndDate(internRequest.getCoopEndDate());
+            recordUpdated.setProjectAssigned(internRequest.getProjectAssigned());
+            recordUpdated.setPerformance(internRequest.getPerformance());
+            recordUpdated.setModifiedTime(LocalDateTime.now().toString());
             this.internRepository.save(recordUpdated);
             InternResponse internResponse = new InternResponse();
             BeanUtils.copyProperties(internRequest,internResponse);

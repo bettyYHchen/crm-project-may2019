@@ -5,50 +5,35 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.util.Set;
 
 
 @Entity
 @DiscriminatorValue("3")
 public class Student extends User{
 
-    @NotBlank
-    @Size(min = 3, max = 50)
     private String phone;
+    private String address;
+    private String leadSource;
+    private String leadStatus;
+    private String comment;
+    private String employmentStatus;
+    private String currentJob;
+    private String desiredJob;
+    private String paymentPlan;
+    private String paymentPlanStatus;
+    private String paymentPlanAgreement;
+    private String lastActivityTime;
+    private String modifiedTime;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "training_class_id", referencedColumnName = "id")
     @JsonBackReference
     private TrainingClass trainingClass;
 
-    @NotBlank
-    @Size(min = 3, max = 80)
-    private String paymentPlan;
-
-
+    private int amountPaid;
     private int remainingBalance;
 
     public Student() {
-    }
-
-    public Student(String name, String username, String email, String password,  String status, String statusAsOfDay, @NotBlank @Size(min = 3, max = 50) String phone, TrainingClass trainingClass, @NotBlank @Size(min = 3, max = 80) String paymentPlan, int remainingBalance) {
-        super(name, username, email, password, status, statusAsOfDay);
-        this.phone = phone;
-        this.trainingClass = trainingClass;
-        this.paymentPlan = paymentPlan;
-        this.remainingBalance = remainingBalance;
-    }
-
-
-
-    public Student(String name, String username, String email, String password, Set<Position> positions, String status, String statusAsOfDay, @NotBlank @Size(min = 3, max = 50) String phone, TrainingClass trainingClass, @NotBlank @Size(min = 3, max = 80) String paymentPlan, int remainingBalance) {
-        super(name, username, email, password, positions, status, statusAsOfDay);
-        this.phone = phone;
-        this.trainingClass = trainingClass;
-        this.paymentPlan = paymentPlan;
-        this.remainingBalance = remainingBalance;
     }
 
     public String getPhone() {
@@ -59,12 +44,61 @@ public class Student extends User{
         this.phone = phone;
     }
 
-    public TrainingClass getTrainingClass() {
-        return trainingClass;
+    public String getAddress() {
+        return address;
     }
 
-    public void setTrainingClass(TrainingClass trainingClass) {
-        this.trainingClass = trainingClass;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+
+    public String getLeadSource() {
+        return leadSource;
+    }
+
+    public void setLeadSource(String leadSource) {
+        this.leadSource = leadSource;
+    }
+
+    public String getLeadStatus() {
+        return leadStatus;
+    }
+
+    public void setLeadStatus(String leadStatus) {
+        this.leadStatus = leadStatus;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getEmploymentStatus() {
+        return employmentStatus;
+    }
+
+    public void setEmploymentStatus(String employmentStatus) {
+        this.employmentStatus = employmentStatus;
+    }
+
+    public String getCurrentJob() {
+        return currentJob;
+    }
+
+    public void setCurrentJob(String currentJob) {
+        this.currentJob = currentJob;
+    }
+
+    public String getDesiredJob() {
+        return desiredJob;
+    }
+
+    public void setDesiredJob(String desiredJob) {
+        this.desiredJob = desiredJob;
     }
 
     public String getPaymentPlan() {
@@ -73,6 +107,54 @@ public class Student extends User{
 
     public void setPaymentPlan(String paymentPlan) {
         this.paymentPlan = paymentPlan;
+    }
+
+    public String getPaymentPlanStatus() {
+        return paymentPlanStatus;
+    }
+
+    public void setPaymentPlanStatus(String paymentPlanStatus) {
+        this.paymentPlanStatus = paymentPlanStatus;
+    }
+
+    public String getPaymentPlanAgreement() {
+        return paymentPlanAgreement;
+    }
+
+    public void setPaymentPlanAgreement(String paymentPlanAgreement) {
+        this.paymentPlanAgreement = paymentPlanAgreement;
+    }
+
+    public String getLastActivityTime() {
+        return lastActivityTime;
+    }
+
+    public void setLastActivityTime(String lastActivityTime) {
+        this.lastActivityTime = lastActivityTime;
+    }
+
+    public String getModifiedTime() {
+        return modifiedTime;
+    }
+
+    public void setModifiedTime(String modifiedTime) {
+        this.modifiedTime = modifiedTime;
+    }
+
+    public TrainingClass getTrainingClass() {
+        return trainingClass;
+    }
+
+    public void setTrainingClass(TrainingClass trainingClass) {
+        this.trainingClass = trainingClass;
+    }
+
+    public int getAmountPaid() {
+        return amountPaid;
+    }
+
+    public void setAmountPaid(int amountPaid) {
+        this.amountPaid = amountPaid;
     }
 
     public int getRemainingBalance() {
@@ -88,14 +170,37 @@ public class Student extends User{
         return this.trainingClass.isFinished();
     }
 
+    @JsonIgnore
+    public int getClassFee() {
+        return this.trainingClass.getCourseFee();
+    }
+
+    @JsonIgnore
+    public void updateBalance() {
+        this.setRemainingBalance(this.getClassFee()-this.getAmountPaid());
+    }
+
     @Override
     public String toString() {
         return "Student{" +
                 "phone='" + phone + '\'' +
-                ", trainingClass=" + trainingClass +
+                ", address='" + address + '\'' +
+                ", leadSource='" + leadSource + '\'' +
+                ", leadStatus='" + leadStatus + '\'' +
+                ", comment='" + comment + '\'' +
+                ", employmentStatus='" + employmentStatus + '\'' +
+                ", currentJob='" + currentJob + '\'' +
+                ", desiredJob='" + desiredJob + '\'' +
                 ", paymentPlan='" + paymentPlan + '\'' +
-                ", remainingBalance=" + remainingBalance  + '\'' +
-                ", isFinishedClass=" + this.finishedClass() +
+                ", paymentPlanStatus='" + paymentPlanStatus + '\'' +
+                ", paymentPlanAgreement='" + paymentPlanAgreement + '\'' +
+                ", lastActivityTime='" + lastActivityTime + '\'' +
+                ", modifiedTime='" + modifiedTime + '\'' +
+                ", trainingClass=" + trainingClass +
+                ", amountPaid=" + amountPaid +
+                ", remainingBalance=" + remainingBalance +
                 '}';
     }
+
+
 }

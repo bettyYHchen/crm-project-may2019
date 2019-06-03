@@ -43,6 +43,19 @@ coopStatusList = [
   'DONE'
 ];
 
+paymentPlanList = [
+  'One_Time_Credit_Card',
+  'One_Time_Debit_Card_Or_Cash',
+  'One_Time_Email_Money',
+  'Automated_Weekly',
+  'Automated_BiWeekly'
+];
+
+paymentPlanStatusList = [
+  'CONFIRMED',
+  'UNCONFIRMED'
+];
+
 
 
 
@@ -88,8 +101,16 @@ updateForm() {
     lastName: ['', Validators.required],
     phone: ['', Validators.required],
     email: ['', Validators.required],
+    aTrainingClassName: '',
+    paymentPlan: '',
+    paymentPlanStatus: '',
+    amountPaid: '',
+    remainingBalance: '',
     coopStatus: '',
-    aTrainingClassName: ''
+    coopStartDate: '',
+    coopEndDate: '',
+    projectAssigned: '',
+    performance: ''
   });
 
 }
@@ -100,13 +121,22 @@ displayForm(data: any): void {
     this.editForm.reset();
   }
   this.internExample = data;
+  console.log(this.internExample);
   this.editForm.patchValue({
     firstName: this.internExample.firstName,
     lastName: this.internExample.lastName,
     phone: this.internExample.phone,
     email: this.internExample.email,
+    aTrainingClassName: this.internExample.aTrainingClassName,
+    paymentPlan: this.internExample.paymentPlan,
+    paymentPlanStatus: this.internExample.paymentPlanStatus,
+    amountPaid: this.internExample.amountPaid,
+    remainingBalance: this.internExample.remainingBalance,
     coopStatus: this.internExample.coopStatus,
-    aTrainingClassName: this.internExample.aTrainingClassName
+    coopStartDate: this.internExample.coopStartDate,
+    coopEndDate: this.internExample.coopEndDate,
+    projectAssigned: this.internExample.projectAssigned,
+    performance: this.internExample.performance
   });
 
 }

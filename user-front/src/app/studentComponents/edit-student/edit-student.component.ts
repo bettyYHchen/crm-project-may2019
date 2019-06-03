@@ -38,9 +38,16 @@ termList = [
 classList = [];
 
 paymentPlanList = [
-  'OneTime',
-  'Weekly',
-  'BiWeekly'
+  'One_Time_Credit_Card',
+  'One_Time_Debit_Card_Or_Cash',
+  'One_Time_Email_Money',
+  'Automated_Weekly',
+  'Automated_BiWeekly'
+];
+
+paymentPlanStatusList = [
+  'CONFIRMED',
+  'UNCONFIRMED'
 ];
 
 
@@ -89,9 +96,13 @@ paymentPlanList = [
       phone: ['', Validators.required],
       email: ['', Validators.required],
       paymentPlan: '',
+      paymentPlanStatus: '',
+      paymentPlanAgreement: '',
+      aTrainingClassName: '',
+      comment: '',
+      amountPaid: '',
       remainingBalance: '',
-      classFinished: false,
-      aTrainingClassName: ''
+      classFinished: ''
     });
 
   }
@@ -108,9 +119,13 @@ paymentPlanList = [
       phone: this.studentExample.phone,
       email: this.studentExample.email,
       paymentPlan: this.studentExample.paymentPlan,
+      paymentPlanStatus: this.studentExample.paymentPlanStatus,
+      paymentPlanAgreement: this.studentExample.paymentPlanAgreement,
+      aTrainingClassName: this.studentExample.aTrainingClassName,
+      comment: this.studentExample.comment,
+      amountPaid: this.studentExample.amountPaid,
       remainingBalance: this.studentExample.remainingBalance,
-      classFinished: this.studentExample.classFinished,
-      aTrainingClassName: this.studentExample.aTrainingClassName
+      classFinished: this.studentExample.classFinished
     });
 
   }

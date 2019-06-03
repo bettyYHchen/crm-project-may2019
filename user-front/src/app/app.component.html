@@ -17,10 +17,13 @@
       <li *ngIf="!authority" class="nav-item">
         <a class="nav-link" routerLink="auth/login">Login</a>
       </li>
-      <li *ngIf="authority === 'user' ||  authority === 'admin' || authority === 'pm' " class="nav-item">
+      <li *ngIf="authority === 'client' || authority === 'user' ||  authority === 'admin' || authority === 'pm' " class="nav-item">
           <a class="nav-link" (click)="logout()">Logout</a>
       </li>
-      <li *ngIf="authority === 'user' ||  authority === 'admin' || authority === 'pm' " class="nav-item">
+      <li *ngIf="authority === 'client' || authority === 'user' ||  authority === 'admin' || authority === 'pm' " class="nav-item">
+        <a class="nav-link" [routerLink] = "[myInfoUrl]">My Info</a>
+    </li>
+      <li *ngIf="authority === 'user' || authority === 'user' ||  authority === 'admin' || authority === 'pm' " class="nav-item">
           <a class="nav-link" routerLink="resetPassword">Reset Password</a>
       </li>
       <div fxLayout="row" fxLayoutGap="25px">

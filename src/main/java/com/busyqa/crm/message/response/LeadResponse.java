@@ -1,23 +1,42 @@
 package com.busyqa.crm.message.response;
 
 public class LeadResponse {
+
     private String firstName;
     private String lastName;
     private String phone;
     private String email;
-    private boolean paidDeposite;
+    private Boolean paidDeposit;
+    private String paymentPlan;
+    private String paymentPlanStatus;
+    private String paymentPlanAgreement;
+    private String leadSource;
+    private String leadStatus;
     private String aTrainingClassName;
+    private String comment;
+    private String createdTime;
+    private String modifiedTime;
+
+
 
     public LeadResponse() {
     }
 
-    public LeadResponse(String firstName, String lastName, String phone, String email, boolean paidDeposite, String aTrainingClassName) {
+    public LeadResponse(String firstName, String lastName, String phone, String email, boolean paidDeposit, String paymentPlan, String paymentPlanStatus, String paymentPlanAgreement, String leadSource, String leadStatus, String aTrainingClassName, String comment, String createdTime, String modifiedTime) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.email = email;
-        this.paidDeposite = paidDeposite;
+        this.paidDeposit = paidDeposit;
+        this.paymentPlan = paymentPlan;
+        this.paymentPlanStatus = paymentPlanStatus;
+        this.paymentPlanAgreement = paymentPlanAgreement;
+        this.leadSource = leadSource;
+        this.leadStatus = leadStatus;
         this.aTrainingClassName = aTrainingClassName;
+        this.comment = comment;
+        this.createdTime = createdTime;
+        this.modifiedTime = modifiedTime;
     }
 
     public String getFirstName() {
@@ -52,12 +71,52 @@ public class LeadResponse {
         this.email = email;
     }
 
-    public boolean isPaidDeposite() {
-        return paidDeposite;
+    public Boolean getPaidDeposit() {
+        return paidDeposit;
     }
 
-    public void setPaidDeposite(boolean paidDeposite) {
-        this.paidDeposite = paidDeposite;
+    public void setPaidDeposit(Boolean paidDeposit) {
+        this.paidDeposit = paidDeposit;
+    }
+
+    public String getPaymentPlan() {
+        return paymentPlan;
+    }
+
+    public void setPaymentPlan(String paymentPlan) {
+        this.paymentPlan = paymentPlan;
+    }
+
+    public String getPaymentPlanStatus() {
+        return paymentPlanStatus;
+    }
+
+    public void setPaymentPlanStatus(String paymentPlanStatus) {
+        this.paymentPlanStatus = paymentPlanStatus;
+    }
+
+    public String getPaymentPlanAgreement() {
+        return paymentPlanAgreement;
+    }
+
+    public void setPaymentPlanAgreement(String paymentPlanAgreement) {
+        this.paymentPlanAgreement = paymentPlanAgreement;
+    }
+
+    public String getLeadSource() {
+        return leadSource;
+    }
+
+    public void setLeadSource(String leadSource) {
+        this.leadSource = leadSource;
+    }
+
+    public String getLeadStatus() {
+        return leadStatus;
+    }
+
+    public void setLeadStatus(String leadStatus) {
+        this.leadStatus = leadStatus;
     }
 
     public String getaTrainingClassName() {
@@ -66,5 +125,29 @@ public class LeadResponse {
 
     public void setaTrainingClassName(String aTrainingClassName) {
         this.aTrainingClassName = aTrainingClassName;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getModifiedTime() {
+        return modifiedTime;
+    }
+
+    public void setModifiedTime(String modifiedTime) {
+        this.modifiedTime = modifiedTime;
+    }
+
+    public String getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(String createdTime) {
+        this.createdTime = createdTime;
     }
 }

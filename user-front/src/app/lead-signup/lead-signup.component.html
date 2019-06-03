@@ -41,6 +41,59 @@
     </div>
 
     <div class="form-group">
+      <label for="paidDeposit">Deposite Paid: </label>
+      <input type="checkbox" formControlName="paidDeposit">
+    </div>
+
+    <div class="form-group">
+      <label>Selected Payment Plan:</label>
+      <br/>
+        <select class="form-control" formControlName="paymentPlan" required>
+            <option value="">Please select a payment plan</option>
+            <option *ngFor="let item of paymentPlanList"
+                    [value]="item">
+                    {{  item }}
+            </option>
+        </select>
+    </div>
+
+    <div class="form-group">
+      <label>Selected Payment Plan Status:</label>
+      <br/>
+        <select class="form-control" formControlName="paymentPlanStatus" required>
+            <option value="">Please select a payment plan status</option>
+            <option *ngFor="let item of paymentPlanStatusList"
+                    [value]="item">
+                    {{  item }}
+            </option>
+        </select>
+    </div>
+
+    <div class="form-group">
+      <label>Selected Lead Source:</label>
+      <br/>
+        <select class="form-control" formControlName="leadSource" required>
+            <option value="">Please select a lead source</option>
+            <option *ngFor="let item of leadSourceList"
+                    [value]="item">
+                    {{  item }}
+            </option>
+        </select>
+    </div>
+
+    <div class="form-group">
+      <label>Selected Lead Status:</label>
+      <br/>
+        <select class="form-control" formControlName="leadStatus" required>
+            <option value="">Please select a lead status</option>
+            <option *ngFor="let item of leadStatusList"
+                    [value]="item">
+                    {{  item }}
+            </option>
+        </select>
+    </div>
+
+    <div class="form-group">
       <table class="table table-striped">
         <thead>
         <tr>
@@ -63,6 +116,11 @@
         </tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="form-group">
+      <label>Comments:</label>
+      <textarea placeholder="" class="form-control" formControlName="comment"></textarea>
     </div>
 
 

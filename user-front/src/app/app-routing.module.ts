@@ -22,10 +22,25 @@ import { SidemenuAccountComponent } from './sidemenu-account/sidemenu-account.co
 import { EditStudentComponent } from './studentComponents/edit-student/edit-student.component';
 import { EditInternComponent } from './internComponents/edit-intern/edit-intern.component';
 import { GetInternsComponent } from './internComponents/get-interns/get-interns.component';
+import { ClientResetPasswordComponent } from './leadPortalComponents/client-reset-password/client-reset-password.component';
+import { WhatIamComponent } from './what-iam/what-iam.component';
+import { ClientFirstTimeUpdateComponent } from './leadPortalComponents/client-first-time-update/client-first-time-update.component';
 
 
 
 const routes: Routes = [
+    {
+      path: 'whatIam/:username',
+      component: WhatIamComponent
+    },
+    {
+      path: 'client/resetPassword/:email',
+      component: ClientResetPasswordComponent
+    },
+    {
+      path: 'client/register/:email',
+      component: ClientFirstTimeUpdateComponent
+    },
     {
       path: 'interns/view/:email',
       component: EditInternComponent

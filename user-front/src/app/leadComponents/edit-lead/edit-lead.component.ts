@@ -12,6 +12,41 @@ import { Lead } from 'src/app/model/lead';
 })
 
 export class EditLeadComponent implements OnInit {
+  paymentPlanList = [
+    'One_Time_Credit_Card',
+    'One_Time_Debit_Card_Or_Cash',
+    'One_Time_Email_Money',
+    'Automated_Weekly',
+    'Automated_BiWeekly'
+  ];
+
+  paymentPlanStatusList = [
+    'CONFIRMED',
+    'UNCONFIRMED'
+  ];
+
+  leadSourceList = [
+    'Advertisement',
+    'Cold_Call',
+    'Employee_Referral',
+    'External_Referral',
+    'Online_Store',
+    'Partner',
+    'Public_Relations',
+    'Sales_Email_Alias',
+    'Seminar_Partner',
+    'Internal_Seminar',
+    'Trade_Show',
+    'Web_Download',
+    'Web_Research',
+    'Chat'
+  ];
+
+  leadStatusList = [
+    'CONFIRMED',
+    'UNCONFIRMED'
+  ];
+
   currentYear = new Date().getFullYear().toString();
   courseList = [
     'AUTOMATION_TESTING' ,
@@ -34,6 +69,8 @@ termList = [
   'SUMMER ' + this.currentYear,
   'FALL ' + this.currentYear,
 ];
+
+
 
 classList = [];
 
@@ -82,8 +119,14 @@ classList = [];
       lastName: ['', Validators.required],
       phone: ['', Validators.required],
       email: ['', Validators.required],
-      paidDeposite: false,
-      aTrainingClassName: ''
+      paidDeposit: false,
+      paymentPlan: '',
+      paymentPlanStatus: '',
+      paymentPlanAgreement: '',
+      leadSource: '',
+      leadStatus: '',
+      aTrainingClassName: '',
+      comment: ''
     });
 
   }
@@ -99,8 +142,14 @@ classList = [];
       lastName: this.leadExample.lastName,
       phone: this.leadExample.phone,
       email: this.leadExample.email,
-      paidDeposite: this.leadExample.paidDeposite,
-      aTrainingClassName: this.leadExample.aTrainingClassName
+      paidDeposit: this.leadExample.paidDeposit,
+      paymentPlan: this.leadExample.paymentPlan,
+      paymentPlanStatus: this.leadExample.paymentPlanStatus,
+      paymentPlanAgreement: this.leadExample.paymentPlanAgreement,
+      leadSource: this.leadExample.leadSource,
+      leadStatus: this.leadExample.leadStatus,
+      aTrainingClassName: this.leadExample.aTrainingClassName,
+      comment: this.leadExample.comment
     });
 
   }
@@ -132,12 +181,15 @@ classList = [];
   }
 
   onConvertToStudent() {
-    if (confirm('Are you sure you want to change this lead to a student?')) {
-      this.userService.changeLeadToStudent(this.route.snapshot.params.email)
-      .subscribe(
-        () => this.editForm.reset(),
-        (error: any) => console.error(error)
-      );
+    if (! this.editForm.value.paidDeposit) {alert('You cannot convert this lead to a student because the deposite has not been paid yet!');
+    } else {
+      if (confirm('Are you sure you want to change this lead to a student?')) {
+        this.userService.changeLeadToStudent(this.route.snapshot.params.email)
+        .subscribe(
+          () => this.editForm.reset(),
+          (error: any) => console.error(error)
+        );
+      }
     }
 
   }

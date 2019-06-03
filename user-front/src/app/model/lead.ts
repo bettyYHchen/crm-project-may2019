@@ -4,6 +4,18 @@ export class Lead {
   lastName: string;
   phone: string;
   email: string;
-  paidDeposite: boolean;
+  address: string;
+  paidDeposit: boolean;
+  leadSource: string;
+  leadStatus: string ;
   aTrainingClassName: string;
+  comment: string;
+  employmentStatus: string;
+  currentJob: string;
+  desiredJob: string;
+  paymentPlan: string ;
+  paymentPlanStatus: string;
+  paymentPlanAgreement: string;
+  lastActivityTime: string;
+  modifiedTime: string;
 }
