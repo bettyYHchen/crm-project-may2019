@@ -141,13 +141,11 @@ public class AuthRestAPIs {
 
     // for the use of an employee
     @PostMapping("/signupLead")
-    public ResponseEntity<?> registerLead(@Valid @RequestBody LeadSignUpForm leadSignUpForm) {
+    public LeadSignUpForm registerLead(@Valid @RequestBody LeadSignUpForm leadSignUpForm) {
         String name = leadSignUpForm.getFirstName() + " " + leadSignUpForm.getLastName();
 
-        if (userRepository.existsByEmail(leadSignUpForm.getEmail())) {
-            return new ResponseEntity<>(
-                    new ResponseMessage("Fail -> Email is already in use!"), HttpStatus.BAD_REQUEST);
-        }
+        if (userRepository.existsByEmail(leadSignUpForm.getEmail())) throw
+            new RuntimeException("Error: email in used!");
 
 
 
@@ -180,8 +178,7 @@ public class AuthRestAPIs {
         leadRepository.save(lead);
         UserPrinciple userPrinciple = UserPrinciple.build(lead);
 
-        return new ResponseEntity<>(
-                new ResponseMessage("Lead registered successfully!"), HttpStatus.OK);
+        return leadSignUpForm;
 
 
 

@@ -83,6 +83,7 @@ classList = [];
   private sub: Subscription;
   message: string;
   leadExample: any;
+  confirmationMessage = '';
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService) {
    }
@@ -192,6 +193,16 @@ classList = [];
       }
     }
 
+  }
+
+  onSendPortalLink() {
+    if (confirm('Are you sure you want to send portal link to this lead?')) {
+      this.userService.sendEmailWithAttachment(this.route.snapshot.params.email)
+      .subscribe(
+        () => this.confirmationMessage = 'The portal link has been sent.',
+        (error: any) => console.error(error)
+      );
+    }
   }
 
 

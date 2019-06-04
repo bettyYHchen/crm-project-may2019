@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { Observable } from 'rxjs';
+import { Mail } from '../model/mail';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class LeadSignupComponent implements OnInit {
   currentYear = new Date().getFullYear().toString();
   postForm: FormGroup;
   validMessage = '';
+  confirmationMessage = '';
   paymentPlanList = [
     'One_Time_Credit_Card',
     'One_Time_Debit_Card_Or_Cash',
@@ -60,11 +62,14 @@ export class LeadSignupComponent implements OnInit {
   selectedTerm = [];
   termDropdownList = [];
   termDropdownSettings = {};
+  mail: Mail;
+  leadExample: any;
+
 
   constructor(
     private userService: UserService,
     private fb: FormBuilder
-  ) { }
+  ) {}
 
   ngOnInit() {
 
@@ -84,7 +89,7 @@ export class LeadSignupComponent implements OnInit {
     ];
 
     this.selectedCourse = ['AUTOMATION_TESTING'];
-    ;
+
     this.courseDropdownSettings = {
       singleSelection: true,
       idField: 'id',
@@ -167,9 +172,9 @@ export class LeadSignupComponent implements OnInit {
   onSubmit() {
     if (this.postForm.valid) {
       this.validMessage = 'Your information has been saved. Thank you!';
-      console.log(this.postForm.value);
       this.userService.signUpLead(this.postForm.value).subscribe(
         data => {
+          this.leadExample = data;
           this.postForm.reset();
           return true;
         },
@@ -181,6 +186,20 @@ export class LeadSignupComponent implements OnInit {
     }
   }
 
+  onSendTemplate() {
+    console.log(this.leadExample);
+    this.mail = new Mail(this.leadExample.email, 'BusyQA Welcome Package', this.leadExample.firstName);
+    if (confirm('Are you sure you want to send the welcome package?')) {
+      this.userService.sendTemplateEmail(this.mail)
+      .subscribe(
+        data => {
+          this.confirmationMessage = 'The welcome package has been sent!';
+          return true;
+        },
+        (error: any) => console.error(error)
+      );
+    }
+  }
 
 
 }

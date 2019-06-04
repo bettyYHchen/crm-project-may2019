@@ -125,7 +125,32 @@
 
 
 
-  <input type="submit" value="Post" class="btn btn-primary">
+<!-- <button class="btn btn-primary mr-3"
+    style="width:80px;"
+    type="submit"> Submit
+</button> -->
+  <!-- <button class="btn btn-primary mr-3"
+            style="width:80px"
+            type="button"
+            title="Delete this lead"
+            (click)="onSendTemplate()"> Send Email
+  </button> -->
+
+  <div class="row">
+      <div class="col-sm-8" >
+        <div class="btn-group">
+          <button
+            type="submit"> Submit
+          </button>
+          <button
+            type="button"
+            title="Send welcome package"
+            (click)="onSendTemplate()"> Send Email
+          </button>
+        </div>
+      </div>
+      <div class="col-sm-4">{{ confirmationMessage }}</div>
+  </div>
 </form>
 
 

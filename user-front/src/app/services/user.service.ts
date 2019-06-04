@@ -15,6 +15,7 @@ import { StudentRequest } from '../model/student-request';
 import { InternRequest } from '../model/intern-request';
 import { LeadClientRequest } from '../model/lead-client-request';
 import { ClientRequest } from '../model/client-request';
+import { Mail } from '../model/mail';
 
 const httpOptions = {
   'Content-Type': 'application/json'
@@ -26,12 +27,14 @@ const httpOptions = {
 export class UserService {
   apiUrl = environment.apiUrl;
   private userUrl = this.apiUrl + '/user';
-  private pmUrl = this.apiUrl +'/pm';
-  private adminUrl = this.apiUrl +'/admin';
+  private pmUrl = this.apiUrl + '/pm';
+  private adminUrl = this.apiUrl + '/admin';
   private leadSignUpUrl = this.apiUrl + '/api/auth/signupLead';
   private myInfoUrl = this.apiUrl + '/api/auth/myInfo/';
   private changeLeadInfoUrl = this.apiUrl + '/api/auth/changeLeadInfo/';
   private changeClientInfoUrl = this.apiUrl + '/api/auth/changeClientInfo/';
+  private sendEmailWithAttachmentUrl = this.apiUrl + '/sendEmailWithAttachment/';
+  private sendEmailTemplateUrl = this.apiUrl + '/sendEmailWithTemplate/';
   info: any;
 
   constructor(private http: HttpClient, private token: TokenStorageService) { }
@@ -106,7 +109,7 @@ export class UserService {
     return this.http.delete(this.pmUrl + '/leads/' + email);
   }
 
-  changeLeadToStudent(email: string){
+  changeLeadToStudent(email: string) {
     return this.http.delete(this.pmUrl + '/changeLeadToStudent/' + email);
   }
 
@@ -117,6 +120,16 @@ export class UserService {
 
   signUpLead(leadRequest: LeadRequest): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(this.leadSignUpUrl, leadRequest);
+  }
+
+  // send welcome package: instructor and course info
+  sendTemplateEmail(mail: Mail) {
+    return this.http.post(this.sendEmailTemplateUrl, mail);
+  }
+
+  // send portal link and agreement to sign
+  sendEmailWithAttachment(email: string) {
+    return this.http.get(this.sendEmailWithAttachmentUrl + email);
   }
 
   // get a list of students
@@ -178,4 +191,5 @@ export class UserService {
     let body = JSON.stringify(clientRequest);
     return this.http.put(this.changeClientInfoUrl + email, clientRequest);
   }
+
 }

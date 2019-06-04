@@ -97,30 +97,54 @@
     <textarea placeholder="" class="form-control" formControlName="comment"></textarea>
   </div>
 
+  <div class="btn-group">
+    <button
+      type="submit"
+      [disabled]="!editForm.valid"> Save
+    </button>
+    <button
+        type="button"
+        [routerLink]="['/pm/leads']">Cancel
+    </button>
+    <button
+        type="button"
+        title="Delete this lead"
+        (click)="onDelete()"> Delete
+    </button>
+    <button
+        type="button"
+        title="Change to student"
+        (click)="onConvertToStudent()"> To Student
+    </button>
+    <button
+        type="button"
+        title="Send portal link"
+        (click)="onSendPortalLink()"> Send Link
+    </button>
+  </div>
 
 
-  <button class="btn btn-primary mr-3"
-            style="width:80px;"
-            type="submit"
-            [disabled]="!editForm.valid"> Save
-  </button>
-  <button class="btn btn-outline-secondary mr-3"
-            style="width:80px;"
-            type="button"
-            [routerLink]="['/pm/leads']">Cancel
-  </button>
-  <button class="btn btn-outline-warning"
-            style="width:80px"
-            type="button"
-            title="Delete this lead"
-            (click)="onDelete()"> Delete
-  </button>
-  <button class="btn btn-primary mr-3"
-            style="width:100px"
-            type="button"
-            title="Change to student"
-            (click)="onConvertToStudent()"> To Student
-  </button>
+
+  <!-- <div class="btn-group">
+    <button
+      type="submit"
+      [disabled]="!editForm.valid"> Save
+    </button>
+    <button
+        type="button"
+        [routerLink]="['/pm/leads']">Cancel
+    </button>
+    <button
+        type="button"
+        title="Delete this lead"
+        (click)="onDelete()"> Delete
+    </button>
+    <button
+        type="button"
+        title="Change to student"
+        (click)="onConvertToStudent()"> To Student
+    </button>
+</div> -->
 
 
 </form>
