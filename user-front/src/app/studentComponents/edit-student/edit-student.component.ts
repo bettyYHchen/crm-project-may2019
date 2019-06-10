@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -60,7 +60,7 @@ paymentPlanStatusList = [
   message: string;
   studentExample: any;
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService, private router: Router) {
    }
 
   ngOnInit() {
@@ -136,6 +136,7 @@ paymentPlanStatusList = [
       this.userService.updateStudent(this.route.snapshot.params.email, this.editForm.value).subscribe(
         data => {
           this.message = 'The student has been updated!';
+          this.router.navigate(['students']);
           return true;
         },
         error => {
@@ -150,7 +151,7 @@ paymentPlanStatusList = [
     if (confirm('Are you sure you want to delete this student?')) {
       this.userService.deleteStudent(this.route.snapshot.params.email)
       .subscribe(
-        () => this.editForm.reset(),
+        () => { this.editForm.reset(); this.router.navigate(['students']); },
         (error: any) => console.error(error)
       );
     }
@@ -160,7 +161,7 @@ paymentPlanStatusList = [
     if (confirm('Are you sure you want to change this student to an intern?')) {
       this.userService.changeStudentToIntern(this.route.snapshot.params.email)
       .subscribe(
-        () => this.editForm.reset(),
+        () => {this.editForm.reset(); this.router.navigate(['students']); },
         (error: any) => console.error(error)
       );
     }

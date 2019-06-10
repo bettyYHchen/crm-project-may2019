@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -66,7 +66,7 @@ private sub: Subscription;
 message: string;
 internExample: any;
 
-constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService) {
+constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService, private router: Router) {
   }
 
 ngOnInit() {
@@ -147,6 +147,7 @@ onUpdate() {
     this.userService.updateIntern(this.route.snapshot.params.email, this.editForm.value).subscribe(
       data => {
         this.message = 'The intern has been updated!';
+        this.router.navigate(['interns']);
         return true;
       },
       error => {
@@ -161,10 +162,21 @@ onDelete() {
   if (confirm('Are you sure you want to delete this intern?')) {
     this.userService.deleteIntern(this.route.snapshot.params.email)
     .subscribe(
-      () => this.editForm.reset(),
+      () => {this.editForm.reset(); this.router.navigate(['interns']); },
       (error: any) => console.error(error)
     );
   }
+}
+
+onConvertToResume() {
+  if (confirm('Are you sure you want to change this intern to a resume?')) {
+    this.userService.changeInternToResume(this.route.snapshot.params.email)
+    .subscribe(
+      () => {this.editForm.reset(); this.router.navigate(['interns']); },
+      (error: any) => console.error(error)
+    );
+  }
+
 }
 
 }

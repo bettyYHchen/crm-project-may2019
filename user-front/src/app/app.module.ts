@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import {FileUploadModule} from 'ng2-file-upload';
+
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -36,6 +38,17 @@ import { EditInternComponent } from './internComponents/edit-intern/edit-intern.
 import { ClientResetPasswordComponent } from './leadPortalComponents/client-reset-password/client-reset-password.component';
 import { WhatIamComponent } from './what-iam/what-iam.component';
 import { ClientFirstTimeUpdateComponent } from './leadPortalComponents/client-first-time-update/client-first-time-update.component';
+import { SendEmailComponent } from './leadComponents/send-email/send-email.component';
+import { UploadFileComponent } from './upload-file/upload-file.component';
+import { GetResumesComponent } from './resumeComponents/get-resumes/get-resumes.component';
+import { GetMocksComponent } from './mockComponents/get-mocks/get-mocks.component';
+import { EditResumeComponent } from './resumeComponents/edit-resume/edit-resume.component';
+import { EditMockComponent } from './mockComponents/edit-mock/edit-mock.component';
+import {FileValidator} from './file-input.validator';
+import { AccountActionCardComponent } from './account-action-card/account-action-card.component';
+import { GetAlumnusComponent } from './alumniComponents/get-alumnus/get-alumnus.component';
+import { EditAlumniComponent } from './alumniComponents/edit-alumni/edit-alumni.component';
+import { GetClientProfileComponent } from './get-client-profile/get-client-profile.component'
 
 
 
@@ -66,7 +79,18 @@ import { ClientFirstTimeUpdateComponent } from './leadPortalComponents/client-fi
     EditInternComponent,
     ClientResetPasswordComponent,
     WhatIamComponent,
-    ClientFirstTimeUpdateComponent
+    ClientFirstTimeUpdateComponent,
+    SendEmailComponent,
+    UploadFileComponent,
+    GetResumesComponent,
+    GetMocksComponent,
+    EditResumeComponent,
+    EditMockComponent,
+    FileValidator,
+    AccountActionCardComponent,
+    GetAlumnusComponent,
+    EditAlumniComponent,
+    GetClientProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -77,7 +101,8 @@ import { ClientFirstTimeUpdateComponent } from './leadPortalComponents/client-fi
     NgMultiSelectDropDownModule.forRoot(),
     FlexLayoutModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule
+    OwlNativeDateTimeModule,
+    FileUploadModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

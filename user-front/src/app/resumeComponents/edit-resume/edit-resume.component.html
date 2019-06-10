@@ -1,0 +1,94 @@
+<form [formGroup]="editForm" (ngSubmit)="onUpdate()" novalidate>
+  <div *ngIf="validMessage != ''">
+    <h3 class="has-info">{{ validMessage }}</h3>
+  </div>
+
+
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" value="" class="form-control" formControlName="name" readonly="true"/>
+  </div>
+
+
+  <div class="form-group">
+    <label for="phone">Phone:</label>
+    <input type="text" value="" class="form-control" formControlName="phone" readonly="true"/>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="text" value="" class="form-control" formControlName="email" readonly="true"/>
+  </div>
+
+  <div class="form-group">
+    <label for="address">Address: </label>
+    <textarea placeholder="" class="form-control" formControlName="address" readonly="true"></textarea>
+  </div>
+
+   <div class="form-group">
+    <label for="currentJob">Current Job: </label>
+    <input type="text" value="" class="form-control" formControlName="currentJob" readonly="true">
+  </div>
+
+  <div class="form-group">
+    <label for="desiredJob">Desired Job: </label>
+    <input type="text" value="" class="form-control" formControlName="desiredJob" readonly="true">
+  </div>
+
+   <div class="form-group">
+    <label for="aTrainingClassName">Class Taken: </label>
+    <input type="text" value="" class="form-control" formControlName="aTrainingClassName" readonly="true">
+  </div>
+
+   <div class="form-group">
+    <label for="projectAssigned">Assigned Project: </label>
+    <input type="text" value="" class="form-control" formControlName="projectAssigned" readonly="true">
+  </div>
+
+
+  <div class="form-group">
+    <label>Project Performance:</label>
+    <textarea placeholder="" class="form-control" formControlName="performance" readonly="true"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="resumeStartDate">Date Started: </label>
+    <input type="text" formControlName="resumeStartDate" readonly="true">
+  </div>
+
+   <div class="form-group">
+    <label for="resumeEndDate">Date Completed: </label>
+    <input type="text" formControlName="resumeEndDate">
+  </div>
+
+  <div class="form-group">
+    <label for="resumeDoc">Resume Uploaded: </label>
+    <input type="file" ng2FileSelect [uploader]="uploader" class="form-control" formControlName="resumeDoc" />
+  </div>
+  <div *ngIf="hasUploaded">
+    <p> Your file has been uploaded successfully! </p>
+ </div>
+
+
+
+
+  <div class="btn-group">
+    <button
+      type="submit"
+      [disabled]="!editForm.valid"> Save
+    </button>
+    <button
+        type="button"
+        [routerLink]="['resumes']">Cancel
+    </button>
+    <button
+        type="button"
+        title="Delete this resume"
+        (click)="onDelete()"> Delete
+    </button>
+    <button
+        type="button"
+        title="Change to mock"
+        (click)="onConvertToMock()"> To Mock
+    </button>
+  </div>

@@ -1,0 +1,22 @@
+<h2>Please make sure you are uploading the signed agreement</h2>
+
+<div>
+  <input #fileInput type="file" ng2FileSelect [uploader]="uploader"/>
+
+  <div class="drop-box" ng2FileDrop
+       [ngClass]="{'dragover': isDropOver}"
+       [uploader]="uploader"
+       (fileOver)="fileOverAnother($event)"
+       (click)="fileClicked()">
+    <span class="drag-in-title">Import or drag file here</span>
+    <span class="drag-over-title">Drop the file</span>
+  </div>
+</div>
+
+<div *ngFor="let item of uploader.queue">
+    <h5>{{ item?.file?.name }}</h5>
+</div>
+
+<div *ngIf="hasUploaded">
+   <h4> Your file has been uploaded successfully! </h4>
+</div>

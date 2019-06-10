@@ -1,0 +1,27 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>E-mail</th>
+      <th>Interview Date</th>
+      <th>Created Time</th>
+      <th>Modification Time</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let mock of mocks">
+      <td>{{mock.name}}</td>
+      <td>{{mock.phone}}</td>
+      <td>{{mock.email}}</td>
+      <td>{{mock.interviewDate}}</td>
+      <td>{{mock.statusAsOfDay}}</td>
+      <td>{{mock.modifiedTime}}</td>
+      <button class="btn btn-primary mr-3"
+              style="width:80px;"
+              type="button"
+              [routerLink]="['/mocks/view',mock.email]">Edit
+      </button>
+    </tr>
+    </tbody>
+  </table>

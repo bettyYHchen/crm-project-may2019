@@ -25,13 +25,43 @@ import { GetInternsComponent } from './internComponents/get-interns/get-interns.
 import { ClientResetPasswordComponent } from './leadPortalComponents/client-reset-password/client-reset-password.component';
 import { WhatIamComponent } from './what-iam/what-iam.component';
 import { ClientFirstTimeUpdateComponent } from './leadPortalComponents/client-first-time-update/client-first-time-update.component';
+import { SendEmailComponent } from './leadComponents/send-email/send-email.component';
+import { UploadFileComponent } from './upload-file/upload-file.component';
+import { GetResumesComponent } from './resumeComponents/get-resumes/get-resumes.component';
+import { GetMocksComponent } from './mockComponents/get-mocks/get-mocks.component';
+import { EditResumeComponent } from './resumeComponents/edit-resume/edit-resume.component';
+import { EditMockComponent } from './mockComponents/edit-mock/edit-mock.component';
+import { AccountActionCardComponent } from './account-action-card/account-action-card.component';
+import { GetAlumnusComponent } from './alumniComponents/get-alumnus/get-alumnus.component';
+import { EditAlumniComponent } from './alumniComponents/edit-alumni/edit-alumni.component';
+import { GetClientProfileComponent } from './get-client-profile/get-client-profile.component';
 
 
 
 const routes: Routes = [
     {
+      path: 'alumnus',
+      component: GetAlumnusComponent
+    },
+    {
+      path: 'alumnus/view/:email',
+      component: EditAlumniComponent
+    },
+    {
       path: 'whatIam/:username',
       component: WhatIamComponent
+    },
+    {
+      path: 'myProfile',
+      component: GetClientProfileComponent
+    },
+    {
+      path: 'client/uploadFile/:email',
+      component: UploadFileComponent
+    },
+    {
+      path: 'client/sendPortalLink/:email',
+      component: SendEmailComponent
     },
     {
       path: 'client/resetPassword/:email',
@@ -40,6 +70,22 @@ const routes: Routes = [
     {
       path: 'client/register/:email',
       component: ClientFirstTimeUpdateComponent
+    },
+    {
+      path: 'resumes/view/:email',
+      component: EditResumeComponent
+    },
+    {
+      path: 'resumes',
+      component: GetResumesComponent
+    },
+    {
+      path: 'mocks/view/:email',
+      component: EditMockComponent
+    },
+    {
+      path: 'mocks',
+      component: GetMocksComponent
     },
     {
       path: 'interns/view/:email',
@@ -114,7 +160,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            component: GetStudentsComponent
+            component: AccountActionCardComponent
           },
           {
             path: '',

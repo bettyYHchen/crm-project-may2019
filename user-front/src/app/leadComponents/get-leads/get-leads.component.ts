@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
+import { Mail } from 'src/app/model/mail';
 
 @Component({
   selector: 'app-get-leads',
@@ -9,6 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 export class GetLeadsComponent implements OnInit {
 
   public leads;
+  mail: Mail;
 
   constructor(private userService: UserService) { }
 
@@ -18,11 +20,11 @@ export class GetLeadsComponent implements OnInit {
 
   getLeads() {
     this.userService.listLeads().subscribe(
-      data => {this.leads = data;
-               console.log(data); },
+      data => {this.leads = data; },
       err => console.log(err),
       () => console.log('all leads are listed!')
     );
   }
+
 
 }

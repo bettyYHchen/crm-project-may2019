@@ -3,14 +3,19 @@ package com.busyqa.crm.services;
 import com.busyqa.crm.message.request.InternRequest;
 import com.busyqa.crm.message.response.InternResponse;
 import com.busyqa.crm.model.user.Intern;
+import com.busyqa.crm.model.user.Position;
+import com.busyqa.crm.model.user.Resume;
 import com.busyqa.crm.repo.InternRepository;
 import com.busyqa.crm.repo.PositionRepository;
+import com.busyqa.crm.repo.ResumeRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +27,9 @@ public class InternService {
 
     @Autowired
     private InternRepository internRepository;
+
+    @Autowired
+    private ResumeRepository resumeRepository;
 
     public List<InternResponse> listInterns() {
         List<Intern> interns = internRepository.findAll();
@@ -84,6 +92,32 @@ public class InternService {
                     internRepository.deleteByEmail(email);
                     return ResponseEntity.ok().build();
                 }).orElse(ResponseEntity.notFound().build());
+
+    }
+
+    public Resume changeInternToResume(String email) {
+
+        Intern intern = internRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Fail! -> Cause: Intern not found."));
+        List<Position> positions = positionRepository.findAll();
+        for (Position p: positions) {
+            intern.removePosition(p);
+            positionRepository.save(p);
+        }
+        Position position = positionRepository.findByRoleNameAndTeamName("ROLE_CLIENT","TEAM_RESUME").
+                orElseThrow(() -> new RuntimeException("Error: position not found!"));
+        Resume resume = new Resume();
+        LocalDate today = LocalDate.now();
+        LocalDate tenDaysAfter = today.plus(10, ChronoUnit.DAYS);
+        BeanUtils.copyProperties(intern,resume);
+        resume.setStatusAsOfDay(LocalDateTime.now().toString());
+        resume.setModifiedTime(LocalDateTime.now().toString());
+        resume.setResumeStartDate(today.toString());
+        resume.setResumeEndDate(tenDaysAfter.toString());
+
+        internRepository.deleteByEmail(email);
+        resumeRepository.save(resume);
+
+        return resume;
 
     }
 }

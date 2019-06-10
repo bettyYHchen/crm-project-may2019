@@ -1,0 +1,84 @@
+<form [formGroup]="editForm" (ngSubmit)="onUpdate()" novalidate>
+  <div *ngIf="validMessage != ''">
+    <h3 class="has-info">{{ validMessage }}</h3>
+  </div>
+
+
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" value="" class="form-control" formControlName="name" />
+  </div>
+
+
+  <div class="form-group">
+    <label for="phone">Phone:</label>
+    <input type="text" value="" class="form-control" formControlName="phone" />
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="text" value="" class="form-control" formControlName="email" />
+  </div>
+
+  <div class="form-group">
+    <label>Placement Status:</label>
+    <br/>
+      <select class="form-control" formControlName="placementStatus" required>
+          <option value="">Please select a placement status</option>
+          <option *ngFor="let item of placementStatusList"
+                  [value]="item">
+                  {{  item }}
+          </option>
+      </select>
+  </div>
+
+
+  <div class="form-group">
+    <label for="companyName">Company Name: </label>
+    <input type="text" value="" class="form-control" formControlName="companyName" />
+  </div>
+
+  <div class="form-group">
+    <label>Employment Type:</label>
+    <br/>
+      <select class="form-control" formControlName="employmentType" required>
+          <option value="">Please select a employment type</option>
+          <option *ngFor="let item of employmentTypeList"
+                  [value]="item">
+                  {{  item }}
+          </option>
+      </select>
+  </div>
+
+
+   <div class="form-group">
+    <label for="designation">Designation: </label>
+    <input type="text" value="" class="form-control" formControlName="designation" />
+  </div>
+
+
+  <div class="form-group">
+    <label>Comment:</label>
+    <textarea placeholder="" class="form-control" formControlName="comment" ></textarea>
+  </div>
+
+
+
+
+
+  <div class="btn-group">
+    <button
+      type="submit"
+      [disabled]="!editForm.valid"> Save
+    </button>
+    <button
+        type="button"
+        [routerLink]="['alumnus']">Cancel
+    </button>
+    <button
+        type="button"
+        title="Delete this alumni"
+        (click)="onDelete()"> Delete
+    </button>
+  </div>
+

@@ -19,16 +19,23 @@
     <td>{{lead.aTrainingClassName}}</td>
     <td>{{lead.createdTime}}</td>
     <td>{{lead.modifiedTime}}</td>
-    <button class="btn btn-primary mr-3"
+    <div class="btn-group">
+      <button class="btn btn-primary"
+              style="width:100px;"
+              type="button"
+              [routerLink]="['/leads/view',lead.email]">Edit
+      </button>
+      <button class="btn btn-success"
+              style="width:100px;"
+              type="button"
+              [routerLink]="['/client/sendPortalLink',lead.email]">Email
+      </button>
+    </div>
+    <!-- <button class="btn btn-primary mr-3"
             style="width:80px;"
             type="button"
             [routerLink]="['/leads/view',lead.email]">Edit
-    </button>
+    </button> -->
   </tr>
   </tbody>
-  <!-- <button class="btn btn-primary mr-3"
-            style="width:80px;"
-            type="button"
-            [routerLink]="['/signUpLead']">Add
-  </button> -->
 </table>

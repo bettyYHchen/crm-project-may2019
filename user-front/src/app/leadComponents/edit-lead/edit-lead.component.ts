@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { Lead } from 'src/app/model/lead';
 
@@ -85,7 +85,7 @@ classList = [];
   leadExample: any;
   confirmationMessage = '';
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService, private router: Router) {
    }
 
   ngOnInit() {
@@ -161,6 +161,7 @@ classList = [];
       this.userService.updateLead(this.route.snapshot.params.email, this.editForm.value).subscribe(
         data => {
           this.message = 'The lead has been updated!';
+          this.router.navigate(['leads']);
           return true;
         },
         error => {
@@ -175,7 +176,7 @@ classList = [];
     if (confirm('Are you sure you want to delete this lead?')) {
       this.userService.deleteLead(this.route.snapshot.params.email)
       .subscribe(
-        () => this.editForm.reset(),
+        () => {this.editForm.reset(); this.router.navigate(['leads']); },
         (error: any) => console.error(error)
       );
     }
@@ -187,7 +188,7 @@ classList = [];
       if (confirm('Are you sure you want to change this lead to a student?')) {
         this.userService.changeLeadToStudent(this.route.snapshot.params.email)
         .subscribe(
-          () => this.editForm.reset(),
+          () => {this.editForm.reset(); this.router.navigate(['leads']); },
           (error: any) => console.error(error)
         );
       }

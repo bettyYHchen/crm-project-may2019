@@ -16,6 +16,9 @@ import { InternRequest } from '../model/intern-request';
 import { LeadClientRequest } from '../model/lead-client-request';
 import { ClientRequest } from '../model/client-request';
 import { Mail } from '../model/mail';
+import { ResumeRequest } from '../model/resume-request';
+import { MockRequest } from '../model/mock-request';
+import { AlumniRequest } from '../model/alumni-request';
 
 const httpOptions = {
   'Content-Type': 'application/json'
@@ -35,6 +38,7 @@ export class UserService {
   private changeClientInfoUrl = this.apiUrl + '/api/auth/changeClientInfo/';
   private sendEmailWithAttachmentUrl = this.apiUrl + '/sendEmailWithAttachment/';
   private sendEmailTemplateUrl = this.apiUrl + '/sendEmailWithTemplate/';
+  private allTeamsUrl = this.apiUrl + '/allTeams';
   info: any;
 
   constructor(private http: HttpClient, private token: TokenStorageService) { }
@@ -172,6 +176,10 @@ export class UserService {
     return this.http.delete(this.userUrl + '/interns/' + email);
   }
 
+  changeInternToResume(email: string) {
+    return this.http.delete(this.userUrl + '/changeInternToResume/' + email);
+  }
+
   // get lead for first time client info update
   listLeadClientByEmail(email: string) {
     return this.http.get(this.changeLeadInfoUrl + email);
@@ -191,5 +199,69 @@ export class UserService {
     let body = JSON.stringify(clientRequest);
     return this.http.put(this.changeClientInfoUrl + email, clientRequest);
   }
+
+  // services for resumes
+  listResumes() {
+    return this.http.get(this.allTeamsUrl + '/resumes');
+  }
+
+  listResumeByEmail(email: string) {
+    return this.http.get(this.allTeamsUrl + '/resumes/' + email);
+  }
+
+  updateResume(email: string, resumeRequest: ResumeRequest) {
+    let body = JSON.stringify(resumeRequest);
+    return this.http.put(this.allTeamsUrl + '/resumes/' + email, resumeRequest);
+  }
+
+  deleteResume(email: string) {
+    return this.http.delete(this.allTeamsUrl + '/resumes/' + email);
+  }
+
+  changeResumeToMock(email: string) {
+    return this.http.delete(this.allTeamsUrl + '/changeResumeToMock/' + email);
+  }
+
+  // services for mocks
+  listMocks() {
+    return this.http.get(this.allTeamsUrl + '/mocks');
+  }
+
+  listMockByEmail(email: string) {
+    return this.http.get(this.allTeamsUrl + '/mocks/' + email);
+  }
+
+  updateMock(email: string, mockRequest: MockRequest) {
+    let body = JSON.stringify(mockRequest);
+    return this.http.put(this.allTeamsUrl + '/mocks/' + email, mockRequest);
+  }
+
+  deleteMock(email: string) {
+    return this.http.delete(this.allTeamsUrl + '/mocks/' + email);
+  }
+
+  changeMockToAlumni(email: string) {
+    return this.http.delete(this.allTeamsUrl + '/changeMockToAlumni/' + email);
+  }
+
+  // services for alumnus
+  listAlumnus() {
+    return this.http.get(this.allTeamsUrl + '/alumnus');
+  }
+
+  listAlumniByEmail(email: string) {
+    return this.http.get(this.allTeamsUrl + '/alumnus/' + email);
+  }
+
+  updateAlumni(email: string, alumniRequest: AlumniRequest) {
+    let body = JSON.stringify(alumniRequest);
+    return this.http.put(this.allTeamsUrl + '/alumnus/' + email, alumniRequest);
+  }
+
+  deleteAlumni(email: string) {
+    return this.http.delete(this.allTeamsUrl + '/alumnus/' + email);
+  }
+
+
 
 }

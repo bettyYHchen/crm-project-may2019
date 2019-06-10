@@ -5,6 +5,7 @@ import com.busyqa.crm.message.request.StudentRequest;
 import com.busyqa.crm.message.response.InternResponse;
 import com.busyqa.crm.message.response.StudentResponse;
 import com.busyqa.crm.model.user.Intern;
+import com.busyqa.crm.model.user.Resume;
 import com.busyqa.crm.services.InternService;
 import com.busyqa.crm.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +85,12 @@ public class AccountController {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public  ResponseEntity<?> deleteIntern(@PathVariable("email") String email) {
         return internService.deleteIntern(email);
+    }
+
+    @DeleteMapping("/user/changeInternToResume/{email}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public Resume changeToResume(@PathVariable("email") String email) {
+        return internService.changeInternToResume(email);
     }
 
 

@@ -74,10 +74,31 @@
     <textarea placeholder="" class="form-control" formControlName="performance"></textarea>
   </div>
 
+  <div class="btn-group">
+    <button
+      type="submit"
+      [disabled]="!editForm.valid"> Save
+    </button>
+    <button
+        type="button"
+        [routerLink]="['/interns']">Cancel
+    </button>
+    <button
+        type="button"
+        title="Delete this intern"
+        (click)="onDelete()"> Delete
+    </button>
+    <button
+        type="button"
+        title="Change to student"
+        (click)="onConvertToResume()"> To Resume
+    </button>
+  </div>
 
 
 
-  <button class="btn btn-primary mr-3"
+
+  <!-- <button class="btn btn-primary mr-3"
             style="width:80px;"
             type="submit"
             [disabled]="!editForm.valid"> Save
@@ -92,7 +113,7 @@
             type="button"
             title="Delete this lead"
             (click)="onDelete()"> Delete
-  </button>
+  </button> -->
 
 
 

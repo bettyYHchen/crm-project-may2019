@@ -19,7 +19,7 @@ export class ClientResetPasswordComponent implements OnInit {
   isSubmitted: boolean;
 
 
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private authService: AuthService,private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.editForm = this.formBuilder.group({

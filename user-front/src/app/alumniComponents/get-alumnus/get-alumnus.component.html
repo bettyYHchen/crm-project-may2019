@@ -1,0 +1,29 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Phone</th>
+    <th>E-mail</th>
+    <th>Placement Status</th>
+    <th>Company Name</th>
+    <th>Employment Type</th>
+    <th>Designation</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let alumni of alumnus">
+    <td>{{alumni.name}}</td>
+    <td>{{alumni.phone}}</td>
+    <td>{{alumni.email}}</td>
+    <td>{{alumni.placementStatus}}</td>
+    <td>{{alumni.companyName}}</td>
+    <td>{{alumni.employmentTyp}}</td>
+    <td>{{alumni.designation}}</td>
+    <button class="btn btn-primary mr-3"
+            style="width:80px;"
+            type="button"
+            [routerLink]="['/alumnus/view',alumni.email]">Edit
+    </button>
+  </tr>
+  </tbody>
+</table>

@@ -74,8 +74,11 @@
 
   <div class="form-group">
     <label for="paymentPlanAgreement">Please upload the signed payment plan agreement.</label>
-    <input type="text" value="" class="form-control" formControlName="paymentPlanAgreement" />
+    <input type="file" ng2FileSelect [uploader]="uploader" class="form-control" formControlName="paymentPlanAgreement" />
   </div>
+  <div *ngIf="hasUploaded">
+    <p> Your file has been uploaded successfully! </p>
+ </div>
 
 
 
@@ -99,6 +102,13 @@
             type="submit"
             [disabled]="!editForm.valid"> Submit
   </button>
+  <!-- <button class="btn btn-dark"
+        style="width:80px;"
+        type="button"
+        [routerLink]="['/client/uploadFile/' + clientEmail]">Upload
+  </button> -->
+
+
 
 
 

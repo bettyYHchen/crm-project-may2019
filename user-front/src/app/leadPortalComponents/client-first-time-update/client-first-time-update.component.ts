@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
+import { FileUploader } from 'ng2-file-upload';
+import { environment } from 'src/environments/environment';
+import { FileValidator } from 'src/app/file-input.validator';
 
 @Component({
   selector: 'app-client-first-time-update',
@@ -10,6 +13,8 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./client-first-time-update.component.css']
 })
 export class ClientFirstTimeUpdateComponent implements OnInit {
+  apiUrl = environment.apiUrl;
+  uploadUrl = this.apiUrl + '/api/file/uploadFile/';
 
   leadSourceList = [
     'Advertisement',
@@ -80,6 +85,13 @@ validMessage = '';
 private sub: Subscription;
 message: string;
 leadExample: any;
+clientEmail: any;
+
+// for file upload
+uploader: FileUploader;
+hasUploaded: boolean;
+response: string[];
+fileName: string = '';
 
 constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService) {
   }
@@ -95,7 +107,15 @@ ngOnInit() {
       this.getLead(email);
     }
   );
-}
+  this.clientEmail = this.route.snapshot.params.email;
+  const headers = [{name: 'Accept', value: 'application/json'}];
+  this.uploader = new FileUploader({url: this.uploadUrl + this.route.snapshot.params.email, autoUpload: true, headers});
+  this.uploader.onCompleteItem = (item, response, status, headers) => {
+    alert('File uploaded');
+    this.hasUploaded = true;
+    this.response = response.split(',', 4);
+    this.fileName = this.response[0].split(':', 2)[1];}
+  }
 
 
 getLead(email: string): void {
@@ -120,7 +140,7 @@ updateForm() {
     currentJob: '',
     desiredJob: '',
     paymentPlan: '',
-    paymentPlanAgreement: '',
+    paymentPlanAgreement: ['',    [FileValidator.validate]],
     leadSource: ''
   });
 

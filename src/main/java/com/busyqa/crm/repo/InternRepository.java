@@ -9,5 +9,4 @@ public interface InternRepository extends UserBaseRepository<Intern>{
     Optional<Intern> findByEmail(String email);
 
 
-    void deleteByEmail(String email);
 }

@@ -1,0 +1,27 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>E-mail</th>
+      <th>Date Started</th>
+      <th>Created Time</th>
+      <th>Modification Time</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let resume of resumes">
+      <td>{{resume.name}}</td>
+      <td>{{resume.phone}}</td>
+      <td>{{resume.email}}</td>
+      <td>{{resume.resumeStartDate}}</td>
+      <td>{{resume.statusAsOfDay}}</td>
+      <td>{{resume.modifiedTime}}</td>
+      <button class="btn btn-primary mr-3"
+              style="width:80px;"
+              type="button"
+              [routerLink]="['/resumes/view',resume.email]">Edit
+      </button>
+    </tr>
+    </tbody>
+  </table>
