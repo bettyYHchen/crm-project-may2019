@@ -59,6 +59,7 @@ paymentPlanStatusList = [
   private sub: Subscription;
   message: string;
   studentExample: any;
+  userId: number;
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService, private router: Router) {
    }
@@ -113,6 +114,7 @@ paymentPlanStatusList = [
       this.editForm.reset();
     }
     this.studentExample = data;
+    this.userId = this.studentExample.id;
     this.editForm.patchValue({
       firstName: this.studentExample.firstName,
       lastName: this.studentExample.lastName,

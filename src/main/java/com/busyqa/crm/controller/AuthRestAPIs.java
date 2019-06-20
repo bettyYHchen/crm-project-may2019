@@ -11,10 +11,7 @@ import com.busyqa.crm.repo.EmployeeRepository;
 import com.busyqa.crm.repo.PositionRepository;
 import com.busyqa.crm.repo.UserRepository;
 import com.busyqa.crm.security.JwtProvider;
-import com.busyqa.crm.services.ClientService;
-import com.busyqa.crm.services.CrudService;
-import com.busyqa.crm.services.LeadService;
-import com.busyqa.crm.services.UserPrinciple;
+import com.busyqa.crm.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,6 +68,9 @@ public class AuthRestAPIs {
 
     @Autowired
     ClientService clientService;
+
+    @Autowired
+    PaymentService paymentService;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
@@ -156,7 +156,7 @@ public class AuthRestAPIs {
         positionList.add(position);
         Set<Position> positionSet = positionList.stream().collect(Collectors.toSet());
 
-        String aTrainingClassName = leadSignUpForm.getCourseName().get(0) + " " + leadSignUpForm.getBatch().get(0);
+        String aTrainingClassName = leadSignUpForm.getCourseName() + " " + leadSignUpForm.getBatch();
 
         Lead lead = new Lead(
                 name,
@@ -176,6 +176,14 @@ public class AuthRestAPIs {
                 LocalDateTime.now().toString()
                 );
         leadRepository.save(lead);
+        int amountPaid = 0;
+        if (lead.getPaidDeposit()) {
+            amountPaid = 400;
+        }
+
+        paymentService.generatePayments(lead.getaTrainingClassName(), lead.getPaymentPlan(),
+                amountPaid, lead);
+
         UserPrinciple userPrinciple = UserPrinciple.build(lead);
 
         return leadSignUpForm;

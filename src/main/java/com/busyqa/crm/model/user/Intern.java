@@ -2,8 +2,6 @@ package com.busyqa.crm.model.user;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
@@ -23,8 +21,9 @@ public class Intern extends User{
     private String paymentPlanAgreement;
     private String lastActivityTime;
     private String modifiedTime;
-    private int amountPaid;
-    private int remainingBalance;
+    private double amountPaid;
+    private double remainingBalance;
+    private double classFee;
     private String coopStatus;
     private String coopStartDate;
     private String coopEndDate;
@@ -34,7 +33,11 @@ public class Intern extends User{
     public Intern() {
     }
 
-    public Intern(String name, String username, String email, String password, Set<Position> positions, String status, String statusAsOfDay, String phone, String address, String leadSource, String leadStatus, String aTrainingClassName, String employmentStatus, String currentJob, String desiredJob, String paymentPlan, String paymentPlanStatus, String paymentPlanAgreement, String lastActivityTime, String modifiedTime, int amountPaid, int remainingBalance, String coopStatus, String coopStartDate, String coopEndDate, String projectAssigned, String performance) {
+    public Intern(String name, String username, String email, String password, Set<Position> positions, String status, String statusAsOfDay,
+                  String phone, String address, String leadSource, String leadStatus, String aTrainingClassName, String employmentStatus,
+                  String currentJob, String desiredJob, String paymentPlan, String paymentPlanStatus, String paymentPlanAgreement, String lastActivityTime,
+                  String modifiedTime, double amountPaid, double remainingBalance, double classFee, String coopStatus, String coopStartDate, String coopEndDate,
+                  String projectAssigned, String performance) {
         super(name, username, email, password, positions, status, statusAsOfDay);
         this.phone = phone;
         this.address = address;
@@ -51,6 +54,7 @@ public class Intern extends User{
         this.modifiedTime = modifiedTime;
         this.amountPaid = amountPaid;
         this.remainingBalance = remainingBalance;
+        this.classFee = classFee;
         this.coopStatus = coopStatus;
         this.coopStartDate = coopStartDate;
         this.coopEndDate = coopEndDate;
@@ -162,19 +166,19 @@ public class Intern extends User{
         this.modifiedTime = modifiedTime;
     }
 
-    public int getAmountPaid() {
+    public double getAmountPaid() {
         return amountPaid;
     }
 
-    public void setAmountPaid(int amountPaid) {
+    public void setAmountPaid(double amountPaid) {
         this.amountPaid = amountPaid;
     }
 
-    public int getRemainingBalance() {
+    public double getRemainingBalance() {
         return remainingBalance;
     }
 
-    public void setRemainingBalance(int remainingBalance) {
+    public void setRemainingBalance(double remainingBalance) {
         this.remainingBalance = remainingBalance;
     }
 
@@ -216,5 +220,13 @@ public class Intern extends User{
 
     public void setPerformance(String performance) {
         this.performance = performance;
+    }
+
+    public double getClassFee() {
+        return classFee;
+    }
+
+    public void setClassFee(double classFee) {
+        this.classFee = classFee;
     }
 }

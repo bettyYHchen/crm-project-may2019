@@ -107,5 +107,25 @@ public class MailService {
         }
     }
 
+    public void sendTemplatedEmailWithAttachment(String email) throws MailException, MessagingException {
+        // the portal link
+        String portalUrl = "http://localhost:4200/client/resetPassword/" + email;
+        //get and fill the template
+        final Context context = new Context();
+        context.setVariable("portalUrl", portalUrl);
+        String body = templateEngine.process("send-portal-link-email-template", context);
+        //send the html template
+        MimeMessage mail = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mail, true);
+        helper.setTo(email);
+        helper.setSubject("BusyQA Portal Registration And Payment Plan Agreement");
+        helper.setText(body, true);
+        ClassPathResource classPathResource = new ClassPathResource("PaymentPlanAgreement.pdf");
+        helper.addAttachment(classPathResource.getFilename(), classPathResource);
+        javaMailSender.send(mail);
+    }
+
+
+
 
 }

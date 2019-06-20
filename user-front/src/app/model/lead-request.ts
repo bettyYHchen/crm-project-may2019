@@ -12,4 +12,5 @@ export class LeadRequest {
   courseName: string[];
   batch: string[];
   comment: string;
+  discount: number;
 }

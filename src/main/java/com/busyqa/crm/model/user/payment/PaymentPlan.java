@@ -1,4 +1,4 @@
-package com.busyqa.crm.model.academic;
+package com.busyqa.crm.model.user.payment;
 
 public enum PaymentPlan {
     One_Time_Credit_Card,

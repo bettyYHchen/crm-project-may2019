@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-send-email',
@@ -11,7 +12,7 @@ export class SendEmailComponent implements OnInit {
 
   confirmationMessage = '';
 
-  constructor(private route: ActivatedRoute,  private userService: UserService) { }
+  constructor(private route: ActivatedRoute,  private userService: UserService, private location: Location) { }
 
   ngOnInit() {
     this.onSendPortalLink();
@@ -25,6 +26,10 @@ export class SendEmailComponent implements OnInit {
         (error: any) => console.error(error)
       );
     }
+  }
+
+  cancel() {
+    this.location.back();
   }
 
 }

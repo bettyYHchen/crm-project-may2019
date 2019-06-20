@@ -5,11 +5,16 @@ import com.busyqa.crm.message.response.InternResponse;
 import com.busyqa.crm.model.user.Intern;
 import com.busyqa.crm.model.user.Position;
 import com.busyqa.crm.model.user.Resume;
+import com.busyqa.crm.model.user.payment.Payment;
 import com.busyqa.crm.repo.InternRepository;
+import com.busyqa.crm.repo.PaymentRepository;
 import com.busyqa.crm.repo.PositionRepository;
 import com.busyqa.crm.repo.ResumeRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +36,9 @@ public class InternService {
     @Autowired
     private ResumeRepository resumeRepository;
 
+    @Autowired
+    private PaymentRepository paymentRepository;
+
     public List<InternResponse> listInterns() {
         List<Intern> interns = internRepository.findAll();
         if (interns.isEmpty()) throw new RuntimeException("Empty intern list!");
@@ -40,7 +48,7 @@ public class InternService {
             String[] tmp = i.getName().split(" ");
             String firstName = tmp[0];
             String lastName = tmp[1];
-            internResponses.add(new InternResponse(firstName, lastName, i.getPhone(), i.getEmail(), i.getPaymentPlan(),
+            internResponses.add(new InternResponse(i.getId(),firstName, lastName, i.getPhone(), i.getEmail(), i.getPaymentPlan(),
                     i.getPaymentPlanStatus(), i.getPaymentPlanAgreement(), i.getaTrainingClassName(), i.getStatusAsOfDay(),
                     i.getModifiedTime(), i.getAmountPaid(), i.getRemainingBalance(), i.getCoopStatus(), i.getCoopStartDate(),
                     i.getCoopEndDate(), i.getProjectAssigned(), i.getPerformance()));
@@ -55,7 +63,17 @@ public class InternService {
         String[] tmp = intern.getName().split(" ");
         String firstName = tmp[0];
         String lastName = tmp[1];
-        return new InternResponse(firstName, lastName, intern.getPhone(), intern.getEmail(), intern.getPaymentPlan(),
+        Pageable pageable = PageRequest.of(0, 30);
+        Page<Payment> paymentsPage = paymentRepository.findByUserId(intern.getId(), pageable);
+        List<Payment> payments = paymentsPage.getContent();
+        int amountPaid = 0;
+        for (Payment p : payments) {
+            amountPaid += p.getPaidAmount();
+        }
+        intern.setAmountPaid(amountPaid);
+        intern.setRemainingBalance(intern.getClassFee()-amountPaid);
+        internRepository.save(intern);
+        return new InternResponse(intern.getId(),firstName, lastName, intern.getPhone(), intern.getEmail(), intern.getPaymentPlan(),
                 intern.getPaymentPlanStatus(), intern.getPaymentPlanAgreement(), intern.getaTrainingClassName(), intern.getStatusAsOfDay(),
                 intern.getModifiedTime(), intern.getAmountPaid(), intern.getRemainingBalance(), intern.getCoopStatus(), intern.getCoopStartDate(),
                 intern.getCoopEndDate(), intern.getProjectAssigned(), intern.getPerformance());
@@ -81,6 +99,7 @@ public class InternService {
             this.internRepository.save(recordUpdated);
             InternResponse internResponse = new InternResponse();
             BeanUtils.copyProperties(internRequest,internResponse);
+            internResponse.setId(recordUpdated.getId());
             return ResponseEntity.ok().body(internResponse);
         }).orElse(ResponseEntity.notFound().build());
 
@@ -114,10 +133,19 @@ public class InternService {
         resume.setResumeStartDate(today.toString());
         resume.setResumeEndDate(tenDaysAfter.toString());
 
-        internRepository.deleteByEmail(email);
-        resumeRepository.save(resume);
 
-        return resume;
+        // update payments
+        Pageable pageable = PageRequest.of(0, 30);
+        Page<Payment> paymentsPage = paymentRepository.findByUserId(intern.getId(), pageable);
+        List<Payment> payments = paymentsPage.getContent();
+        internRepository.deleteByEmail(email);
+
+        Resume savedResume = resumeRepository.save(resume);
+        for (Payment p: payments) {
+            p.setUser(savedResume);
+            paymentRepository.save(p);
+        }
+        return savedResume;
 
     }
 }

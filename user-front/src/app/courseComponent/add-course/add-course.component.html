@@ -1,0 +1,64 @@
+<!-- method="post" action="/gustbook.html"  -->
+<form [formGroup]="postForm" (ngSubmit)="onSubmit()" novalidate>
+    <div *ngIf="validMessage != ''">
+      <h3 class="has-info">{{ validMessage }}</h3>
+    </div>
+
+
+
+      <!-- <div class="form-group">
+        <label>Selected Course: </label>
+        <br/>
+          <select class="form-control" formControlName="name" required>
+              <option value="">Please select a course</option>
+              <option *ngFor="let item of courseList"
+                      [value]="item">
+                      {{  item }}
+              </option>
+          </select>
+      </div> -->
+
+      <div class="form-group">
+          <label for="name">Course Name: </label>
+          <input type="text" formControlName="name">
+      </div>
+
+      <div class="form-group">
+        <label for="fee">Course Fee: </label>
+        <input type="text" formControlName="fee">
+      </div>
+
+      <div class="form-group">
+          <label for="durationWeek">Course Duration(week): </label>
+          <input type="text" formControlName="durationWeek">
+      </div>
+
+      <div class="form-group">
+          <label for="paymentDurationWeek">Payment Frequency Weekly: </label>
+          <input type="text" formControlName="paymentDurationWeek">
+      </div>
+
+      <div class="form-group">
+          <label for="paymentDurationBiWeek">Payment Frequency Bi-weekly: </label>
+          <input type="text" formControlName="paymentDurationBiWeek">
+      </div>
+
+
+
+
+    <div class="row">
+        <div class="col-sm-8" >
+          <div class="btn-group">
+            <button
+              type="submit"> Submit
+            </button>
+            <button
+              type="button"
+              (click)="cancel()"> Back
+            </button>
+          </div>
+        </div>
+    </div>
+  </form>
+
+

@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { Observable } from 'rxjs';
 import { Mail } from '../model/mail';
+import { TrainingClass } from '../model/training-class';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class LeadSignupComponent implements OnInit {
       'CERTIFIED_SCRUM_MASTER', 'FULLSTACK_JAVA_DEVELOPER', 'PERFORMANCE_TESTING', 'SOFTWARE_TESTING_ONLINE'];
   currentYear = new Date().getFullYear().toString();
   postForm: FormGroup;
+  classExample: any;
   validMessage = '';
   confirmationMessage = '';
   paymentPlanList = [
@@ -53,7 +55,17 @@ export class LeadSignupComponent implements OnInit {
     'UNCONFIRMED'
   ];
 
+  instructorList: string[] = ['Keerthana Devatha', 'Naresh', 'Pavan Kumar', 'Mark Nicholas',
+  'Akram Mohammed', 'Sean', 'Richa Prasad', 'Janise Peters',
+  'Maher Selim', 'Ibraheem Haruna', 'James Hung', 'Tye Alli',
+  'Rahul Nimodiya'];
 
+  addressList: string[] = [
+    'Suite 1532, 4 Robert Speck Parkway, Mississauga ON L4Z 1S1',
+    'Iceland Mississauga, 705 Matheson Blvd E, Mississauga ON L4Z 3X9',
+    'Swansea Town Hall Community Center, 95 Lavinia Ave, Toronto ON M6S 3H9',
+    'Armadale Community Center, 2401 Denison St, Markham ON L3S 1E7',
+    'Cassie Campbell Community Center, 1050 Sandalwood Pkwy W, Brampton ON L7A 0K9'];
 
   selectedCourse = [];
   courseDropdownList = [];
@@ -64,6 +76,7 @@ export class LeadSignupComponent implements OnInit {
   termDropdownSettings = {};
   mail: Mail;
   leadExample: any;
+
 
 
   constructor(
@@ -129,21 +142,21 @@ export class LeadSignupComponent implements OnInit {
 
   }
 
-  onCourseSelect(item:any){
+  onCourseSelect(item:any) {
     console.log(item);
     console.log(this.selectedCourse);
 }
-  OnCourseDeSelect(item:any){
+  OnCourseDeSelect(item: any) {
     console.log(item);
     console.log(this.selectedCourse);
 }
 
-  onTermSelect(item:any){
+  onTermSelect(item: any) {
   console.log(item);
   console.log(this.selectedTerm);
 }
 
-  OnTermDeSelect(item:any){
+  OnTermDeSelect(item: any) {
   console.log(item);
   console.log(this.selectedTerm);
 }
@@ -151,31 +164,39 @@ export class LeadSignupComponent implements OnInit {
 
 
 
-  createForm() {
-    this.postForm = this.fb.group({
-      firstName: '',
-      lastName: '',
-      phone: '',
-      email: ['', Validators.required],
-      paidDeposit: false,
-      paymentPlan: '',
-      paymentPlanStatus: '',
-      paymentPlanAgreement: '',
-      leadSource: '',
-      leadStatus: '',
-      courseName: [],
-      batch: [],
-      comment: ''
+createForm() {
+  this.postForm = this.fb.group({
+    firstName: '',
+    lastName: '',
+    phone: '',
+    email: ['', Validators.required],
+    paidDeposit: false,
+    paymentPlan: '',
+    paymentPlanStatus: '',
+    paymentPlanAgreement: '',
+    leadSource: '',
+    leadStatus: '',
+    courseName: [],
+    batch: [],
+    comment: ''
+  });
+}
+
+  customFunc(data){
+    this.classExample = data;
+    this.postForm.patchValue({
+      courseName: this.classExample.courseName,
+      batch: this.classExample.batch
     });
   }
 
   onSubmit() {
     if (this.postForm.valid) {
       this.validMessage = 'Your information has been saved. Thank you!';
+      console.log(this.postForm.value);
       this.userService.signUpLead(this.postForm.value).subscribe(
         data => {
           this.leadExample = data;
-          this.postForm.reset();
           return true;
         },
         error => {
@@ -201,5 +222,23 @@ export class LeadSignupComponent implements OnInit {
     }
   }
 
+  // onSubmitClassForm() {
+  //   if (this.classForm.valid) {
+  //     console.log(this.classForm.value);
+  //     this.userService.createClass(this.classForm.value).subscribe(
+  //       data => {
+  //         this.classExample = data;
+  //         this.postForm.patchValue({
+  //           courseName: this.classExample.courseName,
+  //           batch: this.classExample.batch
+  //         });
+  //       },
+  //       error => {
+  //         alert('Couldnt create this class!'); }
+  //     );
+  //   } else {
+  //     this.validMessage = 'Please fill out the form before submitting!';
+  //   }
+  // }
 
 }

@@ -1,5 +1,6 @@
 package com.busyqa.crm.services;
 
+import com.busyqa.crm.message.request.InstructorRequest;
 import com.busyqa.crm.model.academic.Course;
 import com.busyqa.crm.model.academic.Instructor;
 import com.busyqa.crm.model.academic.TrainingClass;
@@ -28,14 +29,13 @@ public class InstructorService {
 
     public Instructor listInstructorById(Long id) {return this.instructorRepository.getOne(id);}
 
-    public Instructor createInstructor(Instructor instructor) {
-        Instructor instructorToSave = instructorRepository.findByEmail(instructor.getEmail())
+    public Instructor createInstructor(InstructorRequest instructorRequest) {
+        System.out.println(instructorRequest.getName());
+        System.out.println(instructorRequest.getEmail());
+        Instructor instructorToSave = instructorRepository.findByEmail(instructorRequest.getEmail())
                 .orElse(new Instructor());
-        instructorToSave.setFirstName(instructor.getFirstName());
-        instructorToSave.setLastName(instructor.getLastName());
-        instructorToSave.setTrainingClasses(instructor.getTrainingClasses());
-        instructorToSave.setEmail(instructor.getEmail());
-
+        instructorToSave.setName(instructorRequest.getName());
+        instructorToSave.setEmail(instructorRequest.getEmail());
         this.instructorRepository.save(instructorToSave);
         return instructorToSave;
     }

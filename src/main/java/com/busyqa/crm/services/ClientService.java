@@ -7,15 +7,21 @@ import com.busyqa.crm.model.user.Intern;
 import com.busyqa.crm.model.user.Lead;
 import com.busyqa.crm.model.user.Student;
 import com.busyqa.crm.model.user.User;
+import com.busyqa.crm.model.user.payment.Payment;
 import com.busyqa.crm.repo.InternRepository;
 import com.busyqa.crm.repo.LeadRepository;
+import com.busyqa.crm.repo.PaymentRepository;
 import com.busyqa.crm.repo.StudentRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ClientService {
@@ -28,6 +34,9 @@ public class ClientService {
 
     @Autowired
     InternRepository internRepository;
+
+    @Autowired
+    PaymentRepository paymentRepository;
 
     public ClientResponse listClientByEmail(String email) {
         // We are not sure whether the login client is lead, student, or an intern
@@ -107,4 +116,5 @@ public class ClientService {
         return ResponseEntity.ok().body(clientResponse);
 
     }
+
 }

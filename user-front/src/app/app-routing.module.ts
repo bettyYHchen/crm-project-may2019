@@ -35,10 +35,65 @@ import { AccountActionCardComponent } from './account-action-card/account-action
 import { GetAlumnusComponent } from './alumniComponents/get-alumnus/get-alumnus.component';
 import { EditAlumniComponent } from './alumniComponents/edit-alumni/edit-alumni.component';
 import { GetClientProfileComponent } from './get-client-profile/get-client-profile.component';
+import { GetPaymentsComponent } from './paymentComponents/get-payments/get-payments.component';
+import { AddPaymentComponent } from './paymentComponents/add-payment/add-payment.component';
+import { EditPaymentComponent } from './paymentComponents/edit-payment/edit-payment.component';
+import { GetCoursesComponent } from './courseComponent/get-courses/get-courses.component';
+import { GetClassesComponent } from './classComponent/get-classes/get-classes.component';
+import { GetInstructorsComponent } from './instructorComponent/get-instructors/get-instructors.component';
+import { AddCourseComponent } from './courseComponent/add-course/add-course.component';
+import { AddInstructorComponent } from './instructorComponent/add-instructor/add-instructor.component';
+import { AddClassComponent } from './classComponent/add-class/add-class.component';
+import { AcademicActionCardComponent } from './academic-action-card/academic-action-card.component';
+import { UpdateRatesComponent } from './update-rates/update-rates.component';
 
 
 
 const routes: Routes = [
+    {
+      path: 'updateRates',
+      component: UpdateRatesComponent
+    },
+    {
+      path: 'academic',
+      component: AcademicActionCardComponent
+    },
+    {
+      path: 'addcourse',
+      component: AddCourseComponent
+    },
+    {
+      path: 'addinstructor',
+      component: AddInstructorComponent
+    },
+    {
+      path: 'addclass',
+      component: AddClassComponent
+    },
+    {
+      path: 'courses',
+      component: GetCoursesComponent
+    },
+    {
+      path: 'classes',
+      component: GetClassesComponent
+    },
+    {
+      path: 'instructors',
+      component: GetInstructorsComponent
+    },
+    {
+      path: 'payments/user/:userId/:paymentId',
+      component: EditPaymentComponent
+    },
+    {
+      path: 'payments/user/:userId',
+      component: GetPaymentsComponent
+    },
+    {
+      path: 'addpayment/user/:userId',
+      component: AddPaymentComponent
+    },
     {
       path: 'alumnus',
       component: GetAlumnusComponent

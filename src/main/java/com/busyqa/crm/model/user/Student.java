@@ -30,8 +30,8 @@ public class Student extends User{
     @JsonBackReference
     private TrainingClass trainingClass;
 
-    private int amountPaid;
-    private int remainingBalance;
+    private double amountPaid;
+    private double remainingBalance;
 
     public Student() {
     }
@@ -149,19 +149,19 @@ public class Student extends User{
         this.trainingClass = trainingClass;
     }
 
-    public int getAmountPaid() {
+    public double getAmountPaid() {
         return amountPaid;
     }
 
-    public void setAmountPaid(int amountPaid) {
+    public void setAmountPaid(double amountPaid) {
         this.amountPaid = amountPaid;
     }
 
-    public int getRemainingBalance() {
+    public double getRemainingBalance() {
         return remainingBalance;
     }
 
-    public void setRemainingBalance(int remainingBalance) {
+    public void setRemainingBalance(double remainingBalance) {
         this.remainingBalance = remainingBalance;
     }
 
@@ -171,7 +171,7 @@ public class Student extends User{
     }
 
     @JsonIgnore
-    public int getClassFee() {
+    public double getClassFee() {
         return this.trainingClass.getCourseFee();
     }
 

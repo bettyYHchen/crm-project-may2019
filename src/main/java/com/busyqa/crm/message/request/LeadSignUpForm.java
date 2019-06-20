@@ -16,8 +16,8 @@ public class LeadSignUpForm {
     private String paymentPlanAgreement;
     private String leadSource;
     private String leadStatus;
-    private List<String> courseName;
-    private List<String> batch;
+    private String courseName;
+    private String batch;
     private String comment;
 
 
@@ -67,22 +67,21 @@ public class LeadSignUpForm {
         this.email = email;
     }
 
-    public List<String> getCourseName() {
+    public String getCourseName() {
         return courseName;
     }
 
-    public void setCourseName(List<String> courseName) {
+    public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
 
-    public List<String> getBatch() {
+    public String getBatch() {
         return batch;
     }
 
-    public void setBatch(List<String> batch) {
+    public void setBatch(String batch) {
         this.batch = batch;
     }
-
 
     public String getLeadSource() {
         return leadSource;

@@ -24,6 +24,7 @@ public class Lead extends User{
     private String paymentPlanAgreement;
     private String lastActivityTime;
     private String modifiedTime;
+    private double discount;
 
     public Lead() {
     }
@@ -181,6 +182,14 @@ public class Lead extends User{
 
     public void setModifiedTime(String modifiedTime) {
         this.modifiedTime = modifiedTime;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 
     @Override

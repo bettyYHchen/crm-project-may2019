@@ -1,6 +1,7 @@
 package com.busyqa.crm.message.response;
 
 public class StudentResponse {
+    private long id;
     private String firstName;
     private String lastName;
     private String phone;
@@ -12,14 +13,15 @@ public class StudentResponse {
     private String comment;
     private String createdTime;
     private String modifiedTime;
-    private int amountPaid;
-    private int remainingBalance;
+    private double amountPaid;
+    private double remainingBalance;
     private boolean classFinished;
 
     public StudentResponse() {
     }
 
-    public StudentResponse(String firstName, String lastName, String phone, String email, String paymentPlan, String paymentPlanStatus, String paymentPlanAgreement, String aTrainingClassName, String comment, String createdTime, String modifiedTime, int amountPaid, int remainingBalance, boolean classFinished) {
+    public StudentResponse(long id, String firstName, String lastName, String phone, String email, String paymentPlan, String paymentPlanStatus, String paymentPlanAgreement, String aTrainingClassName, String comment, String createdTime, String modifiedTime, double amountPaid, double remainingBalance, boolean classFinished) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
@@ -34,6 +36,14 @@ public class StudentResponse {
         this.amountPaid = amountPaid;
         this.remainingBalance = remainingBalance;
         this.classFinished = classFinished;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -126,19 +136,19 @@ public class StudentResponse {
         this.modifiedTime = modifiedTime;
     }
 
-    public int getAmountPaid() {
+    public double getAmountPaid() {
         return amountPaid;
     }
 
-    public void setAmountPaid(int amountPaid) {
+    public void setAmountPaid(double amountPaid) {
         this.amountPaid = amountPaid;
     }
 
-    public int getRemainingBalance() {
+    public double getRemainingBalance() {
         return remainingBalance;
     }
 
-    public void setRemainingBalance(int remainingBalance) {
+    public void setRemainingBalance(double remainingBalance) {
         this.remainingBalance = remainingBalance;
     }
 

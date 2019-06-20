@@ -18,17 +18,8 @@ public class Instructor {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @NotBlank
-    @Size(min = 3, max = 50)
-    private String firstName;
 
-    @NotBlank
-    @Size(min = 3, max = 50)
-    private String lastName;
-
-    @NotBlank
-    @Size(min = 3, max = 50)
-    @Column(name = "email",unique=true, nullable=false)
+    private String name;
     private String email;
 
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)
@@ -39,15 +30,8 @@ public class Instructor {
     public Instructor() {
     }
 
-    public Instructor(@NotBlank @Size(min = 3, max = 50) String firstName, @NotBlank @Size(min = 3, max = 50) String lastName, @NotBlank @Size(min = 3, max = 50) String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
-
-    public Instructor(@NotBlank @Size(min = 3, max = 50) String firstName, @NotBlank @Size(min = 3, max = 50) String lastName, @NotBlank @Size(min = 3, max = 50) String email, List<TrainingClass> trainingClasses) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Instructor(String name, String email, List<TrainingClass> trainingClasses) {
+        this.name = name;
         this.email = email;
         this.trainingClasses = trainingClasses;
     }
@@ -77,20 +61,12 @@ public class Instructor {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {

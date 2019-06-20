@@ -4,6 +4,8 @@ import com.busyqa.crm.model.user.Student;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -21,6 +23,9 @@ public class TrainingClass {
     @Column(name = "name",unique=true, nullable=false)
     private String name;
 
+    private String start;
+    private String end;
+
     @OneToMany(mappedBy = "trainingClass", cascade = CascadeType.ALL)
     @Column(nullable = true)
     @JsonManagedReference
@@ -35,6 +40,12 @@ public class TrainingClass {
     @JoinColumn(name = "instructor_id", referencedColumnName = "id")
     @JsonBackReference
     private Instructor instructor;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "location_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Location location;
 
     @Column(name = "isFinished")
     private boolean isFinished;
@@ -125,7 +136,7 @@ public class TrainingClass {
         if (oldCourse != null) {
             oldCourse.removeTrainingClass(this);
         }
-        //set myself into new course
+        //set myself doubleo new course
         if (course != null) {
             course.addTrainingClass(this);
 
@@ -146,11 +157,19 @@ public class TrainingClass {
         if (oldInstructor != null) {
             oldInstructor.addTrainingClass(this);
         }
-        //set myself into new instructor
+        //set myself doubleo new instructor
         if (instructor != null) {
             instructor.addTrainingClass(this);
 
         }
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public boolean isFinished() {
@@ -161,10 +180,59 @@ public class TrainingClass {
         isFinished = finished;
     }
 
+    public String getStart() {
+        return start;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
+    }
+
     @JsonIgnore
-    public int getCourseFee() {
+    public double getCourseFee() {
         return this.course.getFee();
     }
 
+    @JsonIgnore
+    public String getAddress() {
 
+        return this.location.getAddress();
+    }
+
+    @JsonIgnore
+    public double getPaymentDurationWeekly() {
+        return this.course.getPaymentDurationWeek();
+    }
+
+    @JsonIgnore
+    public double getPaymentDurationBiWeekly() {
+        return this.course.getPaymentDurationBiWeek();
+    }
+
+    @JsonIgnore
+    public double getTaxRate() { return this.course.getTaxPercentage();}
+
+    @JsonIgnore
+    public double getLateFeeRate() { return this.course.getLateFeeRate();}
+
+
+    @Override
+    public String toString() {
+        return "TrainingClass{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", course=" + course.getId() +
+                ", instructor=" + instructor.getId() +
+                ", location=" + location.getId() +
+                ", isFinished=" + isFinished +
+                '}';
+    }
 }

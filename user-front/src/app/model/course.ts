@@ -3,5 +3,7 @@ import { TrainingClass } from './training-class';
 export class Course {
   name: string;
   fee: number;
-  trainingClasses: TrainingClass[];
+  durationWeek: number;
+  paymentDurationWeek: number;
+  paymentDurationBiWeek: number;
 }

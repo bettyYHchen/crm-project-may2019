@@ -1,9 +1,10 @@
 package com.busyqa.crm.controller;
 
-import com.busyqa.crm.message.request.TrainingClassForm;
+import com.busyqa.crm.message.request.*;
 import com.busyqa.crm.message.response.TrainingClassResponse;
 import com.busyqa.crm.model.academic.Course;
 import com.busyqa.crm.model.academic.Instructor;
+import com.busyqa.crm.model.academic.Location;
 import com.busyqa.crm.model.academic.TrainingClass;
 import com.busyqa.crm.services.CourseService;
 import com.busyqa.crm.services.InstructorService;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -35,10 +37,32 @@ public class AcademicController {
         return this.courseService.listCourses();
     }
 
+    @GetMapping("/courses/classes/{name}")
+    public List<TrainingClassResponse> listClassesByCourseName(@PathVariable("name") String name) {
+        List<TrainingClass> trainingClasses = courseService.listClasses(name);
+        List<TrainingClassResponse> trainingClassResponses = new ArrayList<>();
+        for (TrainingClass trainingClass: trainingClasses) {
+            trainingClassResponses.add(new TrainingClassResponse(trainingClass.getId(), trainingClass.getName(),
+                    trainingClass.getInstructor().getName(), trainingClass.getAddress(), trainingClass.getStart(), trainingClass.getEnd()));
+        }
+        return trainingClassResponses;
+    }
+
+
+    @GetMapping("/getRates")
+    public SettingRequest getSetting() {
+        List<Course> courses = this.courseService.listCourses();
+        Course anyCourse = courses.get(0);
+        SettingRequest settingRequest = new SettingRequest();
+        settingRequest.setLateFeeRate(anyCourse.getLateFeeRate());
+        settingRequest.setTaxPercentage(anyCourse.getTaxPercentage());
+        return settingRequest;
+    }
+
     @PostMapping("/courses")
     @ResponseStatus(HttpStatus.OK)
-    public Course createCourse(@ModelAttribute Course course) {
-        return this.courseService.createCourse(course);
+    public Course createCourse(@RequestBody CourseRequest courseRequest) {
+        return this.courseService.createCourse(courseRequest);
     }
 
     @GetMapping("/courses/{id}")
@@ -65,10 +89,18 @@ public class AcademicController {
         return this.trainingClassService.createTrainingClass(trainingClassForm);
     }
 
+
+
     @GetMapping("/classes/{id}")
-    public TrainingClass getTrainingClass(@PathVariable("id") Long id) {
+    public TrainingClassResponse getTrainingClass(@PathVariable("id") Long id) {
         return this.trainingClassService.listTrainingClassById(id);
 
+    }
+
+    @PutMapping("/classes/{id}")
+    public ResponseEntity<TrainingClassFinishedStatus>  setClassFinishedStatus(@PathVariable("id") Long id,
+                                                     @RequestBody TrainingClassFinishedStatus trainingClassFinishedStatus) {
+        return this.trainingClassService.updateClassStatus(id, trainingClassFinishedStatus);
     }
 
     @DeleteMapping("/classes/{id}")
@@ -84,8 +116,8 @@ public class AcademicController {
 
     @PostMapping("/instructors")
     @ResponseStatus(HttpStatus.OK)
-    public Instructor createInstructor(@ModelAttribute Instructor instructor) {
-        return this.instructorService.createInstructor(instructor);
+    public Instructor createInstructor(@RequestBody InstructorRequest instructorRequest) {
+        return this.instructorService.createInstructor(instructorRequest);
     }
 
     @GetMapping("/instructors/{id}")
@@ -97,6 +129,17 @@ public class AcademicController {
     @DeleteMapping("/instructors/{id}")
     public ResponseEntity<?> deleteInstructor(@PathVariable("id") Long id) {
         return instructorService.deleteInstructor(id);
+    }
+
+    @GetMapping("/classesByLocation/{locationId}")
+    public List<TrainingClass> getTrainingClassesByLocation(@PathVariable("locationId") Long locationId) {
+        return this.trainingClassService.listTrainingClassesByLocation(locationId);
+
+    }
+
+    @PutMapping("/updateSetting")
+    public void updateSetting(@RequestBody SettingRequest settingRequest) {
+        this.courseService.updateSetting(settingRequest);
     }
 
 

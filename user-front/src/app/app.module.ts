@@ -26,7 +26,6 @@ import { LeadSignupComponent } from './lead-signup/lead-signup.component';
 import { GetLeadsComponent } from './leadComponents/get-leads/get-leads.component';
 import { EditLeadComponent } from './leadComponents/edit-lead/edit-lead.component';
 import { SidemenuSalesComponent } from './sidemenu-sales/sidemenu-sales.component';
-import { CourseListComponent } from './course-list/course-list.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { AdminActionCardComponent } from './admin-action-card/admin-action-card.component';
 import { SidemenuAdminComponent } from './sidemenu-admin/sidemenu-admin.component';
@@ -48,7 +47,22 @@ import {FileValidator} from './file-input.validator';
 import { AccountActionCardComponent } from './account-action-card/account-action-card.component';
 import { GetAlumnusComponent } from './alumniComponents/get-alumnus/get-alumnus.component';
 import { EditAlumniComponent } from './alumniComponents/edit-alumni/edit-alumni.component';
-import { GetClientProfileComponent } from './get-client-profile/get-client-profile.component'
+import { GetClientProfileComponent } from './get-client-profile/get-client-profile.component';
+import { GetPaymentsComponent } from './paymentComponents/get-payments/get-payments.component';
+import { AddPaymentComponent } from './paymentComponents/add-payment/add-payment.component';
+import { EditPaymentComponent } from './paymentComponents/edit-payment/edit-payment.component';
+import { GetCoursesComponent } from './courseComponent/get-courses/get-courses.component';
+import { AddCourseComponent } from './courseComponent/add-course/add-course.component';
+import { EditCourseComponent } from './courseComponent/edit-course/edit-course.component';
+import { GetClassesComponent } from './classComponent/get-classes/get-classes.component';
+import { AddClassComponent } from './classComponent/add-class/add-class.component';
+import { EditClassComponent } from './classComponent/edit-class/edit-class.component';
+import { GetInstructorsComponent } from './instructorComponent/get-instructors/get-instructors.component';
+import { AddInstructorComponent } from './instructorComponent/add-instructor/add-instructor.component';
+import { EditInstructorComponent } from './instructorComponent/edit-instructor/edit-instructor.component';
+import { AcademicActionCardComponent } from './academic-action-card/academic-action-card.component';
+import { UpdateRatesComponent } from './update-rates/update-rates.component';
+
 
 
 
@@ -68,7 +82,6 @@ import { GetClientProfileComponent } from './get-client-profile/get-client-profi
     GetLeadsComponent,
     EditLeadComponent,
     SidemenuSalesComponent,
-    CourseListComponent,
     UserListComponent,
     AdminActionCardComponent,
     SidemenuAdminComponent,
@@ -90,7 +103,21 @@ import { GetClientProfileComponent } from './get-client-profile/get-client-profi
     AccountActionCardComponent,
     GetAlumnusComponent,
     EditAlumniComponent,
-    GetClientProfileComponent
+    GetClientProfileComponent,
+    GetPaymentsComponent,
+    AddPaymentComponent,
+    EditPaymentComponent,
+    GetCoursesComponent,
+    AddCourseComponent,
+    EditCourseComponent,
+    GetClassesComponent,
+    AddClassComponent,
+    EditClassComponent,
+    GetInstructorsComponent,
+    AddInstructorComponent,
+    EditInstructorComponent,
+    AcademicActionCardComponent,
+    UpdateRatesComponent
   ],
   imports: [
     BrowserModule,

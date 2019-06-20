@@ -1,0 +1,31 @@
+<form [formGroup]="editForm" (ngSubmit)="onUpdate()" novalidate>
+  <div *ngIf="validMessage != ''">
+    <h3 class="has-info">{{ validMessage }}</h3>
+  </div>
+
+
+  <div class="form-group">
+    <label for="taxPercentage">Tax Percentage:</label>
+    <input type="text" value="" class="form-control" formControlName="taxPercentage" />
+  </div>
+
+
+  <div class="form-group">
+    <label for="lateFeeRate">Late Fee Rate:</label>
+    <input type="text" value="" class="form-control" formControlName="lateFeeRate" />
+  </div>
+
+
+
+
+
+  <div class="btn-group">
+    <button
+      type="submit"
+      [disabled]="!editForm.valid"> Save
+    </button>
+    <button
+        type="button"
+        [routerLink]="['/admin']">Cancel
+    </button>
+  </div>

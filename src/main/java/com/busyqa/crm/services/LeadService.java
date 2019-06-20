@@ -7,12 +7,15 @@ import com.busyqa.crm.model.user.Lead;
 import com.busyqa.crm.model.user.Position;
 import com.busyqa.crm.model.user.Student;
 import com.busyqa.crm.model.academic.TrainingClass;
-import com.busyqa.crm.repo.LeadRepository;
-import com.busyqa.crm.repo.PositionRepository;
-import com.busyqa.crm.repo.StudentRepository;
-import com.busyqa.crm.repo.TrainingClassRepository;
+import com.busyqa.crm.model.user.payment.Payment;
+import com.busyqa.crm.repo.*;
+import com.busyqa.crm.utils.Common;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +40,12 @@ public class LeadService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private PaymentRepository paymentRepository;
+
+    @Autowired
+    private PaymentService paymentService;
+
     public List<LeadResponse> listLeads() {
         List<Lead> leads = leadRepository.findAll();
         if (leads.isEmpty()) throw new RuntimeException("Empty lead list!");
@@ -50,8 +59,8 @@ public class LeadService {
             System.out.println(l.getEmail());
             System.out.println(l.getPaidDeposit());
             System.out.println(l.getPaymentPlan());
-            leadResponses.add(new LeadResponse(firstName,lastName,
-                    l.getPhone(),l.getEmail(), l.getPaidDeposit(),
+            leadResponses.add(new LeadResponse(l.getId(),firstName,lastName,
+                    l.getPhone(),l.getEmail(), l.getPaidDeposit(),l.getDiscount(),
                     l.getPaymentPlan(), l.getPaymentPlanStatus(), l.getPaymentPlanAgreement(),
                     l.getLeadSource(),l.getLeadStatus(),l.getaTrainingClassName(),l.getComment(),l.getStatusAsOfDay(),l.getModifiedTime()));
 
@@ -65,8 +74,10 @@ public class LeadService {
         String[] tmp = lead.getName().split(" ");
         String firstName = tmp[0];
         String lastName = tmp[1];
-        return new LeadResponse(firstName,lastName,
-                lead.getPhone(),lead.getEmail(), lead.getPaidDeposit(),
+        paymentService.updatePayments(lead.getId(),lead.getaTrainingClassName());
+        leadRepository.save(lead);
+        return new LeadResponse(lead.getId(),firstName,lastName,
+                lead.getPhone(),lead.getEmail(), lead.getPaidDeposit(),lead.getDiscount(),
                 lead.getPaymentPlan(), lead.getPaymentPlanStatus(), lead.getPaymentPlanAgreement(),
                 lead.getLeadSource(),lead.getLeadStatus(),lead.getaTrainingClassName(),lead.getComment(),lead.getStatusAsOfDay(),lead.getModifiedTime());
 
@@ -77,14 +88,26 @@ public class LeadService {
 
     public ResponseEntity<LeadResponse> updateLead(String email, LeadRequest leadRequest) {
 
+
+
+
         return leadRepository.findByEmail(email).map(recordUpdated -> {
             String name = leadRequest.getFirstName() + " " + leadRequest.getLastName();
+            double amountPaidBefore = Common.calculatePaidAmount(recordUpdated.getPaidDeposit(), recordUpdated.getDiscount());
+            double amountPaidAfter = Common.calculatePaidAmount(leadRequest.getPaidDeposit(),leadRequest.getDiscount());
+            if ((!(recordUpdated.getPaymentPlan().equals(leadRequest.getPaymentPlan()))) || (amountPaidBefore != amountPaidAfter) )
+            {
+                paymentService.deletePayments(recordUpdated.getId());
+                paymentService.generatePayments(leadRequest.getaTrainingClassName(), leadRequest.getPaymentPlan(),
+                        amountPaidAfter, recordUpdated);
+            }
             recordUpdated.setName(name);
             recordUpdated.setUsername(leadRequest.getEmail());
             recordUpdated.setEmail(leadRequest.getEmail());
             recordUpdated.setPhone(leadRequest.getPhone());
-            recordUpdated.setPaidDeposit(leadRequest.getPaidDeposit());
             recordUpdated.setPaymentPlan(leadRequest.getPaymentPlan());
+            recordUpdated.setPaidDeposit(leadRequest.getPaidDeposit());
+            recordUpdated.setDiscount(leadRequest.getDiscount());
             recordUpdated.setPaymentPlanStatus(leadRequest.getPaymentPlanStatus());
             recordUpdated.setPaymentPlanAgreement(leadRequest.getPaymentPlanAgreement());
             recordUpdated.setLeadSource(leadRequest.getLeadSource());
@@ -95,6 +118,7 @@ public class LeadService {
             this.leadRepository.save(recordUpdated);
             LeadResponse leadResponse = new LeadResponse();
             BeanUtils.copyProperties(leadRequest,leadResponse);
+            leadResponse.setId(recordUpdated.getId());
             return ResponseEntity.ok().body(leadResponse);
                  }).orElse(ResponseEntity.notFound().build());
 
@@ -103,6 +127,7 @@ public class LeadService {
     public ResponseEntity<?> deleteLead(String email) {
         return leadRepository.findByEmail(email).map(
                 record -> {
+                    paymentService.deletePayments(record.getId());
                     leadRepository.deleteByEmail(email);
                     return ResponseEntity.ok().build();
                 }).orElse(ResponseEntity.notFound().build());
@@ -114,6 +139,7 @@ public class LeadService {
         Lead lead = leadRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Fail! -> Cause: Lead not found."));
         TrainingClass trainingClass = trainingClassRepository.findByName(lead.getaTrainingClassName()).
                 orElseThrow(() -> new RuntimeException("Fail! -> Cause: Training class not found."));
+        System.out.println(trainingClass);
         List<Position> positions = positionRepository.findAll();
         for (Position p: positions) {
             lead.removePosition(p);
@@ -132,15 +158,22 @@ public class LeadService {
         student.setStatusAsOfDay(LocalDateTime.now().toString());
         student.setModifiedTime(LocalDateTime.now().toString());
 
-//        Student student = new Student(lead.getFirstName(), lead.getLastName(), lead.getPhone(), lead.getEmail(),
-//                trainingClass, PaymentPlan.OneTime.toString(), trainingClass.getCourseFee()-300);
 
+
+        // update payments
+        Pageable pageable = PageRequest.of(0, 30);
+        Page<Payment> paymentsPage = paymentRepository.findByUserId(lead.getId(), pageable);
+        List<Payment> payments = paymentsPage.getContent();
         leadRepository.deleteByEmail(email);
-        studentRepository.save(student);
-        return student;
+        Student savedStudent = studentRepository.save(student);
+        for (Payment p: payments) {
+            p.setUser(savedStudent);
+            paymentRepository.save(p);
+        }
+
+        return savedStudent;
 
     }
-
 
 
 

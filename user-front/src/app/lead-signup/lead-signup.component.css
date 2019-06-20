@@ -22,3 +22,9 @@
 .btn-group button:hover {
   background-color: #3e8e41;
 }
+
+
+.container-fluid {
+  background-color: #D5F5E3;
+  margin-bottom: 1cm;
+}

@@ -9,8 +9,8 @@ public class InternRequest {
     private String paymentPlanStatus;
     private String paymentPlanAgreement;
     private String modifiedTime;
-    private int amountPaid;
-    private int remainingBalance;
+    private double amountPaid;
+    private double remainingBalance;
     private String aTrainingClassName;
     private String coopStatus;
     private String coopStartDate;
@@ -21,7 +21,7 @@ public class InternRequest {
     public InternRequest() {
     }
 
-    public InternRequest(String firstName, String lastName, String phone, String email, String paymentPlan, String paymentPlanStatus, String paymentPlanAgreement, String modifiedTime, int amountPaid, int remainingBalance, String aTrainingClassName, String coopStatus, String coopStartDate, String coopEndDate, String projectAssigned, String performance) {
+    public InternRequest(String firstName, String lastName, String phone, String email, String paymentPlan, String paymentPlanStatus, String paymentPlanAgreement, String modifiedTime, double amountPaid, double remainingBalance, String aTrainingClassName, String coopStatus, String coopStartDate, String coopEndDate, String projectAssigned, String performance) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
@@ -104,11 +104,11 @@ public class InternRequest {
         this.modifiedTime = modifiedTime;
     }
 
-    public int getAmountPaid() {
+    public double getAmountPaid() {
         return amountPaid;
     }
 
-    public void setAmountPaid(int amountPaid) {
+    public void setAmountPaid(double amountPaid) {
         this.amountPaid = amountPaid;
     }
 
@@ -152,11 +152,11 @@ public class InternRequest {
         this.performance = performance;
     }
 
-    public int getRemainingBalance() {
+    public double getRemainingBalance() {
         return remainingBalance;
     }
 
-    public void setRemainingBalance(int remainingBalance) {
+    public void setRemainingBalance(double remainingBalance) {
         this.remainingBalance = remainingBalance;
     }
 

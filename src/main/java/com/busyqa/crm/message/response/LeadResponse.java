@@ -1,12 +1,13 @@
 package com.busyqa.crm.message.response;
 
 public class LeadResponse {
-
+    private long id;
     private String firstName;
     private String lastName;
     private String phone;
     private String email;
     private Boolean paidDeposit;
+    private double discount;
     private String paymentPlan;
     private String paymentPlanStatus;
     private String paymentPlanAgreement;
@@ -22,12 +23,14 @@ public class LeadResponse {
     public LeadResponse() {
     }
 
-    public LeadResponse(String firstName, String lastName, String phone, String email, boolean paidDeposit, String paymentPlan, String paymentPlanStatus, String paymentPlanAgreement, String leadSource, String leadStatus, String aTrainingClassName, String comment, String createdTime, String modifiedTime) {
+    public LeadResponse(long id, String firstName, String lastName, String phone, String email, boolean paidDeposit, double discount, String paymentPlan, String paymentPlanStatus, String paymentPlanAgreement, String leadSource, String leadStatus, String aTrainingClassName, String comment, String createdTime, String modifiedTime) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.email = email;
         this.paidDeposit = paidDeposit;
+        this.discount = discount;
         this.paymentPlan = paymentPlan;
         this.paymentPlanStatus = paymentPlanStatus;
         this.paymentPlanAgreement = paymentPlanAgreement;
@@ -37,6 +40,14 @@ public class LeadResponse {
         this.comment = comment;
         this.createdTime = createdTime;
         this.modifiedTime = modifiedTime;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -149,5 +160,13 @@ public class LeadResponse {
 
     public void setCreatedTime(String createdTime) {
         this.createdTime = createdTime;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 }

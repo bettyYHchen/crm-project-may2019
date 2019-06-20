@@ -15,6 +15,7 @@ public class LeadRequest {
     private String aTrainingClassName;
     private String comment;
     private String modifiedTime;
+    private double discount;
 
     public LeadRequest() {
     }
@@ -137,5 +138,13 @@ public class LeadRequest {
 
     public void setModifiedTime(String modifiedTime) {
         this.modifiedTime = modifiedTime;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 }

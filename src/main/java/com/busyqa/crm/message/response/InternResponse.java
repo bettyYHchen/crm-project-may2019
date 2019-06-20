@@ -1,6 +1,7 @@
 package com.busyqa.crm.message.response;
 
 public class InternResponse {
+    private long id;
     private String firstName;
     private String lastName;
     private String phone;
@@ -11,8 +12,8 @@ public class InternResponse {
     private String aTrainingClassName;
     private String createdTime;
     private String modifiedTime;
-    private int amountPaid;
-    private int remainingBalance;
+    private double amountPaid;
+    private double remainingBalance;
     private String coopStatus;
     private String coopStartDate;
     private String coopEndDate;
@@ -22,7 +23,8 @@ public class InternResponse {
     public InternResponse() {
     }
 
-    public InternResponse(String firstName, String lastName, String phone, String email, String paymentPlan, String paymentPlanStatus, String paymentPlanAgreement, String aTrainingClassName, String createdTime, String modifiedTime, int amountPaid, int remainingBalance, String coopStatus, String coopStartDate, String coopEndDate, String projectAssigned, String performance) {
+    public InternResponse(long id, String firstName, String lastName, String phone, String email, String paymentPlan, String paymentPlanStatus, String paymentPlanAgreement, String aTrainingClassName, String createdTime, String modifiedTime, double amountPaid, double remainingBalance, String coopStatus, String coopStartDate, String coopEndDate, String projectAssigned, String performance) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
@@ -40,6 +42,14 @@ public class InternResponse {
         this.coopEndDate = coopEndDate;
         this.projectAssigned = projectAssigned;
         this.performance = performance;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -122,19 +132,19 @@ public class InternResponse {
         this.modifiedTime = modifiedTime;
     }
 
-    public int getAmountPaid() {
+    public double getAmountPaid() {
         return amountPaid;
     }
 
-    public void setAmountPaid(int amountPaid) {
+    public void setAmountPaid(double amountPaid) {
         this.amountPaid = amountPaid;
     }
 
-    public int getRemainingBalance() {
+    public double getRemainingBalance() {
         return remainingBalance;
     }
 
-    public void setRemainingBalance(int remainingBalance) {
+    public void setRemainingBalance(double remainingBalance) {
         this.remainingBalance = remainingBalance;
     }
 

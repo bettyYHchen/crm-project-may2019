@@ -25,9 +25,19 @@
     <input type="text" value="" class="form-control" formControlName="email" />
   </div>
 
+
+  <div class="row">
+      <div class="col-sm-2">
+          <div class="form-group">
+              <label for="paidDeposit">Deposite Paid: </label>
+              <input type="checkbox" formControlName="paidDeposit">
+            </div>
+      </div>
+  </div>
+
   <div class="form-group">
-    <label for="paidDeposit">Deposite Paid: </label>
-    <input type="checkbox" formControlName="paidDeposit">
+      <label for="discount">Discount:</label>
+      <input type="text" value="" class="form-control" formControlName="discount" />
   </div>
 
   <div class="form-group">
@@ -121,6 +131,10 @@
         title="Send portal link"
         (click)="onSendPortalLink()"> Send Link
     </button>
+    <button
+          type="button"
+          [routerLink]="['/payments/user/', userId]"> Invoice
+        </button>
   </div>
 
 

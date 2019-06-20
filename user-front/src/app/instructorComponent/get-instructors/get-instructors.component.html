@@ -1,0 +1,31 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let instructor of instructors">
+      <td>{{instructor.id}}</td>
+      <td>{{instructor.name}}</td>
+      <td>{{instructor.email}}</td>
+      <button
+        type="button"
+        title="Delete this lead"
+        (click)="onDelete(instructor.id)"> Delete
+      </button>
+    </tr>
+    </tbody>
+    <div class="btn-group">
+        <button
+            type="button"
+            [routerLink]="['addinstructor']">Add
+        </button>
+        <button
+          type="button"
+          (click)="cancel()"> Back
+      </button>
+    </div>
+  </table>

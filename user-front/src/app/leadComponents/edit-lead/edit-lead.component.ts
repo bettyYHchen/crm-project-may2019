@@ -84,6 +84,7 @@ classList = [];
   message: string;
   leadExample: any;
   confirmationMessage = '';
+  userId: number;
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService, private router: Router) {
    }
@@ -121,6 +122,7 @@ classList = [];
       phone: ['', Validators.required],
       email: ['', Validators.required],
       paidDeposit: false,
+      discount: '',
       paymentPlan: '',
       paymentPlanStatus: '',
       paymentPlanAgreement: '',
@@ -138,12 +140,14 @@ classList = [];
       this.editForm.reset();
     }
     this.leadExample = data;
+    this.userId = this.leadExample.id;
     this.editForm.patchValue({
       firstName: this.leadExample.firstName,
       lastName: this.leadExample.lastName,
       phone: this.leadExample.phone,
       email: this.leadExample.email,
       paidDeposit: this.leadExample.paidDeposit,
+      discount: this.leadExample.discount,
       paymentPlan: this.leadExample.paymentPlan,
       paymentPlanStatus: this.leadExample.paymentPlanStatus,
       paymentPlanAgreement: this.leadExample.paymentPlanAgreement,
@@ -184,6 +188,8 @@ classList = [];
 
   onConvertToStudent() {
     if (! this.editForm.value.paidDeposit) {alert('You cannot convert this lead to a student because the deposite has not been paid yet!');
+    } else if (this.editForm.value.paymentPlanStatus === 'CONFIRMED') {
+      alert('You cannot convert this lead to a student because the payment plan has been confirmed yet!');
     } else {
       if (confirm('Are you sure you want to change this lead to a student?')) {
         this.userService.changeLeadToStudent(this.route.snapshot.params.email)
@@ -205,6 +211,8 @@ classList = [];
       );
     }
   }
+
+
 
 
 

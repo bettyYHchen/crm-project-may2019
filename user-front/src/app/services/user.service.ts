@@ -19,6 +19,11 @@ import { Mail } from '../model/mail';
 import { ResumeRequest } from '../model/resume-request';
 import { MockRequest } from '../model/mock-request';
 import { AlumniRequest } from '../model/alumni-request';
+import { Course } from '../model/course';
+import { TrainingClass } from '../model/training-class';
+import { Instructor } from '../model/instructor';
+import { ClassFinishedStatus } from '../model/class-finished-status';
+import { SettingRequest } from '../model/setting-request';
 
 const httpOptions = {
   'Content-Type': 'application/json'
@@ -39,6 +44,12 @@ export class UserService {
   private sendEmailWithAttachmentUrl = this.apiUrl + '/sendEmailWithAttachment/';
   private sendEmailTemplateUrl = this.apiUrl + '/sendEmailWithTemplate/';
   private allTeamsUrl = this.apiUrl + '/allTeams';
+  private paymentRecordsUrl = this.apiUrl + '/users/';
+  private courseUrl = this.apiUrl + '/academic/courses';
+  private classUrl = this.apiUrl + '/academic/classes';
+  private instructorUrl = this.apiUrl + '/academic/instructors';
+  private getSettingUrl = this.apiUrl + '/academic/getRates';
+  private updateSettingUrl = this.apiUrl + '/academic/updateSetting';
   info: any;
 
   constructor(private http: HttpClient, private token: TokenStorageService) { }
@@ -260,6 +271,110 @@ export class UserService {
 
   deleteAlumni(email: string) {
     return this.http.delete(this.allTeamsUrl + '/alumnus/' + email);
+  }
+
+  // crud service for payments
+  listPaymentsByUserId(userId: number) {
+    return this.http.get(this.paymentRecordsUrl + userId + '/payments');
+  }
+
+  listPaymentByUserIdAndPaymentId(userId: number, paymentId: number) {
+    return this.http.get(this.paymentRecordsUrl + userId + '/payments/' + paymentId);
+  }
+
+  createPayment(userId: number, paymentRequest: PaymentRequest) {
+    return this.http.post(this.paymentRecordsUrl + userId + '/payments', paymentRequest);
+  }
+
+  updatePayment(userId: number, paymentId: number, paymentRequest: PaymentRequest) {
+    return this.http.put(this.paymentRecordsUrl + userId + '/payments/' + paymentId,
+    paymentRequest);
+  }
+
+  deletePayment(userId: number, paymentId: number) {
+    return this.http.delete(this.paymentRecordsUrl + userId + '/payments/' + paymentId);
+  }
+
+  updateLeadPaymentStatus(userId: number) {
+    return this.http.get(this.apiUrl + '/updateLeadPaymentStatus/' + userId);
+  }
+
+  updatePaidAmount(userId: number) {
+    return this.http.get(this.apiUrl + '/updatePaidAmount/' + userId);
+  }
+
+  // services for academic
+  // get list
+  listCourses() {
+    return this.http.get(this.courseUrl);
+  }
+
+  listClasses() {
+    return this.http.get(this.classUrl);
+  }
+
+  listInstructors() {
+    return this.http.get(this.instructorUrl);
+  }
+
+  // get particular
+  listCourseById(id: number) {
+    return this.http.get(this.courseUrl + '/' + id);
+  }
+
+  listClassById(id: number) {
+    return this.http.get(this.classUrl + '/' + id);
+  }
+
+  listInstructorById(id: number) {
+    return this.http.get(this.instructorUrl + '/' + id);
+  }
+
+  // create particular
+  createCourse(course: Course) {
+    return this.http.post(this.courseUrl, course);
+  }
+
+  createClass(trainingClass: TrainingClass) {
+    console.log(this.classUrl);
+    return this.http.post(this.classUrl, trainingClass);
+  }
+
+  createInstructor(instructor: Instructor) {
+    return this.http.post(this.instructorUrl, instructor);
+  }
+
+  // delete particular
+  deleteCourse(id: number) {
+    return this.http.delete(this.courseUrl + '/' + id);
+  }
+
+  deleteClass(id: number) {
+    return this.http.delete(this.classUrl + '/' + id);
+  }
+
+  deleteInstructor(id: number) {
+    return this.http.delete(this.instructorUrl + '/' + id);
+  }
+
+  // get classes based on course name
+  getClassesByCourse(name: string) {
+    return this.http.get(this.courseUrl + '/courses/classes/' + name);
+  }
+
+  // update class status
+  updateClassFinishedStatus(id: number, classFinishedStatus: ClassFinishedStatus) {
+    console.log(classFinishedStatus);
+    return this.http.put(this.classUrl + '/' + id, classFinishedStatus);
+  }
+
+  // get late fee rate and tax rate in system
+  getSetting() {
+    return this.http.get(this.getSettingUrl);
+  }
+  // update late fee rate and tax rate
+  updateSetting(settingRequest: SettingRequest) {
+    return this.http.put(this.updateSettingUrl, settingRequest);
   }
 
 

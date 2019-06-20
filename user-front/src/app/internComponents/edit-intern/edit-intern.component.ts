@@ -65,6 +65,7 @@ validMessage = '';
 private sub: Subscription;
 message: string;
 internExample: any;
+userId: number;
 
 constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService, private router: Router) {
   }
@@ -121,6 +122,7 @@ displayForm(data: any): void {
     this.editForm.reset();
   }
   this.internExample = data;
+  this.userId = this.internExample.id;
   console.log(this.internExample);
   this.editForm.patchValue({
     firstName: this.internExample.firstName,

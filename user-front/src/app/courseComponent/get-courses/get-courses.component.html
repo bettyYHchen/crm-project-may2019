@@ -1,0 +1,33 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>Course Name</th>
+      <th>Course Fee</th>
+      <th>Course Duration</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let course of courses">
+      <td>{{course.id}}</td>
+      <td>{{course.name}}</td>
+      <td>{{course.fee}}</td>
+      <td>{{course.durationWeek + ' weeks'}}</td>
+      <button
+        type="button"
+        title="Delete this lead"
+        (click)="onDelete(course.id)"> Delete
+      </button>
+    </tr>
+    </tbody>
+    <div class="btn-group">
+        <button
+            type="button"
+            [routerLink]="['/addcourse']">Add
+        </button>
+        <button
+          type="button"
+          (click)="cancel()"> Back
+      </button>
+    </div>
+  </table>

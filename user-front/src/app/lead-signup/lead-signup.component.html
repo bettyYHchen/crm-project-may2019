@@ -5,20 +5,7 @@
   </div>
 
 
-<!--
-  <fieldset formGroupName="jobType">
-      <div class="form-group">
-        <label>Job Type:</label>
-        <br/>
-        <select class="form-control" formControlName="id" required>
-            <option value="">Please select a job type</option>
-            <option *ngFor="let item of jobTypeList"
-                    [value]="item.id">
-                    {{  item.jobTypeName }}
-            </option>
-        </select>
-      </div>
-    </fieldset> -->
+
 
     <div class="form-group">
       <label for="firstName">First Name:</label>
@@ -94,6 +81,87 @@
     </div>
 
     <div class="form-group">
+      <label>Comments:</label>
+      <textarea placeholder="" class="form-control" formControlName="comment"></textarea>
+    </div>
+
+    <div class="container-fluid">
+      <app-add-class (sendClassInfo)="customFunc($event)"></app-add-class>
+    </div>
+
+
+    <!-- <form [formGroup]="classForm" (ngSubmit)="onSubmitClassForm()" novalidate>
+      <div class="form-group">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>Course</th>
+              <th>Term</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>
+              <ng-multiselect-dropdown formControlName="courseName"  name="courseName" class="form-control" id="courseName" [data]="courseDropdownList" [(ngModel)]="selectedCourse"
+                    [settings]="courseDropdownSettings"  (onSelect)="onCourseSelect($event)" (onDeSelect)="OnCourseDeSelect($event)" >
+            </ng-multiselect-dropdown>
+              </td>
+              <td>
+                <ng-multiselect-dropdown formControlName="batch"  name="batch" class="form-control" id="batch" [data]="termDropdownList" [(ngModel)]="selectedTerm"
+                    [settings]="termDropdownSettings"  (onSelect)="onTermSelect($event)" (onDeSelect)="OnTermDeSelect($event)">
+                </ng-multiselect-dropdown>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="form-group">
+            <label>Selected Trainer:</label>
+            <br/>
+              <select class="form-control" formControlName="instructorName" required>
+                  <option value="">Please select an instructor</option>
+                  <option *ngFor="let item of instructorList"
+                          [value]="item">
+                          {{  item }}
+                  </option>
+              </select>
+          </div>
+
+          <div class="form-group">
+            <label>Selected Training Location:</label>
+            <br/>
+              <select class="form-control" formControlName="address" required>
+                  <option value="">Please select a location</option>
+                  <option *ngFor="let item of addressList"
+                          [value]="item">
+                          {{  item }}
+                  </option>
+              </select>
+          </div>
+
+          <div class="form-group">
+              <label for="start">Start Date: </label>
+              <input type="text" formControlName="start">
+          </div>
+
+          <div class="form-group">
+              <label for="end">End Date: </label>
+              <input type="text" formControlName="end">
+          </div>
+
+
+
+        <div class="row">
+          <div class="col-sm-8" >
+              <button
+                type="submit"> Add class
+              </button>
+          </div>
+      </div>
+    </form> -->
+
+    <!-- <div class="form-group">
       <table class="table table-striped">
         <thead>
         <tr>
@@ -116,12 +184,9 @@
         </tr>
         </tbody>
       </table>
-    </div>
+    </div> -->
 
-    <div class="form-group">
-      <label>Comments:</label>
-      <textarea placeholder="" class="form-control" formControlName="comment"></textarea>
-    </div>
+
 
 
 

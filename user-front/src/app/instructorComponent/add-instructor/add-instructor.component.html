@@ -1,0 +1,47 @@
+<!-- method="post" action="/gustbook.html"  -->
+<form [formGroup]="postForm" (ngSubmit)="onSubmit()" novalidate>
+    <div *ngIf="validMessage != ''">
+      <h3 class="has-info">{{ validMessage }}</h3>
+    </div>
+
+
+
+      <!-- <div class="form-group">
+        <label>Selected Instructor: </label>
+        <br/>
+          <select class="form-control" formControlName="name" required>
+              <option value="">Please select an instructor</option>
+              <option *ngFor="let item of instructorList"
+                      [value]="item">
+                      {{  item }}
+              </option>
+          </select>
+      </div> -->
+
+      <div class="form-group">
+          <label for="name">Instructor Name: </label>
+          <input type="text" formControlName="name">
+      </div>
+
+      <div class="form-group">
+          <label>Email:</label>
+          <input type="text" value="" class="form-control" id="email" formControlName="email" />
+      </div>
+
+
+
+
+    <div class="row">
+        <div class="col-sm-8" >
+          <div class="btn-group">
+            <button
+              type="submit"> Submit
+            </button>
+            <button
+              type="button"
+              (click)="cancel()"> Back
+            </button>
+          </div>
+        </div>
+    </div>
+  </form>

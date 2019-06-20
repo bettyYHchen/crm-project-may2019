@@ -1,18 +1,20 @@
 package com.busyqa.crm.services;
 
+import com.busyqa.crm.message.request.TrainingClassFinishedStatus;
 import com.busyqa.crm.message.request.TrainingClassForm;
 import com.busyqa.crm.message.response.TrainingClassResponse;
+import com.busyqa.crm.model.academic.Location;
 import com.busyqa.crm.model.user.Student;
 import com.busyqa.crm.model.academic.Course;
 import com.busyqa.crm.model.academic.Instructor;
 import com.busyqa.crm.model.academic.TrainingClass;
-import com.busyqa.crm.repo.CourseRepository;
-import com.busyqa.crm.repo.InstructorRepository;
-import com.busyqa.crm.repo.StudentRepository;
-import com.busyqa.crm.repo.TrainingClassRepository;
+import com.busyqa.crm.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,34 +33,53 @@ public class TrainingClassService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private LocationRepository locationRepository;
+
 
     public List<TrainingClassResponse> listTrainingClasses() {
         List<TrainingClass> trainingClasses = trainingClassRepository.findAll();
-        return trainingClasses.stream().map(trainingClass -> new TrainingClassResponse(trainingClass.getName(),
-                trainingClass.getInstructor().getFirstName() + " " + trainingClass.getInstructor().getLastName())).
+        return trainingClasses.stream().map(trainingClass -> new TrainingClassResponse(trainingClass.getId(),
+                trainingClass.getName(), trainingClass.getInstructor().getName(),
+                trainingClass.getAddress(), trainingClass.getStart(), trainingClass.getEnd())).
                 collect(Collectors.toList());
 
 
 //        return this.trainingClassRepository.findAll();
     }
 
-    public TrainingClass listTrainingClassById(Long id) {
-        return this.trainingClassRepository.getOne(id);
+    public TrainingClassResponse listTrainingClassById(Long id) {
+        TrainingClass trainingClass = trainingClassRepository.getOne(id);
+        TrainingClassResponse trainingClassResponse = new TrainingClassResponse();
+        trainingClassResponse.setId(trainingClass.getId());
+        trainingClassResponse.setName(trainingClass.getName());
+        trainingClassResponse.setInstructorName(trainingClass.getInstructor().getName());
+        trainingClassResponse.setStart(trainingClass.getStart());
+        trainingClassResponse.setEnd(trainingClass.getEnd());
+        return trainingClassResponse;
+
     }
 
     public TrainingClass createTrainingClass(TrainingClassForm trainingClassForm) {
         String className = trainingClassForm.getCourseName() + " " + trainingClassForm.getBatch();
         Course course = courseRepository.findByName(trainingClassForm.getCourseName()).
                 orElseThrow(() -> new RuntimeException("Course not found"));
-        Instructor instructor = instructorRepository.findByEmail(trainingClassForm.getInstructorEmail())
+        Instructor instructor = instructorRepository.findByName(trainingClassForm.getInstructorName())
                 .orElseThrow(() -> new RuntimeException("Instructor not found"));
-        TrainingClass trainingClass = trainingClassRepository.findByName(className)
-                .orElse(new TrainingClass(className));
+        TrainingClass trainingClassFound = trainingClassRepository.findByName(className)
+                .orElse(null);
+        if (!(trainingClassFound.equals(null))) {
+            return trainingClassFound;
+        }
+        TrainingClass trainingClass = new TrainingClass(className);
         trainingClass.setCourse(course);
         trainingClass.setInstructor(instructor);
-
-
-//        TrainingClass trainingClass = new TrainingClass(className,course,instructor);
+        trainingClass.setStart(trainingClassForm.getStart());
+        trainingClass.setEnd(trainingClassForm.getEnd());
+        Location location = new Location();
+        location.setAddress(trainingClassForm.getAddress());
+        trainingClass.setLocation(location);
+        locationRepository.save(location);
         trainingClassRepository.save(trainingClass);
         return trainingClass;
 
@@ -72,5 +93,21 @@ public class TrainingClassService {
                 }).orElse(ResponseEntity.notFound().build());
 
 
+    }
+
+    public ResponseEntity<TrainingClassFinishedStatus> updateClassStatus(Long id,
+                                                                         TrainingClassFinishedStatus trainingClassFinishedStatus) {
+        return trainingClassRepository.findById(id).map(recordUpdated -> {
+                    recordUpdated.setFinished(trainingClassFinishedStatus.isFinishStatus());
+                    this.trainingClassRepository.save(recordUpdated);
+                    return ResponseEntity.ok().body(trainingClassFinishedStatus);
+        }).orElse(ResponseEntity.notFound().build());
+
+    }
+
+    public List<TrainingClass> listTrainingClassesByLocation(Long locationId) {
+        Pageable pageable = PageRequest.of(0, 30);
+        Page<TrainingClass> trainingClassesPage = trainingClassRepository.findByLocationId(locationId, pageable);
+        return trainingClassesPage.getContent();
     }
 }

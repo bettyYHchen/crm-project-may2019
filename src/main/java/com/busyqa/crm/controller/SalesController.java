@@ -86,7 +86,7 @@ public class SalesController {
          * that contains a attachment.
          */
         try {
-            notificationService.sendEmailWithAttachment(email);
+            notificationService.sendTemplatedEmailWithAttachment(email);
         } catch (MailException mailException) {
             System.out.println(mailException);
         }
@@ -100,7 +100,6 @@ public class SalesController {
         }
         return notificationService.sendPreparedMail(mail);
     }
-
 
 
 

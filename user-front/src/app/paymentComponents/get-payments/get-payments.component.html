@@ -1,0 +1,33 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Payment Id</th>
+    <th>Payment Date</th>
+    <th>Amount </th>
+    <th>Payment Status</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let payment of payments">
+    <td>{{payment.id}}</td>
+    <td>{{payment.date}}</td>
+    <td>{{payment.amount}}</td>
+    <td>{{payment.status}}</td>
+    <button class="btn btn-primary"
+              style="width:100px;"
+              type="button"
+              [routerLink]="['./', payment.id]">Edit
+    </button>
+  </tr>
+  </tbody>
+  <div class="btn-group">
+      <button
+          type="button"
+          [routerLink]="['/addpayment/user/', userId]">Add
+      </button>
+      <button
+        type="button"
+        (click)="cancel()"> Back
+    </button>
+  </div>
+</table>

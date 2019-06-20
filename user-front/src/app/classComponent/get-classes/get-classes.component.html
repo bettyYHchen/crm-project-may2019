@@ -1,0 +1,53 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>Class Name</th>
+      <th>Instructor</th>
+      <th>Address</th>
+      <td>Start Date</td>
+      <td>End Date</td>
+      <th>ClassFinished</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let class of classes">
+      <td>{{class.id}}</td>
+      <td>{{class.name}}</td>
+      <td>{{class.instructorName}}</td>
+      <td>{{class.address}}</td>
+      <td>{{class.start}}</td>
+      <td>{{class.end}}</td>
+      <td>
+          <form [formGroup]="editForm" (ngSubmit)="onUpdate(class.id)" novalidate>
+
+             <div class="form-group">
+                <label for="finishStatus"></label>
+                <input type="checkbox" formControlName="finishStatus">
+            </div>
+
+            <button
+              type="submit"
+              [disabled]="!editForm.valid"> Save
+            </button>
+          </form>
+      </td>
+      <button
+        type="button"
+        title="Delete this lead"
+        (click)="onDelete(class.id)"> Delete
+      </button>
+    </tr>
+    </tbody>
+
+  </table>
+  <div class="btn-group">
+      <button
+          type="button"
+          [routerLink]="['/addclass']">Add
+      </button>
+      <button
+        type="button"
+        (click)="cancel()"> Back
+    </button>
+  </div>

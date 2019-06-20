@@ -5,14 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(
-        name = "courses")
+@Table(name = "courses")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Course {
     @Id
@@ -20,12 +16,22 @@ public class Course {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @NotBlank
-    @Size(min = 3, max = 50)
-    @Column(name = "name",unique=true, nullable=false)
+
+    @Column(name = "name",unique=true)
     private String name;
 
-    private int fee;
+    private double fee;
+
+    private double taxPercentage;
+
+    private double lateFeeRate;
+
+    private double durationWeek;
+
+    private double paymentDurationWeek;
+
+
+    private double paymentDurationBiWeek;
 
     @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
     @Column(nullable = true)
@@ -52,12 +58,12 @@ public class Course {
     public Course() {
     }
 
-    public Course(@NotBlank @Size(min = 3, max = 50) String name, int fee) {
+    public Course(String name, double fee) {
         this.name = name;
         this.fee = fee;
     }
 
-    public Course(@NotBlank @Size(min = 3, max = 50) String name, int fee, List<TrainingClass> trainingClasses) {
+    public Course( String name, double fee, List<TrainingClass> trainingClasses) {
         this.name = name;
         this.fee = fee;
         this.trainingClasses = trainingClasses;
@@ -79,11 +85,11 @@ public class Course {
         this.name = name;
     }
 
-    public int getFee() {
+    public double getFee() {
         return fee;
     }
 
-    public void setFee(int fee) {
+    public void setFee(double fee) {
         this.fee = fee;
     }
 
@@ -93,5 +99,46 @@ public class Course {
 
     public void setTrainingClasses(List<TrainingClass> trainingClasses) {
         this.trainingClasses = trainingClasses;
+    }
+
+    public double getDurationWeek() {
+        return durationWeek;
+    }
+
+    public void setDurationWeek(double durationWeek) {
+        this.durationWeek = durationWeek;
+    }
+
+    public double getPaymentDurationWeek() {
+        return paymentDurationWeek;
+    }
+
+    public void setPaymentDurationWeek(double paymentDurationWeek) {
+        this.paymentDurationWeek = paymentDurationWeek;
+    }
+
+
+    public double getPaymentDurationBiWeek() {
+        return paymentDurationBiWeek;
+    }
+
+    public void setPaymentDurationBiWeek(double paymentDurationBiWeek) {
+        this.paymentDurationBiWeek = paymentDurationBiWeek;
+    }
+
+    public double getTaxPercentage() {
+        return taxPercentage;
+    }
+
+    public void setTaxPercentage(double taxPercentage) {
+        this.taxPercentage = taxPercentage;
+    }
+
+    public double getLateFeeRate() {
+        return lateFeeRate;
+    }
+
+    public void setLateFeeRate(double lateFeeRate) {
+        this.lateFeeRate = lateFeeRate;
     }
 }

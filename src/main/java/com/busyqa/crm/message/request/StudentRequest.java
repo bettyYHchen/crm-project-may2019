@@ -12,14 +12,14 @@ public class StudentRequest {
     private String aTrainingClassName;
     private String comment;
     private String modifiedTime;
-    private int amountPaid;
-    private int remainingBalance;
+    private double amountPaid;
+    private double remainingBalance;
     private boolean classFinished;
 
     public StudentRequest() {
     }
 
-    public StudentRequest(String firstName, String lastName, String phone, String email, String paymentPlan, String paymentPlanStatus, String paymentPlanAgreement, String aTrainingClassName, String comment, String modifiedTime, int amountPaid, int remainingBalance, boolean classFinished) {
+    public StudentRequest(String firstName, String lastName, String phone, String email, String paymentPlan, String paymentPlanStatus, String paymentPlanAgreement, String aTrainingClassName, String comment, String modifiedTime, double amountPaid, double remainingBalance, boolean classFinished) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
@@ -117,11 +117,11 @@ public class StudentRequest {
         this.modifiedTime = modifiedTime;
     }
 
-    public int getAmountPaid() {
+    public double getAmountPaid() {
         return amountPaid;
     }
 
-    public void setAmountPaid(int amountPaid) {
+    public void setAmountPaid(double amountPaid) {
         this.amountPaid = amountPaid;
     }
 
@@ -133,11 +133,11 @@ public class StudentRequest {
         this.classFinished = classFinished;
     }
 
-    public int getRemainingBalance() {
+    public double getRemainingBalance() {
         return remainingBalance;
     }
 
-    public void setRemainingBalance(int remainingBalance) {
+    public void setRemainingBalance(double remainingBalance) {
         this.remainingBalance = remainingBalance;
     }
 }

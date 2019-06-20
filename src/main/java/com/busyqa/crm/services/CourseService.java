@@ -1,5 +1,7 @@
 package com.busyqa.crm.services;
 
+import com.busyqa.crm.message.request.CourseRequest;
+import com.busyqa.crm.message.request.SettingRequest;
 import com.busyqa.crm.model.user.Lead;
 import com.busyqa.crm.model.academic.Course;
 import com.busyqa.crm.model.academic.TrainingClass;
@@ -25,13 +27,22 @@ public class CourseService {
 
     public Course listCourseById(Long id) {return this.courseRepository.getOne(id);}
 
-    public Course createCourse(Course course) {
+    public List<TrainingClass> listClasses(String name) {
+        Course course = this.courseRepository.findByName(name).orElseThrow(
+                () -> new RuntimeException("Error: course with this name not found!")
+        );
+        return course.getTrainingClasses();
+    }
 
-        Course courseToSave = courseRepository.findByName(course.getName())
+    public Course createCourse(CourseRequest courseRequest) {
+
+        Course courseToSave = courseRepository.findByName(courseRequest.getName())
                 .orElse(new Course());
-        courseToSave.setName(course.getName());
-        courseToSave.setFee(course.getFee());
-        course.setTrainingClasses(course.getTrainingClasses());
+        courseToSave.setName(courseRequest.getName());
+        courseToSave.setFee(courseRequest.getFee());
+        courseToSave.setDurationWeek(courseRequest.getDurationWeek());
+        courseToSave.setPaymentDurationWeek(courseRequest.getPaymentDurationWeek());
+        courseToSave.setPaymentDurationBiWeek(courseRequest.getPaymentDurationBiWeek());
         this.courseRepository.save(courseToSave);
         return courseToSave;
     }
@@ -42,6 +53,14 @@ public class CourseService {
                     courseRepository.deleteById(id);
                     return ResponseEntity.ok().build();
                 }).orElse(ResponseEntity.notFound().build());
+
+    }
+
+    public void updateSetting(SettingRequest settingRequest) {
+        double taxPercentage = settingRequest.getTaxPercentage();
+        double lateFeeRate = settingRequest.getLateFeeRate();
+        courseRepository.updateAllTaxPercentage(taxPercentage);
+        courseRepository.updateAllLateFeeRate(lateFeeRate);
 
     }
 
