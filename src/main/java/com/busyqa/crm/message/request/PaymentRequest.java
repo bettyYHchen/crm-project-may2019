@@ -7,6 +7,8 @@ public class PaymentRequest {
     private double lateFee;
     private double amount;
     private String status;
+    private String paidDate;
+    private String transactionNumber;
 
     public String getDate() {
         return date;
@@ -54,5 +56,21 @@ public class PaymentRequest {
 
     public void setTaxFee(double taxFee) {
         this.taxFee = taxFee;
+    }
+
+    public String getPaidDate() {
+        return paidDate;
+    }
+
+    public void setPaidDate(String paidDate) {
+        this.paidDate = paidDate;
+    }
+
+    public String getTransactionNumber() {
+        return transactionNumber;
+    }
+
+    public void setTransactionNumber(String transactionNumber) {
+        this.transactionNumber = transactionNumber;
     }
 }

@@ -55,6 +55,14 @@ public class CrudService {
 
     }
 
+    public UserResponse getUserByUserId(Long id) {
+        User user = userRepository.getOne(id);
+        List<String> strPositions  = user.getRolesTeams();
+        return new UserResponse(user.getName(),user.getUsername(),
+                user.getEmail(),strPositions,user.getStatus(),user.getStatusAsOfDay());
+
+    }
+
     public List<UserResponse> getUsers() {
         List<User> users = new ArrayList<>();
         List<User> usersToAdd = userRepository.findByPositions_RoleName("ROLE_USER");

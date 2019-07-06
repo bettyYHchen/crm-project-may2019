@@ -8,6 +8,7 @@ import com.busyqa.crm.model.user.Intern;
 import com.busyqa.crm.model.user.Position;
 import com.busyqa.crm.model.user.Student;
 import com.busyqa.crm.model.user.payment.Payment;
+import com.busyqa.crm.model.user.payment.PaymentStatus;
 import com.busyqa.crm.repo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class StudentService {
     private PaymentService paymentService;
 
     public List<StudentResponse> listStudents() {
-        List<Student> students = studentRepository.findAll();
+        List<Student> students = studentRepository.findAllIfNotDropOff();
         if (students.isEmpty()) throw new RuntimeException("Empty student list!");
         List<StudentResponse> studentResponses = new ArrayList<>();
         System.out.println(students.size());
@@ -55,7 +56,8 @@ public class StudentService {
                     s.getPhone(), s.getEmail(), s.getPaymentPlan(),
                     s.getPaymentPlanStatus(), s.getPaymentPlanAgreement(),
                     s.getTrainingClass().getName(), s.getComment(), s.getStatusAsOfDay(),
-                    s.getModifiedTime(), s.getAmountPaid(), s.getRemainingBalance(), s.finishedClass()));
+                    s.getModifiedTime(), s.getAmountPaid(), s.getRemainingBalance(),
+                    s.finishedClass(), s.getDropOff()));
 
         }
         return studentResponses;
@@ -73,15 +75,19 @@ public class StudentService {
         List<Payment> payments = paymentService.updatePayments(student.getId(),student.getTrainingClass().getName());
         double feeNeedToPay = 0;
         for (Payment p : payments) {
-            feeNeedToPay += p.getAmount();
+            if (p.getStatus().equals(PaymentStatus.UNPAID.toString())) {
+                feeNeedToPay += p.getAmount();
+            }else if (p.getStatus().equals(PaymentStatus.PAID.toString())) {
+                feeNeedToPay += p.getLateFee();
+            }
         }
         student.setAmountPaid(paymentService.getUpdatePaidAmount(student.getId()));
-        student.setRemainingBalance(feeNeedToPay - student.getAmountPaid());
+        student.setRemainingBalance(feeNeedToPay);
         studentRepository.save(student);
         return new StudentResponse(student.getId(),firstName, lastName, student.getPhone(), student.getEmail(), student.getPaymentPlan(),
                 student.getPaymentPlanStatus(), student.getPaymentPlanAgreement(),
                 student.getTrainingClass().getName(), student.getComment(), student.getStatusAsOfDay(), student.getModifiedTime(),
-                student.getAmountPaid(), student.getRemainingBalance(), student.finishedClass());
+                student.getAmountPaid(), student.getRemainingBalance(), student.finishedClass(), student.getDropOff());
     }
 
     public ResponseEntity<StudentResponse> updateStudent(String email, StudentRequest studentRequest) {
@@ -103,6 +109,7 @@ public class StudentService {
             recordUpdated.setAmountPaid(studentRequest.getAmountPaid());
             recordUpdated.updateBalance();
             recordUpdated.setModifiedTime(LocalDateTime.now().toString());
+            recordUpdated.setDropOff(studentRequest.getDropOff());
             this.studentRepository.save(recordUpdated);
             StudentResponse studentResponse = new StudentResponse();
             BeanUtils.copyProperties(studentRequest,studentResponse);
@@ -131,8 +138,7 @@ public class StudentService {
         }
         Position position = positionRepository.findByRoleNameAndTeamName("ROLE_CLIENT","TEAM_INTERN").
                 orElseThrow(() -> new RuntimeException("Error: position not found!"));
-        Set<Position> newPositionSet = new HashSet<>();
-        newPositionSet.add(position);
+
 
         String coopStatus;
         if ((student.getRemainingBalance() != 0) && (!student.finishedClass())) throw
@@ -153,6 +159,7 @@ public class StudentService {
         intern.setProjectAssigned("");
         intern.setPerformance("");
         intern.setClassFee(student.getClassFee());
+        intern.addPosition(position);
 
 
         // update payments

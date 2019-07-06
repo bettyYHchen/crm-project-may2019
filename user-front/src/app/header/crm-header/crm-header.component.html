@@ -1,0 +1,43 @@
+<header >
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #FFFFFF;">
+    <a id="siteLogo" class="navbar-brand text-warning" routerLink="/about">
+      <img class="mr-2 rounded align-self-center img-fluid"
+      style="width:150px;"
+      src="assets/icons/busyqalogo2.png" alt="Busy QA Logo"></a>
+
+      <button class="navbar-toggler navbar-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+
+        <li class="nav-item" *ngIf="authority === 'admin' || authority === 'pm' || authority === 'user'">
+          <a class="nav-link" routerLink="{{authority}}">DASHBOARD</a>
+        </li>
+        <li class="nav-item" *ngIf="authority === 'admin' || authority === 'pm' || authority === 'user'">
+          <a class="nav-link" routerLink="resetPassword">RESET PASSWORD</a>
+        </li>
+        <li class="nav-item" *ngIf="authority === 'client'">
+            <a class="nav-link" routerLink="client">PROFILE</a>
+        </li>
+        <li class="nav-item" *ngIf="authority === 'client' || authority === 'user' ||  authority === 'admin' || authority === 'pm' " >
+            <a class="nav-link" [routerLink] = "[myInfoUrl]">WHOIAM</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+          <li class="nav-item" *ngIf="authority === 'client' || authority === 'user' ||  authority === 'admin' || authority === 'pm' " >
+              <a class="nav-link" role="button" (click)="logout()">LOGOUT</a>
+          </li>
+          <li *ngIf="!authority" class="nav-item">
+            <a class="nav-link" routerLink="auth/login">Login</a>
+          </li>
+      </ul>
+
+    </div>
+  </nav>
+</header>
+
+
+
+

@@ -70,8 +70,10 @@ addressList: string[] = [
   onSubmit() {
     if (this.postForm.valid) {
       this.validMessage = 'The class has been saved. Thank you!';
+      console.log(this.postForm.value);
       this.userService.createClass(this.postForm.value).subscribe(
         data => {
+          console.log(data);
           this.classExample = data;
           this.splitted  = this.classExample.name.split(' ', 3);
           this.sendClassInfo.emit(new TrainingClassBrief(this.splitted[0],

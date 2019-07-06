@@ -38,6 +38,9 @@ public interface UserBaseRepository<T extends User> extends JpaRepository<T, Lon
     @Query("select u from #{#entityName} as u")
     List<T> findAllWithPositions();
 
+    @Query("select u from #{#entityName} as u where u.dropOff = false")
+    List<T> findAllIfNotDropOff();
+
 
 
 }

@@ -4,6 +4,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import com.busyqa.crm.model.Mail;
+import com.busyqa.crm.model.user.payment.PaymentMail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -88,7 +89,11 @@ public class MailService {
     public void sendTemplatedMail(Mail mail) {
         //get and fill the template
         final Context context = new Context();
-        context.setVariable("message", mail.getMessage());
+        context.setVariable("clientName", mail.getClientName());
+        context.setVariable("className", mail.getClassName());
+        context.setVariable("instructorName", mail.getInstructorName());
+        context.setVariable("address", mail.getClassLocation());
+        context.setVariable("startDate", mail.getStartDate());
         String body = templateEngine.process("email-template", context);
         //send the html template
         sendPreparedMail(mail.getEmail(), mail.getSubject(), body, true);
@@ -123,6 +128,22 @@ public class MailService {
         ClassPathResource classPathResource = new ClassPathResource("PaymentPlanAgreement.pdf");
         helper.addAttachment(classPathResource.getFilename(), classPathResource);
         javaMailSender.send(mail);
+    }
+
+    public ResponseEntity<?> sendPreparedMailForLatePayment(PaymentMail paymentMail){
+        sendMailForLatePayment(paymentMail);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    public void sendMailForLatePayment(PaymentMail paymentMail) {
+        //get and fill the template
+        final Context context = new Context();
+        context.setVariable("message", paymentMail.getMessage());
+        context.setVariable("paymentDate", paymentMail.getPaymentDate());
+        context.setVariable("unpaidAmount", paymentMail.getUnpaidAmount());
+        String body = templateEngine.process("email-late-payment-template", context);
+        //send the html template
+        sendPreparedMail(paymentMail.getEmail(), paymentMail.getSubject(), body, true);
     }
 
 

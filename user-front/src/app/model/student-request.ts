@@ -10,4 +10,5 @@ export class StudentRequest {
   comment: string;
   modifiedTime: string;
   amountPaid: number;
+  dropOff: boolean;
 }

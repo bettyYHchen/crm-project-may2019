@@ -6,4 +6,5 @@ export class Course {
   durationWeek: number;
   paymentDurationWeek: number;
   paymentDurationBiWeek: number;
+  depositAmount: number;
 }

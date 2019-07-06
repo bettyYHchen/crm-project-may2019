@@ -18,6 +18,7 @@ export class LeadSignupComponent implements OnInit {
   currentYear = new Date().getFullYear().toString();
   postForm: FormGroup;
   classExample: any;
+  classInfoStored: any;
   validMessage = '';
   confirmationMessage = '';
   paymentPlanList = [
@@ -182,12 +183,17 @@ createForm() {
   });
 }
 
-  customFunc(data){
+  customFunc(data) {
     this.classExample = data;
     this.postForm.patchValue({
       courseName: this.classExample.courseName,
       batch: this.classExample.batch
     });
+    this.userService.listClassByName(this.classExample.courseName + ' ' + this.classExample.batch).subscribe(
+      loadedClass => { this.classInfoStored = loadedClass; },
+      error => {
+        alert('Couldnt load this class!'); }
+    );
   }
 
   onSubmit() {
@@ -209,7 +215,9 @@ createForm() {
 
   onSendTemplate() {
     console.log(this.leadExample);
-    this.mail = new Mail(this.leadExample.email, 'BusyQA Welcome Package', this.leadExample.firstName);
+    this.mail = new Mail(this.leadExample.email, 'BusyQA Welcome Package', this.leadExample.firstName,
+                    this.leadExample.firstName, this.classInfoStored.name, this.classInfoStored.address,
+                    this.classInfoStored.start, this.classInfoStored.instructorName);
     if (confirm('Are you sure you want to send the welcome package?')) {
       this.userService.sendTemplateEmail(this.mail)
       .subscribe(

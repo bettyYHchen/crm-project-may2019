@@ -52,6 +52,8 @@ public class PaymentService {
                 payments.get(i).setAmount(amountBeforeLateFee+payments.get(i).getLateFee());
             }
             payments.get(i).setDate(dates.get(i));
+            payments.get(i).setPaidDate("");
+            payments.get(i).setTransactionNumber("");
             payments.get(i).setUser(user);
             paymentRepository.save(payments.get(i));
         }
@@ -87,8 +89,8 @@ public class PaymentService {
         for (Payment p: payments) {
             if ((Common.checkDateCondition(p.getDate())) &&
                     (p.getStatus().equals(PaymentStatus.UNPAID.toString()))) {
-                double amountBeforeLateFee = p.getAmount();
-                p.setLateFee((amountBeforeLateFee*lateFeeRate)/100.0);
+                double amountBeforeLateFee = p.getRegularFee() + p.getTaxFee();
+                p.setLateFee((amountBeforeLateFee*lateFeeRate)/100);
                 p.setAmount(amountBeforeLateFee+p.getLateFee());
             }
             paymentRepository.save(p);

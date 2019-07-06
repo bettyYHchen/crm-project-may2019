@@ -39,7 +39,9 @@ export class AddPaymentComponent implements OnInit {
       taxFee: '',
       lateFee: '',
       amount: '',
-      status: ''
+      status: '',
+      paidDate: '',
+      transactionNumber: ''
     });
   }
 

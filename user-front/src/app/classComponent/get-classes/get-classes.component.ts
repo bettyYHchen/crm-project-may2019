@@ -48,6 +48,7 @@ export class GetClassesComponent implements OnInit {
     this.location.back();
   }
 
+
   onUpdate(id: number) {
     if (this.editForm.valid) {
       this.validMessage = 'Status updated!';

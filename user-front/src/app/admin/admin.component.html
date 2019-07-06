@@ -1,38 +1,53 @@
-<!-- <main>
-  <div class="container">
-      <div class="row row-offcanvas row-offcanvas-right">
-          <div class="col-xs-12 col-sm-9">
-              <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-                  <li class="breadcrumb-item active">Admin</li>
-              </ol>
-              <div class="jumbotron">
-                  <h1>Admin Panel</h1>
-              </div>
-              <router-outlet></router-outlet>
-          </div>
-          <router-outlet name="sidemenu-admin"></router-outlet>
-      </div>
-  </div>
-</main> -->
 <main>
     <div class="container">
         <div class="row row-offcanvas row-offcanvas-right">
 
-            <div class="col-sm-8">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-                    <li class="breadcrumb-item active">Admin</li>
-                </ol>
-                <div class="jumbotron">
-                    <h1>Admin Panel</h1>
-                </div>
-                <router-outlet></router-outlet>
+            <div class="col-sm-10">
+                <h3 class="pt-2 text-left text-black">Welcome {{ username }}</h3>
+                  <mat-tab-group>
+
+                    <mat-tab label="EMPLOYEES">
+                      <app-user-list></app-user-list>
+                    </mat-tab>
+
+                    <mat-tab label="LEADS">
+                      <app-get-leads></app-get-leads>
+                    </mat-tab>
+
+                    <mat-tab label="STUDENTS">
+                      <app-get-students></app-get-students>
+                    </mat-tab>
+
+                    <mat-tab label="INTERNS">
+                      <app-get-interns></app-get-interns>
+                    </mat-tab>
+
+                    <mat-tab label="RESUMES">
+                      <app-get-resumes></app-get-resumes>
+                    </mat-tab>
+
+                    <mat-tab label="MOCKS">
+                      <app-get-mocks></app-get-mocks>
+                    </mat-tab>
+
+                    <mat-tab label="COURSES">
+                      <app-get-courses></app-get-courses>
+                    </mat-tab>
+
+                    <mat-tab label="INSTRUCTORS">
+                      <app-get-instructors></app-get-instructors>
+                    </mat-tab>
+
+                    <mat-tab label="CLASSES">
+                      <app-get-classes></app-get-classes>
+                    </mat-tab>
+
+
+                </mat-tab-group>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-2">
               <router-outlet name="sidemenu-admin"></router-outlet>
             </div>
         </div>
     </div>
-  </main>
-
+</main>

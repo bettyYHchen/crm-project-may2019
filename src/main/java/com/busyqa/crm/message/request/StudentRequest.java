@@ -15,6 +15,7 @@ public class StudentRequest {
     private double amountPaid;
     private double remainingBalance;
     private boolean classFinished;
+    private Boolean dropOff;
 
     public StudentRequest() {
     }
@@ -139,5 +140,13 @@ public class StudentRequest {
 
     public void setRemainingBalance(double remainingBalance) {
         this.remainingBalance = remainingBalance;
+    }
+
+    public Boolean getDropOff() {
+        return dropOff;
+    }
+
+    public void setDropOff(Boolean dropOff) {
+        this.dropOff = dropOff;
     }
 }

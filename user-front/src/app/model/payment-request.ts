@@ -5,4 +5,6 @@ export class PaymentRequest {
     lateFee: number;
     amount: number;
     status: string;
+    paidDate = '';
+    transactionNumber = '';
 }

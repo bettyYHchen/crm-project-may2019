@@ -76,6 +76,7 @@ public class ResumeService {
         LocalDate today = LocalDate.now();
         LocalDate tenDaysAfter = today.plus(10, ChronoUnit.DAYS);
         BeanUtils.copyProperties(resume,mock);
+        mock.addPosition(position);
         mock.setStatusAsOfDay(LocalDateTime.now().toString());
         mock.setModifiedTime(LocalDateTime.now().toString());
         mock.setInterviewDate(tenDaysAfter.toString()); // default mock interview date is setted to 10 days later

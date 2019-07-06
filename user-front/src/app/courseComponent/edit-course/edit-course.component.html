@@ -1,3 +1,49 @@
-<p>
-  edit-course works!
-</p>
+<form [formGroup]="editForm" (ngSubmit)="onUpdate()" novalidate>
+  <div *ngIf="validMessage != ''">
+    <h3 class="has-info">{{ validMessage }}</h3>
+  </div>
+
+
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" value="" class="form-control" formControlName="name" readonly="true"/>
+  </div>
+
+
+  <div class="form-group">
+    <label for="fee">Fee:</label>
+    <input type="text" value="" class="form-control" formControlName="fee"/>
+  </div>
+
+  <div class="form-group">
+    <label for="durationWeek">Course Duration:</label>
+    <input type="text" value="" class="form-control" formControlName="durationWeek"/>
+  </div>
+
+  <div class="form-group">
+    <label for="paymentDurationWeek">Payment Frequency Weekly: </label>
+    <input type="text" value="" class="form-control" formControlName="paymentDurationWeek"/>
+  </div>
+
+   <div class="form-group">
+    <label for="paymentDurationBiWeek">Payment Frequency Bi-weekly: </label>
+    <input type="text" value="" class="form-control" formControlName="paymentDurationBiWeek"/>
+  </div>
+
+  <div class="form-group">
+    <label for="depositAmount">Deposit Amount: </label>
+    <input type="text" value="" class="form-control" formControlName="depositAmount"/>
+  </div>
+
+
+
+  <div class="btn-group">
+    <button
+      type="submit"
+      [disabled]="!editForm.valid"> Save
+    </button>
+    <button
+        type="button"
+        [routerLink]="['/courses']">Cancel
+    </button>
+  </div>

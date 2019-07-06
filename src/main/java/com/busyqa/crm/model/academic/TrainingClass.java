@@ -223,6 +223,9 @@ public class TrainingClass {
     @JsonIgnore
     public double getLateFeeRate() { return this.course.getLateFeeRate();}
 
+    @JsonIgnore
+    public double getDepositAmount() { return this.course.getDepositAmount();}
+
 
     @Override
     public String toString() {

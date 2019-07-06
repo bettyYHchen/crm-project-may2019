@@ -27,6 +27,10 @@ public class CourseService {
 
     public Course listCourseById(Long id) {return this.courseRepository.getOne(id);}
 
+    public Course listCourseByName(String name) {return  this.courseRepository.findByName(name).orElseThrow(
+            () -> new RuntimeException("Error: course with this name not found!")
+    );}
+
     public List<TrainingClass> listClasses(String name) {
         Course course = this.courseRepository.findByName(name).orElseThrow(
                 () -> new RuntimeException("Error: course with this name not found!")
@@ -61,6 +65,22 @@ public class CourseService {
         double lateFeeRate = settingRequest.getLateFeeRate();
         courseRepository.updateAllTaxPercentage(taxPercentage);
         courseRepository.updateAllLateFeeRate(lateFeeRate);
+
+    }
+
+    public ResponseEntity<Course> updateCourse(String courseName, CourseRequest courseRequest) {
+
+
+        return courseRepository.findByName(courseName).map(recordUpdated -> {
+            recordUpdated.setName(courseRequest.getName());
+            recordUpdated.setFee(courseRequest.getFee());
+            recordUpdated.setDurationWeek(courseRequest.getDurationWeek());
+            recordUpdated.setPaymentDurationWeek(courseRequest.getPaymentDurationWeek());
+            recordUpdated.setPaymentDurationBiWeek(courseRequest.getPaymentDurationBiWeek());
+            recordUpdated.setDepositAmount(courseRequest.getDepositAmount());
+            this.courseRepository.save(recordUpdated);
+            return ResponseEntity.ok().body(recordUpdated);
+        }).orElse(ResponseEntity.notFound().build());
 
     }
 

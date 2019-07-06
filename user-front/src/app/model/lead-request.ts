@@ -13,4 +13,5 @@ export class LeadRequest {
   batch: string[];
   comment: string;
   discount: number;
+  dropOff: boolean;
 }

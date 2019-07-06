@@ -47,7 +47,7 @@ public class LeadService {
     private PaymentService paymentService;
 
     public List<LeadResponse> listLeads() {
-        List<Lead> leads = leadRepository.findAll();
+        List<Lead> leads = leadRepository.findAllIfNotDropOff();
         if (leads.isEmpty()) throw new RuntimeException("Empty lead list!");
         List<LeadResponse> leadResponses = new ArrayList<>();
         System.out.println(leads.size());
@@ -62,7 +62,8 @@ public class LeadService {
             leadResponses.add(new LeadResponse(l.getId(),firstName,lastName,
                     l.getPhone(),l.getEmail(), l.getPaidDeposit(),l.getDiscount(),
                     l.getPaymentPlan(), l.getPaymentPlanStatus(), l.getPaymentPlanAgreement(),
-                    l.getLeadSource(),l.getLeadStatus(),l.getaTrainingClassName(),l.getComment(),l.getStatusAsOfDay(),l.getModifiedTime()));
+                    l.getLeadSource(),l.getLeadStatus(),l.getaTrainingClassName(),l.getComment(),
+                    l.getStatusAsOfDay(),l.getModifiedTime(), l.getDropOff()));
 
         }
         return leadResponses;
@@ -79,7 +80,8 @@ public class LeadService {
         return new LeadResponse(lead.getId(),firstName,lastName,
                 lead.getPhone(),lead.getEmail(), lead.getPaidDeposit(),lead.getDiscount(),
                 lead.getPaymentPlan(), lead.getPaymentPlanStatus(), lead.getPaymentPlanAgreement(),
-                lead.getLeadSource(),lead.getLeadStatus(),lead.getaTrainingClassName(),lead.getComment(),lead.getStatusAsOfDay(),lead.getModifiedTime());
+                lead.getLeadSource(),lead.getLeadStatus(),lead.getaTrainingClassName(),lead.getComment(),
+                lead.getStatusAsOfDay(),lead.getModifiedTime(), lead.getDropOff());
 
     }
 
@@ -93,8 +95,12 @@ public class LeadService {
 
         return leadRepository.findByEmail(email).map(recordUpdated -> {
             String name = leadRequest.getFirstName() + " " + leadRequest.getLastName();
-            double amountPaidBefore = Common.calculatePaidAmount(recordUpdated.getPaidDeposit(), recordUpdated.getDiscount());
-            double amountPaidAfter = Common.calculatePaidAmount(leadRequest.getPaidDeposit(),leadRequest.getDiscount());
+            TrainingClass trainingClassBefore = this.trainingClassRepository.findByName(recordUpdated.getaTrainingClassName()).
+                    orElseThrow(() -> new RuntimeException("Error1: trainingClass not found!"));
+            TrainingClass trainingClassAfter = this.trainingClassRepository.findByName(leadRequest.getaTrainingClassName()).
+                    orElseThrow(() -> new RuntimeException("Error2: trainingClass not found!"));
+            double amountPaidBefore = Common.calculatePaidAmount(recordUpdated.getPaidDeposit(), recordUpdated.getDiscount(),trainingClassBefore.getDepositAmount());
+            double amountPaidAfter = Common.calculatePaidAmount(leadRequest.getPaidDeposit(),leadRequest.getDiscount(), trainingClassAfter.getDepositAmount());
             if ((!(recordUpdated.getPaymentPlan().equals(leadRequest.getPaymentPlan()))) || (amountPaidBefore != amountPaidAfter) )
             {
                 paymentService.deletePayments(recordUpdated.getId());
@@ -115,6 +121,7 @@ public class LeadService {
             recordUpdated.setaTrainingClassName(leadRequest.getaTrainingClassName());
             recordUpdated.setComment(leadRequest.getComment());
             recordUpdated.setModifiedTime(LocalDateTime.now().toString());
+            recordUpdated.setDropOff(leadRequest.getDropOff());
             this.leadRepository.save(recordUpdated);
             LeadResponse leadResponse = new LeadResponse();
             BeanUtils.copyProperties(leadRequest,leadResponse);
@@ -148,15 +155,15 @@ public class LeadService {
         Position position = positionRepository.findByRoleNameAndTeamName("ROLE_CLIENT","TEAM_STUDENT").
                 orElseThrow(() -> new RuntimeException("Error: position not found!"));
 
-        Set<Position> newPositionSet = new HashSet<>();
-        newPositionSet.add(position);
+
         Student student = new Student();
         BeanUtils.copyProperties(lead,student);
         student.setTrainingClass(trainingClass);
-        student.setAmountPaid(300);
-        student.setRemainingBalance(trainingClass.getCourseFee()-300);
+        student.setAmountPaid(400);
+        student.setRemainingBalance(trainingClass.getCourseFee()-400);
         student.setStatusAsOfDay(LocalDateTime.now().toString());
         student.setModifiedTime(LocalDateTime.now().toString());
+        student.addPosition(position);
 
 
 

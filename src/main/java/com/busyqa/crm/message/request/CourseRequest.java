@@ -11,6 +11,8 @@ public class CourseRequest {
 
     private double paymentDurationBiWeek;
 
+    private double depositAmount;
+
     public String getName() {
         return name;
     }
@@ -49,5 +51,13 @@ public class CourseRequest {
 
     public void setPaymentDurationBiWeek(double paymentDurationBiWeek) {
         this.paymentDurationBiWeek = paymentDurationBiWeek;
+    }
+
+    public double getDepositAmount() {
+        return depositAmount;
+    }
+
+    public void setDepositAmount(double depositAmount) {
+        this.depositAmount = depositAmount;
     }
 }

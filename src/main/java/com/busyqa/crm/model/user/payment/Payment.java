@@ -3,8 +3,6 @@ package com.busyqa.crm.model.user.payment;
 import com.busyqa.crm.model.user.User;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
@@ -20,19 +18,19 @@ public class Payment {
 
     private String date;
 
-    @Column(precision=10, scale=2)
     private double regularFee;
 
-    @Column(precision=10, scale=2)
     private double taxFee;
 
-    @Column(precision=10, scale=2)
     private double lateFee;
 
-    @Column(precision=10, scale=2)
     private double amount;
 
     private String status;
+
+    private String paidDate;
+
+    private String transactionNumber;
 
 
 
@@ -52,6 +50,17 @@ public class Payment {
         this.lateFee = lateFee;
         this.amount = amount;
         this.status = status;
+    }
+
+    public Payment(String date, double regularFee, double taxFee, double lateFee, double amount, String status, String paidDate, String transactionNumber) {
+        this.date = date;
+        this.regularFee = regularFee;
+        this.taxFee = taxFee;
+        this.lateFee = lateFee;
+        this.amount = amount;
+        this.status = status;
+        this.paidDate = paidDate;
+        this.transactionNumber = transactionNumber;
     }
 
     public Long getId() {
@@ -116,6 +125,22 @@ public class Payment {
 
     public void setTaxFee(double taxFee) {
         this.taxFee = taxFee;
+    }
+
+    public String getPaidDate() {
+        return paidDate;
+    }
+
+    public void setPaidDate(String paidDate) {
+        this.paidDate = paidDate;
+    }
+
+    public String getTransactionNumber() {
+        return transactionNumber;
+    }
+
+    public void setTransactionNumber(String transactionNumber) {
+        this.transactionNumber = transactionNumber;
     }
 
     @JsonIgnore

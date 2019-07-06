@@ -12,6 +12,12 @@ public class Mail {
     @NotNull
     private String message;
 
+    private String clientName;
+    private String className;
+    private String classLocation;
+    private String startDate;
+    private String instructorName;
+
     public String getEmail() {
         return email;
     }
@@ -34,5 +40,45 @@ public class Mail {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getClassLocation() {
+        return classLocation;
+    }
+
+    public void setClassLocation(String classLocation) {
+        this.classLocation = classLocation;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getInstructorName() {
+        return instructorName;
+    }
+
+    public void setInstructorName(String instructorName) {
+        this.instructorName = instructorName;
     }
 }

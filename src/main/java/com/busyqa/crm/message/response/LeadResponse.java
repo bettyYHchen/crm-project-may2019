@@ -17,13 +17,17 @@ public class LeadResponse {
     private String comment;
     private String createdTime;
     private String modifiedTime;
+    private boolean dropOff;
 
 
 
     public LeadResponse() {
     }
 
-    public LeadResponse(long id, String firstName, String lastName, String phone, String email, boolean paidDeposit, double discount, String paymentPlan, String paymentPlanStatus, String paymentPlanAgreement, String leadSource, String leadStatus, String aTrainingClassName, String comment, String createdTime, String modifiedTime) {
+    public LeadResponse(long id, String firstName, String lastName, String phone, String email, boolean paidDeposit,
+                        double discount, String paymentPlan, String paymentPlanStatus, String paymentPlanAgreement,
+                        String leadSource, String leadStatus, String aTrainingClassName, String comment,
+                        String createdTime, String modifiedTime, boolean dropOff) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,6 +44,7 @@ public class LeadResponse {
         this.comment = comment;
         this.createdTime = createdTime;
         this.modifiedTime = modifiedTime;
+        this.dropOff = dropOff;
     }
 
     public long getId() {
@@ -168,5 +173,13 @@ public class LeadResponse {
 
     public void setDiscount(double discount) {
         this.discount = discount;
+    }
+
+    public boolean isDropOff() {
+        return dropOff;
+    }
+
+    public void setDropOff(boolean dropOff) {
+        this.dropOff = dropOff;
     }
 }

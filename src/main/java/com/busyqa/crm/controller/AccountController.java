@@ -6,31 +6,38 @@ import com.busyqa.crm.message.request.PaymentRequest;
 import com.busyqa.crm.message.request.StudentRequest;
 import com.busyqa.crm.message.response.InternResponse;
 import com.busyqa.crm.message.response.StudentResponse;
+import com.busyqa.crm.model.Mail;
 import com.busyqa.crm.model.user.Intern;
 import com.busyqa.crm.model.user.Resume;
 import com.busyqa.crm.model.user.payment.Payment;
+import com.busyqa.crm.model.user.payment.PaymentMail;
+import com.busyqa.crm.model.user.payment.PaymentStatus;
 import com.busyqa.crm.repo.PaymentRepository;
 import com.busyqa.crm.repo.UserRepository;
-import com.busyqa.crm.services.ClientService;
-import com.busyqa.crm.services.InternService;
-import com.busyqa.crm.services.PaymentService;
-import com.busyqa.crm.services.StudentService;
+import com.busyqa.crm.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("")
 public class AccountController {
+
+    @Autowired
+    private MailService emailService;
 
     @Autowired
     private StudentService studentService;
@@ -139,6 +146,14 @@ public class AccountController {
             payment.setAmount(paymentRequest.getAmount());
             payment.setLateFee(paymentRequest.getLateFee());
             payment.setStatus(paymentRequest.getStatus());
+            payment.setPaidDate(null == paymentRequest.getPaidDate()? "":paymentRequest.getPaidDate());
+            if ((!paymentRequest.getStatus().equals(PaymentStatus.UNPAID.toString())) &&
+                paymentRequest.getPaidDate().isEmpty()) {
+                LocalDate today = LocalDate.now();
+                DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                payment.setPaidDate(today.format(myFormatObj));
+            }
+            payment.setTransactionNumber(null == paymentRequest.getTransactionNumber()? "":paymentRequest.getTransactionNumber());
             payment.setUser(user);
             return paymentRepository.save(payment);
         }).orElseThrow(() -> new ResourceNotFoundException("UserId " + userId + " not found"));
@@ -157,6 +172,14 @@ public class AccountController {
             payment.setAmount(paymentRequest.getAmount());
             payment.setLateFee(paymentRequest.getLateFee());
             payment.setStatus(paymentRequest.getStatus());
+            payment.setPaidDate(null == paymentRequest.getPaidDate()? "":paymentRequest.getPaidDate());
+            if ((!paymentRequest.getStatus().equals(PaymentStatus.UNPAID.toString())) &&
+                    paymentRequest.getPaidDate().isEmpty()) {
+                LocalDate today = LocalDate.now();
+                DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                payment.setPaidDate(today.format(myFormatObj));
+            }
+            payment.setTransactionNumber(null == paymentRequest.getTransactionNumber()? "":paymentRequest.getTransactionNumber());
             return paymentRepository.save(payment);
         }).orElseThrow(() -> new ResourceNotFoundException("PaymentId " + paymentId + "not found"));
     }
@@ -175,6 +198,15 @@ public class AccountController {
                                                   @PathVariable (value = "className") String className) {
         return paymentService.updatePayments(userId,className);
     }
+
+    @PostMapping("/sendEmailForLatePayment/")
+    public ResponseEntity<?> sendMailForLatePayment(@Valid @RequestBody PaymentMail paymentMail, Errors errors){
+        if(errors.hasErrors()){
+            return new ResponseEntity<>(errors.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
+        return emailService.sendPreparedMailForLatePayment(paymentMail);
+    }
+
 
 
 }

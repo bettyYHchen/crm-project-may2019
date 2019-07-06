@@ -33,6 +33,8 @@ public class Course {
 
     private double paymentDurationBiWeek;
 
+    private double depositAmount;
+
     @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
     @Column(nullable = true)
     @JsonManagedReference
@@ -140,5 +142,13 @@ public class Course {
 
     public void setLateFeeRate(double lateFeeRate) {
         this.lateFeeRate = lateFeeRate;
+    }
+
+    public double getDepositAmount() {
+        return depositAmount;
+    }
+
+    public void setDepositAmount(double depositAmount) {
+        this.depositAmount = depositAmount;
     }
 }

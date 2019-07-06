@@ -16,6 +16,7 @@ public class LeadRequest {
     private String comment;
     private String modifiedTime;
     private double discount;
+    private Boolean dropOff;
 
     public LeadRequest() {
     }
@@ -146,5 +147,13 @@ public class LeadRequest {
 
     public void setDiscount(double discount) {
         this.discount = discount;
+    }
+
+    public Boolean getDropOff() {
+        return dropOff;
+    }
+
+    public void setDropOff(Boolean dropOff) {
+        this.dropOff = dropOff;
     }
 }

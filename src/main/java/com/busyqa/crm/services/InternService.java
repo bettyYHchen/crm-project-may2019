@@ -6,6 +6,7 @@ import com.busyqa.crm.model.user.Intern;
 import com.busyqa.crm.model.user.Position;
 import com.busyqa.crm.model.user.Resume;
 import com.busyqa.crm.model.user.payment.Payment;
+import com.busyqa.crm.model.user.payment.PaymentStatus;
 import com.busyqa.crm.repo.InternRepository;
 import com.busyqa.crm.repo.PaymentRepository;
 import com.busyqa.crm.repo.PositionRepository;
@@ -39,6 +40,9 @@ public class InternService {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    @Autowired
+    private PaymentService paymentService;
+
     public List<InternResponse> listInterns() {
         List<Intern> interns = internRepository.findAll();
         if (interns.isEmpty()) throw new RuntimeException("Empty intern list!");
@@ -66,12 +70,16 @@ public class InternService {
         Pageable pageable = PageRequest.of(0, 30);
         Page<Payment> paymentsPage = paymentRepository.findByUserId(intern.getId(), pageable);
         List<Payment> payments = paymentsPage.getContent();
-        int amountPaid = 0;
+        double feeNeedToPay = 0;
         for (Payment p : payments) {
-            amountPaid += p.getPaidAmount();
+            if (p.getStatus().equals(PaymentStatus.UNPAID.toString())) {
+                feeNeedToPay += p.getAmount();
+            }else if (p.getStatus().equals(PaymentStatus.PAID.toString())) {
+                feeNeedToPay += p.getLateFee();
+            }
         }
-        intern.setAmountPaid(amountPaid);
-        intern.setRemainingBalance(intern.getClassFee()-amountPaid);
+        intern.setAmountPaid(paymentService.getUpdatePaidAmount(intern.getId()));
+        intern.setRemainingBalance(feeNeedToPay);
         internRepository.save(intern);
         return new InternResponse(intern.getId(),firstName, lastName, intern.getPhone(), intern.getEmail(), intern.getPaymentPlan(),
                 intern.getPaymentPlanStatus(), intern.getPaymentPlanAgreement(), intern.getaTrainingClassName(), intern.getStatusAsOfDay(),
@@ -132,6 +140,7 @@ public class InternService {
         resume.setModifiedTime(LocalDateTime.now().toString());
         resume.setResumeStartDate(today.toString());
         resume.setResumeEndDate(tenDaysAfter.toString());
+        resume.addPosition(position);
 
 
         // update payments

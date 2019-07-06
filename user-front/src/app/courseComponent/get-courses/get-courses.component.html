@@ -15,6 +15,10 @@
       <td>{{course.durationWeek + ' weeks'}}</td>
       <button
         type="button"
+        [routerLink]="['/courses/view',course.name]">Edit
+      </button>
+      <button
+        type="button"
         title="Delete this lead"
         (click)="onDelete(course.id)"> Delete
       </button>

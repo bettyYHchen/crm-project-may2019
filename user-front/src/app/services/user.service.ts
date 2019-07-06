@@ -24,6 +24,7 @@ import { TrainingClass } from '../model/training-class';
 import { Instructor } from '../model/instructor';
 import { ClassFinishedStatus } from '../model/class-finished-status';
 import { SettingRequest } from '../model/setting-request';
+import { PaymentMail } from '../model/payment-mail';
 
 const httpOptions = {
   'Content-Type': 'application/json'
@@ -43,13 +44,17 @@ export class UserService {
   private changeClientInfoUrl = this.apiUrl + '/api/auth/changeClientInfo/';
   private sendEmailWithAttachmentUrl = this.apiUrl + '/sendEmailWithAttachment/';
   private sendEmailTemplateUrl = this.apiUrl + '/sendEmailWithTemplate/';
+  private sendEmailForLatePaymentUrl = this.apiUrl + '/sendEmailForLatePayment/';
   private allTeamsUrl = this.apiUrl + '/allTeams';
   private paymentRecordsUrl = this.apiUrl + '/users/';
   private courseUrl = this.apiUrl + '/academic/courses';
   private classUrl = this.apiUrl + '/academic/classes';
+  private classByNameUrl = this.apiUrl + '/academic/classByName';
   private instructorUrl = this.apiUrl + '/academic/instructors';
   private getSettingUrl = this.apiUrl + '/academic/getRates';
   private updateSettingUrl = this.apiUrl + '/academic/updateSetting';
+  private dropOffUsersUrl = this.apiUrl + '/dropOffUsers';
+  private getUserByIdUrl = this.apiUrl + '/getUserById/';
   info: any;
 
   constructor(private http: HttpClient, private token: TokenStorageService) { }
@@ -145,6 +150,11 @@ export class UserService {
   // send portal link and agreement to sign
   sendEmailWithAttachment(email: string) {
     return this.http.get(this.sendEmailWithAttachmentUrl + email);
+  }
+
+  // send email for late payment
+  sendEmailForLatePayment(paymentMail: PaymentMail) {
+    return this.http.post(this.sendEmailForLatePaymentUrl, paymentMail);
   }
 
   // get a list of students
@@ -318,8 +328,12 @@ export class UserService {
   }
 
   // get particular
-  listCourseById(id: number) {
-    return this.http.get(this.courseUrl + '/' + id);
+  listCourseByName(name: string) {
+    return this.http.get(this.courseUrl + '/' + name);
+  }
+
+  listClassByName(name: string) {
+    return this.http.get(this.classByNameUrl + '/' + name);
   }
 
   listClassById(id: number) {
@@ -342,6 +356,11 @@ export class UserService {
 
   createInstructor(instructor: Instructor) {
     return this.http.post(this.instructorUrl, instructor);
+  }
+
+  // update particular
+  updateCourse(name: string, course: Course) {
+    return this.http.put(this.courseUrl + '/' + name, course);
   }
 
   // delete particular
@@ -377,6 +396,14 @@ export class UserService {
     return this.http.put(this.updateSettingUrl, settingRequest);
   }
 
+  // get a list of drop-off users
+  getDropOff() {
+    return this.http.get(this.dropOffUsersUrl);
+  }
 
+  // get user by id
+  getUserById(id: number) {
+    return this.http.get(this.getUserByIdUrl + id);
+  }
 
 }

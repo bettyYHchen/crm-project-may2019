@@ -16,11 +16,15 @@ public class StudentResponse {
     private double amountPaid;
     private double remainingBalance;
     private boolean classFinished;
+    private boolean dropOff;
 
     public StudentResponse() {
     }
 
-    public StudentResponse(long id, String firstName, String lastName, String phone, String email, String paymentPlan, String paymentPlanStatus, String paymentPlanAgreement, String aTrainingClassName, String comment, String createdTime, String modifiedTime, double amountPaid, double remainingBalance, boolean classFinished) {
+    public StudentResponse(long id, String firstName, String lastName, String phone, String email, String paymentPlan,
+                           String paymentPlanStatus, String paymentPlanAgreement, String aTrainingClassName,
+                           String comment, String createdTime, String modifiedTime, double amountPaid,
+                           double remainingBalance, boolean classFinished, boolean dropOff) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,6 +40,7 @@ public class StudentResponse {
         this.amountPaid = amountPaid;
         this.remainingBalance = remainingBalance;
         this.classFinished = classFinished;
+        this.dropOff = dropOff;
     }
 
     public long getId() {
@@ -158,5 +163,13 @@ public class StudentResponse {
 
     public void setClassFinished(boolean classFinished) {
         this.classFinished = classFinished;
+    }
+
+    public boolean isDropOff() {
+        return dropOff;
+    }
+
+    public void setDropOff(boolean dropOff) {
+        this.dropOff = dropOff;
     }
 }

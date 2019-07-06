@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -7,6 +8,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import {FileUploadModule} from 'ng2-file-upload';
+import { AutoSizeInputModule } from 'ngx-autosize-input';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 import { AppComponent } from './app.component';
@@ -62,6 +65,23 @@ import { AddInstructorComponent } from './instructorComponent/add-instructor/add
 import { EditInstructorComponent } from './instructorComponent/edit-instructor/edit-instructor.component';
 import { AcademicActionCardComponent } from './academic-action-card/academic-action-card.component';
 import { UpdateRatesComponent } from './update-rates/update-rates.component';
+import { GetDropOffComponent } from './get-drop-off/get-drop-off.component';
+import { PaymentRecordsComponent } from './paymentComponents/payment-records/payment-records.component';
+
+// ANGULAR MATERIAL
+import {MatButtonModule,
+  MatCheckboxModule,
+  MatTabsModule} from '@angular/material';
+import {MatGridListModule} from '@angular/material/grid-list';
+
+// FONT AWESOME
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { CrmHeaderComponent } from './header/crm-header/crm-header.component';
+library.add(fas, far, fab);
 
 
 
@@ -117,19 +137,30 @@ import { UpdateRatesComponent } from './update-rates/update-rates.component';
     AddInstructorComponent,
     EditInstructorComponent,
     AcademicActionCardComponent,
-    UpdateRatesComponent
+    UpdateRatesComponent,
+    GetDropOffComponent,
+    PaymentRecordsComponent,
+    CrmHeaderComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
+    FontAwesomeModule,
     ReactiveFormsModule,
     HttpClientModule,
+    AutoSizeInputModule,
     NgMultiSelectDropDownModule.forRoot(),
     FlexLayoutModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    FileUploadModule
+    FileUploadModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatTabsModule,
+    MatGridListModule,
+    NgbModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

@@ -46,10 +46,17 @@ import { AddInstructorComponent } from './instructorComponent/add-instructor/add
 import { AddClassComponent } from './classComponent/add-class/add-class.component';
 import { AcademicActionCardComponent } from './academic-action-card/academic-action-card.component';
 import { UpdateRatesComponent } from './update-rates/update-rates.component';
+import { GetDropOffComponent } from './get-drop-off/get-drop-off.component';
+import { EditCourseComponent } from './courseComponent/edit-course/edit-course.component';
+import { PaymentRecordsComponent } from './paymentComponents/payment-records/payment-records.component';
 
 
 
 const routes: Routes = [
+    {
+      path: 'dropOffList',
+      component: GetDropOffComponent
+    },
     {
       path: 'updateRates',
       component: UpdateRatesComponent
@@ -71,6 +78,10 @@ const routes: Routes = [
       component: AddClassComponent
     },
     {
+      path: 'courses/view/:name',
+      component: EditCourseComponent
+    },
+    {
       path: 'courses',
       component: GetCoursesComponent
     },
@@ -85,6 +96,10 @@ const routes: Routes = [
     {
       path: 'payments/user/:userId/:paymentId',
       component: EditPaymentComponent
+    },
+    {
+      path: 'paymentRecords/user/:userId',
+      component: PaymentRecordsComponent
     },
     {
       path: 'payments/user/:userId',
@@ -107,7 +122,7 @@ const routes: Routes = [
       component: WhatIamComponent
     },
     {
-      path: 'myProfile',
+      path: 'client',
       component: GetClientProfileComponent
     },
     {

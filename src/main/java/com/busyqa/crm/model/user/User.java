@@ -42,6 +42,8 @@ public class User {
     @Size(min = 8, max = 100)
     private String password;
 
+    private Boolean dropOff = false;
+
 
 
 
@@ -186,5 +188,11 @@ public class User {
         this.statusAsOfDay = statusAsOfDay;
     }
 
+    public Boolean getDropOff() {
+        return dropOff;
+    }
 
+    public void setDropOff(Boolean dropoff) {
+        this.dropOff = dropoff;
+    }
 }

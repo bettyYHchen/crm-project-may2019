@@ -56,7 +56,11 @@ public class CrmEmployeeController {
         return new ApiResponse<>(HttpStatus.OK.value(), "User deleted successfully.", null);
     }
 
-//    @GetMapping("/pm/users/{username}") // for ROLE_USER
+    @GetMapping("/getUserById/{id}")
+    public UserResponse getUserById(@PathVariable("id") Long id) {
+        return this.crudService.getUserByUserId(id);
+
+    }
 
 
 

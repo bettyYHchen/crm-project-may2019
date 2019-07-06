@@ -299,8 +299,24 @@
 <table>
     <tbody>
     <tr>
-        <td>Message: </td>
-        <td><p th:text="|${message}|">Hello</p></td>
+        <td>Hello </td>
+        <td><p th:text="|${clientName}|">Client Name</p></td>
+    </tr>
+    <tr>
+        <td>Registered: </td>
+        <td><p th:text="|${className}|">Training Class Registered</p></td>
+    </tr>
+    <tr>
+        <td>Instructor: </td>
+        <td><p th:text="|${instructorName}|">Instructor Name</p></td>
+    </tr>
+    <tr>
+        <td>Training Location: </td>
+        <td><p th:text="|${address}|">Training Location</p></td>
+    </tr>
+    <tr>
+        <td>Training Start Date: </td>
+        <td><p th:text="|${startDate}|">Training Start Date</p></td>
     </tr>
     </tbody>
 </table>

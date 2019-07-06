@@ -129,7 +129,8 @@ classList = [];
       leadSource: '',
       leadStatus: '',
       aTrainingClassName: '',
-      comment: ''
+      comment: '',
+      dropOff: ''
     });
 
   }
@@ -154,9 +155,24 @@ classList = [];
       leadSource: this.leadExample.leadSource,
       leadStatus: this.leadExample.leadStatus,
       aTrainingClassName: this.leadExample.aTrainingClassName,
-      comment: this.leadExample.comment
+      comment: this.leadExample.comment,
+      dropOff: this.leadExample.dropOff
     });
 
+  }
+
+  onDropOff() {
+    this.editForm.patchValue({
+      dropOff: true
+    });
+    this.userService.updateLead(this.route.snapshot.params.email, this.editForm.value).subscribe(
+      data => {
+        this.message = 'The lead has been drop off!';
+        this.router.navigate(['leads']);
+        return true;
+      },
+      error => {
+        alert('Couldnt drop off this lead!'); });
   }
 
   onUpdate() {
@@ -188,7 +204,7 @@ classList = [];
 
   onConvertToStudent() {
     if (! this.editForm.value.paidDeposit) {alert('You cannot convert this lead to a student because the deposite has not been paid yet!');
-    } else if (this.editForm.value.paymentPlanStatus === 'CONFIRMED') {
+    } else if (this.editForm.value.paymentPlanStatus !== 'CONFIRMED') {
       alert('You cannot convert this lead to a student because the payment plan has been confirmed yet!');
     } else {
       if (confirm('Are you sure you want to change this lead to a student?')) {

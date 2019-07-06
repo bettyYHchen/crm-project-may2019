@@ -1,0 +1,21 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Username</th>
+    <th>E-mail</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let user of users">
+    <td>{{user.name}}</td>
+    <td>{{user.username}}</td>
+    <td>{{user.email}}</td>
+    <button
+        type="button"
+        title="Delete this intern"
+        (click)="onDelete(user.username)"> Delete
+    </button>
+  </tr>
+  </tbody>
+</table>

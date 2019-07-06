@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenStorageService } from '../auth/token-storage.service';
 
 
 @Component({
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pm.component.css']
 })
 export class PmComponent implements OnInit {
-  constructor() { }
+  username: string;
+
+  constructor(private token: TokenStorageService) {
+    this.username = this.token.getUsername();
+  }
 
   ngOnInit() {
   }

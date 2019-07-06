@@ -36,12 +36,12 @@ public class Common {
         }else if (paymentPlan.equals(PaymentPlan.Automated_Weekly.toString())) {
             for (int i = 0; i < weekFrequency; i++) {
                 payments.add(new Payment("", regularFee/weekFrequency, taxFee/weekFrequency, lateFee,
-                        ((regularFee+taxFee)/weekFrequency)+lateFee, PaymentStatus.UNPAID.toString()));
+                        ((regularFee+taxFee)/weekFrequency)+lateFee, PaymentStatus.UNPAID.toString(),"",""));
             }
         }else {
             for (int i = 0; i < biWeekFrequency; i++) {
                 payments.add(new Payment("", regularFee/biWeekFrequency, taxFee/biWeekFrequency, lateFee,
-                        ((regularFee+taxFee)/biWeekFrequency)+lateFee, PaymentStatus.UNPAID.toString()));
+                        ((regularFee+taxFee)/biWeekFrequency)+lateFee, PaymentStatus.UNPAID.toString(), "", ""));
             }
         }
         return payments;
@@ -77,9 +77,9 @@ public class Common {
     // calculate late fee given late fee rule
 
     // calculate paid amount of a lead
-    public static double calculatePaidAmount(boolean paidDeposit, double discount) {
+    public static double calculatePaidAmount(boolean paidDeposit, double discount, double depositAmount) {
         if (paidDeposit) {
-            return 400+discount;
+            return depositAmount+discount;
         }else { return  discount;}
     }
 
@@ -95,6 +95,15 @@ public class Common {
         } else {
             return false;
         }
+    }
+
+    // output a date string that is numWeeks after the input date string
+    // date string format yyyy/MM/dd
+    public static String calculateDateAfterWeeks(String dateStart, long numWeeks) {
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate event = LocalDate.parse(dateStart, myFormatObj);
+        LocalDate newEvent = event.plusWeeks(numWeeks);
+        return newEvent.format(myFormatObj);
     }
 
     public static double getPaidFee(List<Payment> payments) {

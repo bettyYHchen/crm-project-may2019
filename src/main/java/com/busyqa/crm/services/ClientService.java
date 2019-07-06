@@ -3,15 +3,9 @@ package com.busyqa.crm.services;
 import com.busyqa.crm.message.request.ClientRequest;
 import com.busyqa.crm.message.request.LeadClientRequest;
 import com.busyqa.crm.message.response.ClientResponse;
-import com.busyqa.crm.model.user.Intern;
-import com.busyqa.crm.model.user.Lead;
-import com.busyqa.crm.model.user.Student;
-import com.busyqa.crm.model.user.User;
+import com.busyqa.crm.model.user.*;
 import com.busyqa.crm.model.user.payment.Payment;
-import com.busyqa.crm.repo.InternRepository;
-import com.busyqa.crm.repo.LeadRepository;
-import com.busyqa.crm.repo.PaymentRepository;
-import com.busyqa.crm.repo.StudentRepository;
+import com.busyqa.crm.repo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +21,9 @@ import java.util.List;
 public class ClientService {
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     LeadRepository leadRepository;
 
     @Autowired
@@ -36,24 +33,42 @@ public class ClientService {
     InternRepository internRepository;
 
     @Autowired
+    ResumeRepository resumeRepository;
+
+    @Autowired
+    MockRepository mockRepository;
+
+    @Autowired
     PaymentRepository paymentRepository;
+
+    public List<User> getDropOffUsers() {
+        return userRepository.findAllDropOff();
+    }
 
     public ClientResponse listClientByEmail(String email) {
         // We are not sure whether the login client is lead, student, or an intern
         Lead lead = leadRepository.findByEmail(email).orElse(null);
         Student student = studentRepository.findByEmail(email).orElse(null);
         Intern intern = internRepository.findByEmail(email).orElse(null);
+        Resume resume = resumeRepository.findByEmail(email).orElse(null);
+        Mock mock = mockRepository.findByEmail(email).orElse(null);
         ClientResponse clientResponse = new ClientResponse();
-        if (!lead.equals(null)) {
+        if (null != lead) {
             BeanUtils.copyProperties(lead,clientResponse);
         }
-        else if (!student.equals(null)) {
+        else if (null != student) {
             BeanUtils.copyProperties(student,clientResponse);
             clientResponse.setaTrainingClassName(student.getTrainingClass().getName());
 
         }
-        else if (!intern.equals(null)) {
+        else if (null != intern) {
             BeanUtils.copyProperties(intern,clientResponse);
+        }
+        else if (null != resume) {
+            BeanUtils.copyProperties(resume,clientResponse);
+        }
+        else if (null != mock) {
+            BeanUtils.copyProperties(mock,clientResponse);
         }
         else throw new RuntimeException("Cannot find a Client with provided email!");
         return clientResponse;

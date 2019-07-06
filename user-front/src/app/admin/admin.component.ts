@@ -13,8 +13,11 @@ import { UserRequest } from '../model/user-request';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
+  username: string;
 
-  constructor() { }
+  constructor(private token: TokenStorageService) {
+    this.username = this.token.getUsername();
+  }
 
   ngOnInit() {}
 }

@@ -9,6 +9,7 @@ import com.busyqa.crm.model.academic.Course;
 import com.busyqa.crm.model.academic.Instructor;
 import com.busyqa.crm.model.academic.TrainingClass;
 import com.busyqa.crm.repo.*;
+import com.busyqa.crm.utils.Common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,22 @@ public class TrainingClassService {
         trainingClassResponse.setId(trainingClass.getId());
         trainingClassResponse.setName(trainingClass.getName());
         trainingClassResponse.setInstructorName(trainingClass.getInstructor().getName());
+        trainingClassResponse.setAddress(trainingClass.getAddress());
+        trainingClassResponse.setStart(trainingClass.getStart());
+        trainingClassResponse.setEnd(trainingClass.getEnd());
+        return trainingClassResponse;
+
+    }
+
+    public TrainingClassResponse listTrainingClassByName(String name) {
+        TrainingClass trainingClass = trainingClassRepository.findByName(name).orElseThrow(
+                () -> new RuntimeException("Error: training class not found!")
+        );
+        TrainingClassResponse trainingClassResponse = new TrainingClassResponse();
+        trainingClassResponse.setId(trainingClass.getId());
+        trainingClassResponse.setName(trainingClass.getName());
+        trainingClassResponse.setInstructorName(trainingClass.getInstructor().getName());
+        trainingClassResponse.setAddress(trainingClass.getAddress());
         trainingClassResponse.setStart(trainingClass.getStart());
         trainingClassResponse.setEnd(trainingClass.getEnd());
         return trainingClassResponse;
@@ -68,17 +85,18 @@ public class TrainingClassService {
                 .orElseThrow(() -> new RuntimeException("Instructor not found"));
         TrainingClass trainingClassFound = trainingClassRepository.findByName(className)
                 .orElse(null);
-        if (!(trainingClassFound.equals(null))) {
+        if (null != trainingClassFound) {
             return trainingClassFound;
         }
         TrainingClass trainingClass = new TrainingClass(className);
         trainingClass.setCourse(course);
         trainingClass.setInstructor(instructor);
         trainingClass.setStart(trainingClassForm.getStart());
-        trainingClass.setEnd(trainingClassForm.getEnd());
+        trainingClass.setEnd(Common.calculateDateAfterWeeks(trainingClassForm.getStart(), (long) course.getDurationWeek()));
         Location location = new Location();
         location.setAddress(trainingClassForm.getAddress());
         trainingClass.setLocation(location);
+        System.out.println(trainingClass);
         locationRepository.save(location);
         trainingClassRepository.save(trainingClass);
         return trainingClass;

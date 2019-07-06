@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { UserResponse } from '../model/user-response';
 import { TokenStorageService } from '../auth/token-storage.service';
-import {Router} from "@angular/router";
+
 
 @Component({
   selector: 'app-user',
@@ -11,7 +11,11 @@ import {Router} from "@angular/router";
 })
 export class UserComponent implements OnInit {
 
-  constructor() { }
+  username: string;
+
+  constructor(private token: TokenStorageService) {
+    this.username = this.token.getUsername();
+  }
 
   ngOnInit() {
   }

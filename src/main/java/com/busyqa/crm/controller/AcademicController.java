@@ -48,6 +48,10 @@ public class AcademicController {
         return trainingClassResponses;
     }
 
+    @PutMapping("/courses/{name}")
+    public ResponseEntity<Course> updateCourse(@PathVariable("name") String name, @RequestBody CourseRequest courseRequest) {
+        return courseService.updateCourse(name, courseRequest);
+    }
 
     @GetMapping("/getRates")
     public SettingRequest getSetting() {
@@ -65,9 +69,15 @@ public class AcademicController {
         return this.courseService.createCourse(courseRequest);
     }
 
-    @GetMapping("/courses/{id}")
-    public Course getCourse(@PathVariable("id") Long id) {
-        return this.courseService.listCourseById(id);
+//    @GetMapping("/courses/{id}")
+//    public Course getCourse(@PathVariable("id") Long id) {
+//        return this.courseService.listCourseById(id);
+//
+//    }
+
+    @GetMapping("/courses/{name}")
+    public Course getCourseByName(@PathVariable("name") String name) {
+        return this.courseService.listCourseByName(name);
 
     }
 
@@ -94,6 +104,12 @@ public class AcademicController {
     @GetMapping("/classes/{id}")
     public TrainingClassResponse getTrainingClass(@PathVariable("id") Long id) {
         return this.trainingClassService.listTrainingClassById(id);
+
+    }
+
+    @GetMapping("/classByName/{name}")
+    public TrainingClassResponse getTrainingClassByName(@PathVariable("name") String name) {
+        return this.trainingClassService.listTrainingClassByName(name);
 
     }
 

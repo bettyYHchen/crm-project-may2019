@@ -103,7 +103,8 @@ paymentPlanStatusList = [
       comment: '',
       amountPaid: '',
       remainingBalance: '',
-      classFinished: ''
+      classFinished: '',
+      dropOff: ''
     });
 
   }
@@ -127,9 +128,24 @@ paymentPlanStatusList = [
       comment: this.studentExample.comment,
       amountPaid: this.studentExample.amountPaid,
       remainingBalance: this.studentExample.remainingBalance,
-      classFinished: this.studentExample.classFinished
+      classFinished: this.studentExample.classFinished,
+      dropOff: this.studentExample.dropOff
     });
 
+  }
+
+  onDropOff() {
+    this.editForm.patchValue({
+      dropOff: true
+    });
+    this.userService.updateStudent(this.route.snapshot.params.email, this.editForm.value).subscribe(
+      data => {
+        this.message = 'The student has been drop off!';
+        this.router.navigate(['students']);
+        return true;
+      },
+      error => {
+        alert('Couldnt drop off this student!'); });
   }
 
   onUpdate() {

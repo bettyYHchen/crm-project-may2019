@@ -175,6 +175,7 @@ public class AuthRestAPIs {
                 leadSignUpForm.getComment(),
                 LocalDateTime.now().toString()
                 );
+        lead.setDropOff(false);
         leadRepository.save(lead);
         int amountPaid = 0;
         if (lead.getPaidDeposit()) {

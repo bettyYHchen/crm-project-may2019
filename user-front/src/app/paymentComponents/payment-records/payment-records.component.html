@@ -1,0 +1,33 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Transation Number</th>
+    <th>Paid Date</th>
+    <th>Amount Paid</th>
+    <th>Late Fee Paid</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let paymentRecord of paymentRecords">
+    <td>{{paymentRecord.transactionNumber}}</td>
+    <td>{{paymentRecord.paidDate}}</td>
+    <td>{{paymentRecord.paidAmount}}</td>
+    <td>{{paymentRecord.paidLateFee}}</td>
+  </tr>
+  <tr>Summary</tr>
+  <tr>
+    <th>Unpaid Late Fee</th>
+    <th>{{lateFeeRemain}}</th>
+  </tr>
+  <tr>
+    <th>Remaining Balance</th>
+    <th>{{balanceRemain}}</th>
+  </tr>
+  </tbody>
+  <div class="btn-group">
+      <button
+        type="button"
+        (click)="cancel()"> Back
+    </button>
+  </div>
+</table>

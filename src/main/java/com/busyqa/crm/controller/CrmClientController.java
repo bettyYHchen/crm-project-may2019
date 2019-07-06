@@ -6,10 +6,7 @@ import com.busyqa.crm.message.request.MockRequest;
 import com.busyqa.crm.message.request.ResumeRequest;
 import com.busyqa.crm.message.response.LeadResponse;
 import com.busyqa.crm.model.Mail;
-import com.busyqa.crm.model.user.Alumni;
-import com.busyqa.crm.model.user.Mock;
-import com.busyqa.crm.model.user.Resume;
-import com.busyqa.crm.model.user.Student;
+import com.busyqa.crm.model.user.*;
 import com.busyqa.crm.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +33,9 @@ public class CrmClientController {
 
     @Autowired
     AlumniService alumniService;
+
+    @Autowired
+    ClientService clientService;
 
 
     // User Resume
@@ -115,6 +115,11 @@ public class CrmClientController {
     @DeleteMapping("/allTeams/alumnus/{email}")
     public  ResponseEntity<?> deleteAlumni(@PathVariable("email") String email) {
         return alumniService.deleteAlumni(email);
+    }
+
+    @GetMapping("/dropOffUsers")
+    public List<User> listDropOffUsers() {
+        return clientService.getDropOffUsers();
     }
 
 

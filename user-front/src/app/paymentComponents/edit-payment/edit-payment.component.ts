@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
+import { PaymentMail } from 'src/app/model/payment-mail';
 
 @Component({
   selector: 'app-edit-payment',
@@ -17,9 +18,13 @@ export class EditPaymentComponent implements OnInit {
   validMessage = '';
   private sub: Subscription;
   message: string;
+  confirmationMessage: string;
   paymentExample: any;
   userId: number;
   paymentId: number;
+  userResponse: any;
+  paymentMail: PaymentMail;
+  unpaidAmount: number;
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService, private router: Router) {
    }
@@ -29,6 +34,17 @@ export class EditPaymentComponent implements OnInit {
     this.paymentId = this.route.snapshot.params.paymentId;
     this.updateForm();
     this.getPayment(this.userId, this.paymentId);
+    this.getUserById(this.userId);
+  }
+
+  getUserById(id: number): void {
+    this.userService.getUserById(id)
+    .subscribe(
+      data => {
+        this.userResponse = data;
+        console.log(this.userResponse); },
+      (error: any) => console.error(error)
+    );
   }
 
 
@@ -50,7 +66,9 @@ export class EditPaymentComponent implements OnInit {
       taxFee: '',
       lateFee: '',
       amount: '',
-      status: ''
+      status: '',
+      paidDate: '',
+      transactionNumber: ''
     });
 
   }
@@ -67,7 +85,9 @@ export class EditPaymentComponent implements OnInit {
         taxFee: this.paymentExample.taxFee,
         lateFee: this.paymentExample.lateFee,
         amount: this.paymentExample.amount,
-        status: this.paymentExample.status
+        status: this.paymentExample.status,
+        paidDate: this.paymentExample.paidDate,
+        transactionNumber: this.paymentExample.transactionNumber
     });
 
   }
@@ -94,6 +114,25 @@ export class EditPaymentComponent implements OnInit {
       this.userService.deletePayment(this.userId, this.paymentId)
       .subscribe(
         () => {this.editForm.reset(); this.router.navigate(['payments/user/' + this.userId]); },
+        (error: any) => console.error(error)
+      );
+    }
+  }
+
+  onSendEmailForLatePayment() {
+    if (this.paymentExample.status === 'UNPAID') { this.unpaidAmount = this.paymentExample.amount;
+    } else if (this.paymentExample.status === 'PAID') { this.unpaidAmount = this.paymentExample.lateFee;
+    } else { this.unpaidAmount = 0; }
+
+    this.paymentMail = new PaymentMail(this.userResponse.email, 'BusyQA Payment Notification', this.userResponse.name,
+                this.paymentExample.date, this.unpaidAmount);
+    if (confirm('Are you sure you want to send the email?')) {
+      this.userService.sendEmailForLatePayment(this.paymentMail)
+      .subscribe(
+        data => {
+          this.confirmationMessage = 'The email has been sent!';
+          return true;
+        },
         (error: any) => console.error(error)
       );
     }
