@@ -13,11 +13,8 @@
     <td>{{payment.date}}</td>
     <td>{{payment.amount}}</td>
     <td>{{payment.status}}</td>
-    <button class="btn btn-primary"
-              style="width:100px;"
-              type="button"
-              [routerLink]="['./', payment.id]">Edit
-    </button>
+    <fa-icon class="text-success"
+                     icon="pen" [routerLink]="['./', payment.id]" ></fa-icon>
   </tr>
   </tbody>
   <div class="btn-group">

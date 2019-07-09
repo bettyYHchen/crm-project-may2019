@@ -11,11 +11,9 @@
       <td>{{instructor.id}}</td>
       <td>{{instructor.name}}</td>
       <td>{{instructor.email}}</td>
-      <button
-        type="button"
-        title="Delete this lead"
-        (click)="onDelete(instructor.id)"> Delete
-      </button>
+      <td>
+          <fa-icon class="text-success"
+                         icon="trash" (click)="onDelete(instructor.id)"></fa-icon></td>
     </tr>
     </tbody>
     <div class="btn-group">

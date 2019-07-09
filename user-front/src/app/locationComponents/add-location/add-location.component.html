@@ -1,0 +1,30 @@
+<!-- method="post" action="/gustbook.html"  -->
+<form [formGroup]="postForm" (ngSubmit)="onSubmit()" novalidate>
+  <div *ngIf="validMessage != ''">
+    <h3 class="has-info">{{ validMessage }}</h3>
+  </div>
+
+
+    <div class="form-group">
+        <label for="address">Address: </label>
+        <textarea placeholder="" class="form-control" formControlName="address"></textarea>
+    </div>
+
+
+
+  <div class="row">
+      <div class="col-sm-8" >
+        <div class="btn-group">
+          <button
+            type="submit"> Submit
+          </button>
+          <button
+            type="button"
+            [routerLink]="['/locations']">Cancel
+          </button>
+        </div>
+      </div>
+  </div>
+</form>
+
+

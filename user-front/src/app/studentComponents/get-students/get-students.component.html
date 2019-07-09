@@ -1,4 +1,21 @@
-<table class="table table-striped">
+<h3 class="mt-0 mb-3 pl-3 pb-2 pt-2 text-white border-top border-dark w-100 bg-secondary">VIEW STUDENTS</h3>
+
+<div class="container">
+<div class="list-group mt-1 p-0" *ngFor="let student of students; let i = index">
+  <div class="list-group-item list-group-item-action flex-column align-items-start">
+        <div style="height: 5%; background-color: rgba(187, 160, 160, 0.1);" class="p-1 my-auto d-flex justify-content-between">
+            <h5 class="h-100 d-inline-block">{{student.firstName}} {{student.lastName}}</h5>
+            <p class=""><b>Phone:  </b><small>{{student.phone}}</small></p>
+            <p class=""><b>Email:  </b><small>{{student.email}}</small></p>
+            <p class=""><b>Class:  </b><small>{{student.aTrainingClassName}}</small></p>
+            <small>Last Updated: {{student.modifiedTime | date: 'short'}}</small>
+            <fa-icon class="text-success"
+                     icon="pen" [routerLink]="['/students/view',student.email]" ></fa-icon>
+        </div>
+  </div>
+</div>
+</div>
+<!-- <table class="table table-striped">
   <thead>
   <tr>
     <th>FirstName</th>
@@ -26,4 +43,4 @@
     </button>
   </tr>
   </tbody>
-</table>
+</table> -->

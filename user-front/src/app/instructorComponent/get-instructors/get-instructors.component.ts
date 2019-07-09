@@ -36,9 +36,13 @@ export class GetInstructorsComponent implements OnInit {
     if (confirm('Are you sure you want to delete the class?')) {
       this.userService.deleteInstructor(id)
       .subscribe(
-        () => {this.router.navigate(['instructors']); },
+        () => {this.reloadPage(); },
         (error: any) => console.error(error)
       );
     }}
+
+    reloadPage() {
+      window.location.reload();
+    }
 
 }

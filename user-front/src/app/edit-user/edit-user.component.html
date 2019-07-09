@@ -4,6 +4,16 @@
     <h3 class="has-info">{{ validMessage }}</h3>
   </div>
 
+  <button class="btn btn-outline-success text-center mr-3 my-auto"
+                            style="width:140px" value="Post" type="submit" [disabled]="!editForm.valid"> Save
+  </button>
+  <button class="btn btn-outline-success text-center mr-3 my-auto"
+          style="width:140px" type="button" [routerLink]="['/admin']">Cancel
+  </button>
+  <button class="btn btn-outline-success text-center mr-3 my-auto"
+          style="width:140px" value="Post" type="button" title="Delete this employee" (click)="onDelete()"> Delete
+  </button>
+
    <div class="form-group">
     <label>Name:</label>
     <input type="text" value="" class="form-control" id="name" formControlName="name" />
@@ -54,39 +64,6 @@
     <input type="text" formControlName="statusAsOfDay" placeholder="statusAsOfDay" name="statusAsOfDay" class="form-control" id="statusAsOfDay" readonly="true">
 </div>
 
-
-
-
-  <!-- <div class="checkbox-group" style="margin-top:40px">
-      <div class="checkbox-wrap" id="productsContainer">
-          <input type="checkbox" id="all">
-          <label for="all">All Roles</label>
-          <div *ngFor="let role of rolesArray; let i = index">
-              <input type="checkbox" [id]="i" (change)="onChange($event.target.checked, role)"/>
-              <label [for]="i"> {{ role }} </label>
-          </div>
-      </div>
-  </div> -->
-
-
-
-
-  <button class="btn btn-primary mr-3"
-            style="width:80px;"
-            type="submit"
-            [disabled]="!editForm.valid"> Save
-  </button>
-  <button class="btn btn-outline-secondary mr-3"
-            style="width:80px;"
-            type="button"
-            [routerLink]="['/admin']">Cancel
-  </button>
-  <button class="btn btn-outline-warning"
-            style="width:80px"
-            type="button"
-            title="Delete this product"
-            (click)="onDelete()"> Delete
-  </button>
 
 
 </form>

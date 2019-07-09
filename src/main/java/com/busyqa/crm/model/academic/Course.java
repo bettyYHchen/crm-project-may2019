@@ -26,6 +26,8 @@ public class Course {
 
     private double lateFeeRate;
 
+    private double creditExtraRate;
+
     private double durationWeek;
 
     private double paymentDurationWeek;
@@ -150,5 +152,13 @@ public class Course {
 
     public void setDepositAmount(double depositAmount) {
         this.depositAmount = depositAmount;
+    }
+
+    public double getCreditExtraRate() {
+        return creditExtraRate;
+    }
+
+    public void setCreditExtraRate(double creditExtraRate) {
+        this.creditExtraRate = creditExtraRate;
     }
 }

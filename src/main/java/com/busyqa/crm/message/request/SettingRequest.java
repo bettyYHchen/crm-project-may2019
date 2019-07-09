@@ -5,6 +5,8 @@ public class SettingRequest {
 
     private double lateFeeRate;
 
+    private double creditExtraRate;
+
     public double getTaxPercentage() {
         return taxPercentage;
     }
@@ -19,5 +21,13 @@ public class SettingRequest {
 
     public void setLateFeeRate(double lateFeeRate) {
         this.lateFeeRate = lateFeeRate;
+    }
+
+    public double getCreditExtraRate() {
+        return creditExtraRate;
+    }
+
+    public void setCreditExtraRate(double creditExtraRate) {
+        this.creditExtraRate = creditExtraRate;
     }
 }

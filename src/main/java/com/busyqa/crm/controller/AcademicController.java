@@ -43,7 +43,7 @@ public class AcademicController {
         List<TrainingClassResponse> trainingClassResponses = new ArrayList<>();
         for (TrainingClass trainingClass: trainingClasses) {
             trainingClassResponses.add(new TrainingClassResponse(trainingClass.getId(), trainingClass.getName(),
-                    trainingClass.getInstructor().getName(), trainingClass.getAddress(), trainingClass.getStart(), trainingClass.getEnd()));
+                    trainingClass.getInstructor().getName(), trainingClass.getLocation(), trainingClass.getStart(), trainingClass.getEnd()));
         }
         return trainingClassResponses;
     }
@@ -147,15 +147,33 @@ public class AcademicController {
         return instructorService.deleteInstructor(id);
     }
 
-    @GetMapping("/classesByLocation/{locationId}")
-    public List<TrainingClass> getTrainingClassesByLocation(@PathVariable("locationId") Long locationId) {
-        return this.trainingClassService.listTrainingClassesByLocation(locationId);
-
-    }
+//    @GetMapping("/classesByLocation/{locationId}")
+//    public List<TrainingClass> getTrainingClassesByLocation(@PathVariable("locationId") Long locationId) {
+//        return this.trainingClassService.listTrainingClassesByLocation(locationId);
+//
+//    }
 
     @PutMapping("/updateSetting")
     public void updateSetting(@RequestBody SettingRequest settingRequest) {
         this.courseService.updateSetting(settingRequest);
+    }
+
+    // locations
+
+    @GetMapping("/locations")
+    public List<Location> listLocations(){
+        return trainingClassService.listLocations();
+    }
+
+    @PostMapping("/addLocation")
+    @ResponseStatus(HttpStatus.OK)
+    public Location createLocation(@RequestBody LocationRequest locationRequest) {
+        return this.trainingClassService.createLocation(locationRequest);
+    }
+
+    @DeleteMapping("/locations/{id}")
+    public ResponseEntity<?> deleteLocation(@PathVariable("id") Long id) {
+        return trainingClassService.deleteLocation(id);
     }
 
 

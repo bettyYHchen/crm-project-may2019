@@ -1,4 +1,26 @@
-<!-- <button class="btn btn-danger" style="width:100px" (click)="addUser()"> Add User</button> -->
+<h3 class="mt-0 mb-3 pl-3 pb-2 pt-2 text-white border-top border-dark w-100 bg-secondary">VIEW EMPLOYEES</h3>
+
+<div class="container">
+<div class="list-group mt-1 p-0" *ngFor="let user of users; let i = index">
+  <div class="list-group-item list-group-item-action flex-column align-items-start">
+        <div style="height: 5%; background-color: rgba(187, 160, 160, 0.1);" class="p-1 my-auto d-flex justify-content-between">
+            <h5 class="h-100 d-inline-block">{{user.name}}</h5>
+            <p class=""><b>Username:  </b><small>{{user.username}}</small></p>
+            <p class=""><b>Email:  </b><small>{{user.email}}</small></p>
+            <p class=""><b>Position:  </b><small>{{  addBrackets(user.positions) }}</small></p>
+            <small>Last Updated: {{user.statusAsOfDay | date: 'short'}}</small>
+            <fa-icon class="text-success"
+                     icon="pen" [routerLink]="['/users/view',user.username]" ></fa-icon>
+        </div>
+  </div>
+</div>
+<br>
+<button class="btn btn-outline-success text-center mr-3 my-auto"
+                            style="width:140px" type="button" [routerLink]="['/adduser']"> New Employee
+</button>
+</div>
+
+<!--
 <table class="table table-striped">
     <thead>
     <tr>
@@ -27,4 +49,4 @@
               [routerLink]="['/adduser']">Add
     </button>
   </table>
-{{errorMessage}}
+{{errorMessage}} -->

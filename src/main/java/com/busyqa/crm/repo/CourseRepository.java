@@ -22,4 +22,9 @@ public interface CourseRepository extends JpaRepository<Course,Long> {
     @Transactional
     @Query("update Course c set c.lateFeeRate = :lateFeeRate")
     void updateAllLateFeeRate(@Param("lateFeeRate") double lateFeeRate);
+
+    @Modifying
+    @Transactional
+    @Query("update Course c set c.creditExtraRate = :creditExtraRate")
+    void updateAllCreditExtraRate(@Param("creditExtraRate") double creditExtraRate);
 }

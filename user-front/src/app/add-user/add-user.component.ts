@@ -22,11 +22,9 @@ export class AddUserComponent implements OnInit {
   message: string;
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private authService: AuthService) {
    }
-  positionArray = ['ROLE_USER,TEAM_SALES', 'ROLE_ADMIN,TEAM_SALES',
+  positionArray = [
   'ROLE_PM,TEAM_SALES', 'ROLE_USER,TEAM_ACCOUNTS',
-  'ROLE_ADMIN,TEAM_ACCOUNTS', 'ROLE_PM,TEAM_ACCOUNTS',
-  'ROLE_USER,TEAM_ADMIN', 'ROLE_ADMIN,TEAM_ADMIN',
-  'ROLE_PM,TEAM_ADMIN', 'ROLE_USER,TEAM_UNASSIGNED'];
+  'ROLE_ADMIN,TEAM_ADMIN', 'ROLE_USER,TEAM_UNASSIGNED'];
   ngOnInit() {
     this.updateForm();
   }

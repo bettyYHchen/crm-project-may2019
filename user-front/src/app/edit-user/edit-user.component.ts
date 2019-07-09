@@ -22,11 +22,9 @@ export class EditUserComponent implements OnInit {
   nameCtrl: FormControl;
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService) {
    }
-  positionArray = ['ROLE_USER,TEAM_SALES', 'ROLE_ADMIN,TEAM_SALES',
-  'ROLE_PM,TEAM_SALES', 'ROLE_USER,TEAM_ACCOUNTS',
-  'ROLE_ADMIN,TEAM_ACCOUNTS', 'ROLE_PM,TEAM_ACCOUNTS',
-  'ROLE_USER,TEAM_ADMIN', 'ROLE_ADMIN,TEAM_ADMIN',
-  'ROLE_PM,TEAM_ADMIN', 'ROLE_USER,TEAM_UNASSIGNED'];
+   positionArray = [
+    'ROLE_PM,TEAM_SALES', 'ROLE_USER,TEAM_ACCOUNTS',
+    'ROLE_ADMIN,TEAM_ADMIN', 'ROLE_USER,TEAM_UNASSIGNED'];
   ngOnInit() {
     this.updateForm();
     this.sub = this.route.paramMap.subscribe(

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface TrainingClassRepository extends JpaRepository<TrainingClass,Long> {
     Optional<TrainingClass> findByName(String name);
-    Page<TrainingClass> findByLocationId(Long locationId, Pageable pageable);
+
 
 
 }

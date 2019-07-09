@@ -4,6 +4,7 @@ import { UserService } from '../services/user.service';
 import { Observable } from 'rxjs';
 import { Mail } from '../model/mail';
 import { TrainingClass } from '../model/training-class';
+import { LocationRequest } from '../model/location-request';
 
 
 @Component({
@@ -25,8 +26,10 @@ export class LeadSignupComponent implements OnInit {
     'One_Time_Credit_Card',
     'One_Time_Debit_Card_Or_Cash',
     'One_Time_Email_Money',
-    'Automated_Weekly',
-    'Automated_BiWeekly'
+    'Automated_Weekly_Credit_Card',
+    'Automated_BiWeekly_Credit_Card',
+    'Automated_Weekly_Debit_Card_Or_Cash',
+    'Automated_BiWeekly_Debit_Card_Or_Cash'
   ];
 
   paymentPlanStatusList = [
@@ -61,12 +64,7 @@ export class LeadSignupComponent implements OnInit {
   'Maher Selim', 'Ibraheem Haruna', 'James Hung', 'Tye Alli',
   'Rahul Nimodiya'];
 
-  addressList: string[] = [
-    'Suite 1532, 4 Robert Speck Parkway, Mississauga ON L4Z 1S1',
-    'Iceland Mississauga, 705 Matheson Blvd E, Mississauga ON L4Z 3X9',
-    'Swansea Town Hall Community Center, 95 Lavinia Ave, Toronto ON M6S 3H9',
-    'Armadale Community Center, 2401 Denison St, Markham ON L3S 1E7',
-    'Cassie Campbell Community Center, 1050 Sandalwood Pkwy W, Brampton ON L7A 0K9'];
+
 
   selectedCourse = [];
   courseDropdownList = [];

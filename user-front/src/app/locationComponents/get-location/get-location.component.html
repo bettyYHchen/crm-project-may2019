@@ -1,0 +1,30 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Id</th>
+    <th>Address</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let location of locations">
+    <td>{{location.id}}</td>
+    <td>{{location.address}}</td>
+    <button class="btn btn-primary mr-3"
+            style="width:80px;"
+      title="Delete this training location"
+      (click)="onDelete(location.id)"> Delete
+    </button>
+  </tr>
+  </tbody>
+  <div class="btn-group">
+      <button
+          type="button"
+          [routerLink]="['/addLocation']">Add
+      </button>
+      <button
+        type="button"
+        [routerLink]="['/home']">Cancel
+    </button>
+  </div>
+</table>
+

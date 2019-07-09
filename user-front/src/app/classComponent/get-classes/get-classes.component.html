@@ -23,20 +23,15 @@
 
              <div class="form-group">
                 <label for="finishStatus"></label>
-                <input type="checkbox" formControlName="finishStatus">
+                <input value="class.finishStatus" type="checkbox" formControlName="finishStatus">
             </div>
-
-            <button
-              type="submit"
-              [disabled]="!editForm.valid"> Save
-            </button>
+            <fa-icon type="submit" class="text-success"
+                         icon="sync"></fa-icon>
           </form>
       </td>
-      <button
-        type="button"
-        title="Delete this lead"
-        (click)="onDelete(class.id)"> Delete
-      </button>
+      <td>
+          <fa-icon class="text-success"
+                         icon="trash" (click)="onDelete(class.id)"></fa-icon></td>
     </tr>
     </tbody>
 

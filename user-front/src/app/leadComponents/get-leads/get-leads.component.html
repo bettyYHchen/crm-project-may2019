@@ -1,4 +1,4 @@
-<table class="table table-striped">
+<!-- <table class="table table-striped">
   <thead>
   <tr>
     <th>FirstName</th>
@@ -31,11 +31,25 @@
               [routerLink]="['/client/sendPortalLink',lead.email]">Email
       </button>
     </div>
-    <!-- <button class="btn btn-primary mr-3"
-            style="width:80px;"
-            type="button"
-            [routerLink]="['/leads/view',lead.email]">Edit
-    </button> -->
   </tr>
   </tbody>
-</table>
+</table> -->
+<h3 class="mt-0 mb-3 pl-3 pb-2 pt-2 text-white border-top border-dark w-100 bg-secondary">VIEW LEADS</h3>
+
+<div class="container">
+<div class="list-group mt-1 p-0" *ngFor="let lead of leads; let i = index">
+  <div class="list-group-item list-group-item-action flex-column align-items-start">
+        <div style="height: 5%; background-color: rgba(187, 160, 160, 0.1);" class="p-1 my-auto d-flex justify-content-between">
+            <h5 class="h-100 d-inline-block">{{lead.firstName}} {{lead.lastName}}</h5>
+            <p class=""><b>Phone:  </b><small>{{lead.phone}}</small></p>
+            <p class=""><b>Email:  </b><small>{{lead.email}}</small></p>
+            <p class=""><b>Class:  </b><small>{{lead.aTrainingClassName}}</small></p>
+            <small>Last Updated: {{lead.modifiedTime | date: 'short'}}</small>
+            <fa-icon class="text-success"
+                     icon="pen" [routerLink]="['/leads/view',lead.email]" ></fa-icon>
+            <fa-icon class="text-success"
+                     icon="envelope" [routerLink]="['/client/sendPortalLink',lead.email]" ></fa-icon>
+        </div>
+  </div>
+</div>
+</div>

@@ -63,8 +63,11 @@ public class CourseService {
     public void updateSetting(SettingRequest settingRequest) {
         double taxPercentage = settingRequest.getTaxPercentage();
         double lateFeeRate = settingRequest.getLateFeeRate();
+        double creditExtraRate = settingRequest.getCreditExtraRate();
         courseRepository.updateAllTaxPercentage(taxPercentage);
         courseRepository.updateAllLateFeeRate(lateFeeRate);
+        courseRepository.updateAllCreditExtraRate(creditExtraRate);
+
 
     }
 

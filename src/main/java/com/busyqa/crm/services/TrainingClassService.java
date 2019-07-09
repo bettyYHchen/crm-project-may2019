@@ -1,5 +1,6 @@
 package com.busyqa.crm.services;
 
+import com.busyqa.crm.message.request.LocationRequest;
 import com.busyqa.crm.message.request.TrainingClassFinishedStatus;
 import com.busyqa.crm.message.request.TrainingClassForm;
 import com.busyqa.crm.message.response.TrainingClassResponse;
@@ -42,7 +43,7 @@ public class TrainingClassService {
         List<TrainingClass> trainingClasses = trainingClassRepository.findAll();
         return trainingClasses.stream().map(trainingClass -> new TrainingClassResponse(trainingClass.getId(),
                 trainingClass.getName(), trainingClass.getInstructor().getName(),
-                trainingClass.getAddress(), trainingClass.getStart(), trainingClass.getEnd())).
+                trainingClass.getLocation(), trainingClass.getStart(), trainingClass.getEnd())).
                 collect(Collectors.toList());
 
 
@@ -55,7 +56,7 @@ public class TrainingClassService {
         trainingClassResponse.setId(trainingClass.getId());
         trainingClassResponse.setName(trainingClass.getName());
         trainingClassResponse.setInstructorName(trainingClass.getInstructor().getName());
-        trainingClassResponse.setAddress(trainingClass.getAddress());
+        trainingClassResponse.setAddress(trainingClass.getLocation());
         trainingClassResponse.setStart(trainingClass.getStart());
         trainingClassResponse.setEnd(trainingClass.getEnd());
         return trainingClassResponse;
@@ -70,7 +71,7 @@ public class TrainingClassService {
         trainingClassResponse.setId(trainingClass.getId());
         trainingClassResponse.setName(trainingClass.getName());
         trainingClassResponse.setInstructorName(trainingClass.getInstructor().getName());
-        trainingClassResponse.setAddress(trainingClass.getAddress());
+        trainingClassResponse.setAddress(trainingClass.getLocation());
         trainingClassResponse.setStart(trainingClass.getStart());
         trainingClassResponse.setEnd(trainingClass.getEnd());
         return trainingClassResponse;
@@ -93,11 +94,11 @@ public class TrainingClassService {
         trainingClass.setInstructor(instructor);
         trainingClass.setStart(trainingClassForm.getStart());
         trainingClass.setEnd(Common.calculateDateAfterWeeks(trainingClassForm.getStart(), (long) course.getDurationWeek()));
-        Location location = new Location();
-        location.setAddress(trainingClassForm.getAddress());
-        trainingClass.setLocation(location);
+//        Location location = new Location();
+//        location.setAddress(trainingClassForm.getAddress());
+        trainingClass.setLocation(trainingClassForm.getAddress());
         System.out.println(trainingClass);
-        locationRepository.save(location);
+//        locationRepository.save(location);
         trainingClassRepository.save(trainingClass);
         return trainingClass;
 
@@ -123,9 +124,29 @@ public class TrainingClassService {
 
     }
 
-    public List<TrainingClass> listTrainingClassesByLocation(Long locationId) {
-        Pageable pageable = PageRequest.of(0, 30);
-        Page<TrainingClass> trainingClassesPage = trainingClassRepository.findByLocationId(locationId, pageable);
-        return trainingClassesPage.getContent();
+    public List<Location> listLocations() {
+        return locationRepository.findAll();
     }
+
+    public Location createLocation(LocationRequest locationRequest) {
+        Location location = new Location();
+        location.setAddress(locationRequest.getAddress());
+        return locationRepository.save(location);
+    }
+
+    public ResponseEntity<?> deleteLocation(Long id) {
+        return locationRepository.findById(id).map(
+                record -> {
+                    locationRepository.deleteById(id);
+                    return ResponseEntity.ok().build();
+                }).orElse(ResponseEntity.notFound().build());
+
+
+    }
+
+//    public List<TrainingClass> listTrainingClassesByLocation(Long locationId) {
+//        Pageable pageable = PageRequest.of(0, 30);
+//        Page<TrainingClass> trainingClassesPage = trainingClassRepository.findByLocationId(locationId, pageable);
+//        return trainingClassesPage.getContent();
+//    }
 }

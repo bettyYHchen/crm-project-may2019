@@ -49,10 +49,20 @@ import { UpdateRatesComponent } from './update-rates/update-rates.component';
 import { GetDropOffComponent } from './get-drop-off/get-drop-off.component';
 import { EditCourseComponent } from './courseComponent/edit-course/edit-course.component';
 import { PaymentRecordsComponent } from './paymentComponents/payment-records/payment-records.component';
+import { AddLocationComponent } from './locationComponents/add-location/add-location.component';
+import { GetLocationComponent } from './locationComponents/get-location/get-location.component';
 
 
 
 const routes: Routes = [
+    {
+      path: 'locations',
+      component: GetLocationComponent
+    },
+    {
+      path: 'addLocation',
+      component: AddLocationComponent
+    },
     {
       path: 'dropOffList',
       component: GetDropOffComponent

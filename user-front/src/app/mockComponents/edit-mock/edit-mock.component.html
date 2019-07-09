@@ -1,4 +1,100 @@
-<form [formGroup]="editForm" (ngSubmit)="onUpdate()" novalidate>
+<h3 class="mt-0 p-2 text-white border-top border-dark w-100 bg-secondary">EDIT MOCK</h3>
+<div class="m-3 row">
+    <div class="col-sm-1 col-md-2">
+    </div>
+    <div class="col col-centered">
+        <form [formGroup]="editForm" (ngSubmit)="onUpdate()" novalidate>
+              <div *ngIf="validMessage != ''">
+                <h3 class="has-info">{{validMessage}}</h3>
+              </div>
+
+              <!-- HEADER BUTTONS -->
+              <div class="form-row mb-4 mt-3">
+                <div class="col-9"></div>
+                <div class="col">
+
+                  <div class="btn-group">
+                    <button class="btn btn-outline-success text-center mr-3 my-auto"
+                            style="width:140px" value="Post" type="submit" [disabled]="!editForm.valid"> Save
+                    </button>
+                    <button class="btn btn-outline-success text-center mr-3 my-auto"
+                            style="width:140px" type="button" [routerLink]="['/mocks']">Cancel
+                    </button>
+                    <button class="btn btn-outline-success text-center mr-3 my-auto"
+                            style="width:140px" value="Post" type="button" title="Delete this mock" (click)="onDelete()"> Delete
+                    </button>
+                    <button class="btn btn-outline-success text-center mr-3 my-auto"
+                            style="width:140px" type="button" title="Change to alumni" (click)="onConvertToAlumni()"> To Alumni
+                    </button>
+                  </div>
+                  </div>
+                </div>
+              <hr>
+
+            <div class="row pb-3">
+                <div class="col">
+
+                  <label for="currentJob">Current Job: </label>
+                    <div class="form-row mb-2">
+                       <input type="text" value="" class="form-control" formControlName="currentJob" />
+                    </div>
+                  <label for="desiredJob">Desired Job: </label>
+                    <div class="form-row mb-2">
+                       <input type="text" value="" class="form-control" formControlName="desiredJob" />
+                    </div>
+                  <label for="projectAssigned">Project Assigned:</label>
+                    <div class="form-row mb-2">
+                       <input type="text" value="" class="form-control" formControlName="projectAssigned" />
+                    </div>
+                  <label for="aTrainingClassName">Class Taken:</label>
+                    <div class="form-row mb-2">
+                       <input type="text" value="" class="form-control" formControlName="aTrainingClassName" readonly="true"/>
+                    </div>
+
+
+                </div>
+                <div class="col">
+                    <label for="interviewDate">Interview Date: </label>
+                    <div class="form-row mb-2">
+                       <input type="text" formControlName="interviewDate">
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+             <!-- BASIC INFO -->
+            <label class="mt-2" >Full Name</label>
+            <div class="row mb-2">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Name"
+                  formControlName="name" value="" readonly="true"/>
+                </div>
+            </div>
+
+            <label class="mt-2" >Contacts</label>
+            <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Email Address"
+                  formControlName="email" value="">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Phone Number"
+                  formControlName="phone" value="">
+                </div>
+             </div>
+
+            <div class="mt-3 form-group">
+                <label for="address">Address: </label>
+                <textarea placeholder="" class="form-control" formControlName="address"></textarea>
+            </div>
+
+            <div class="mt-3 form-group">
+                <label>Project Performance:</label>
+                <textarea placeholder="" class="form-control" formControlName="performance"></textarea>
+            </div>
+
+
+<!-- <form [formGroup]="editForm" (ngSubmit)="onUpdate()" novalidate>
   <div *ngIf="validMessage != ''">
     <h3 class="has-info">{{ validMessage }}</h3>
   </div>
@@ -78,4 +174,4 @@
         title="Change to alumni"
         (click)="onConvertToAlumni()"> To Alumni
     </button>
-  </div>
+  </div> -->

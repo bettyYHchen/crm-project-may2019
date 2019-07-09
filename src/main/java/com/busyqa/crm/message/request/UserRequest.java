@@ -6,11 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.*;
 
 import java.util.List;
 
-@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = ClientRequest.class, name = "clientRequest"),
-        @JsonSubTypes.Type(value = EmployeeRequest.class, name = "employeeRequest")
-})
+
 public class UserRequest {
 
 

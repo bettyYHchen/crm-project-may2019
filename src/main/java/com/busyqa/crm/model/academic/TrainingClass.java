@@ -41,11 +41,13 @@ public class TrainingClass {
     @JsonBackReference
     private Instructor instructor;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "location_id", referencedColumnName = "id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private Location location;
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "location_id", referencedColumnName = "id")
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+//    @JsonIgnore
+//    private Location location;
+
+    private String location;
 
     @Column(name = "isFinished")
     private boolean isFinished;
@@ -164,11 +166,11 @@ public class TrainingClass {
         }
     }
 
-    public Location getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
@@ -201,11 +203,6 @@ public class TrainingClass {
         return this.course.getFee();
     }
 
-    @JsonIgnore
-    public String getAddress() {
-
-        return this.location.getAddress();
-    }
 
     @JsonIgnore
     public double getPaymentDurationWeekly() {
@@ -226,6 +223,9 @@ public class TrainingClass {
     @JsonIgnore
     public double getDepositAmount() { return this.course.getDepositAmount();}
 
+    @JsonIgnore
+    public double getCreditExtraRate() { return  this.course.getCreditExtraRate(); }
+
 
     @Override
     public String toString() {
@@ -234,7 +234,6 @@ public class TrainingClass {
                 ", name='" + name + '\'' +
                 ", course=" + course.getId() +
                 ", instructor=" + instructor.getId() +
-                ", location=" + location.getId() +
                 ", isFinished=" + isFinished +
                 '}';
     }

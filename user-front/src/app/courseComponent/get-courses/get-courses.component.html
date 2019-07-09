@@ -13,15 +13,13 @@
       <td>{{course.name}}</td>
       <td>{{course.fee}}</td>
       <td>{{course.durationWeek + ' weeks'}}</td>
-      <button
-        type="button"
-        [routerLink]="['/courses/view',course.name]">Edit
-      </button>
-      <button
-        type="button"
-        title="Delete this lead"
-        (click)="onDelete(course.id)"> Delete
-      </button>
+      <td>
+      <fa-icon class="text-success"
+                     icon="pen" [routerLink]="['/courses/view',course.name]" ></fa-icon>
+      </td>
+      <td>
+      <fa-icon class="text-success"
+                     icon="trash" (click)="onDelete(course.id)" ></fa-icon></td>
     </tr>
     </tbody>
     <div class="btn-group">

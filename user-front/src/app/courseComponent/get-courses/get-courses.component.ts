@@ -31,12 +31,16 @@ export class GetCoursesComponent implements OnInit {
     if (confirm('Are you sure you want to delete the course?')) {
       this.userService.deleteCourse(id)
       .subscribe(
-        () => {this.router.navigate(['classes']); },
+        () => {this.reloadPage(); },
         (error: any) => console.error(error)
       );
     }}
 
   cancel() {
     this.location.back();
+  }
+
+  reloadPage() {
+    window.location.reload();
   }
 }

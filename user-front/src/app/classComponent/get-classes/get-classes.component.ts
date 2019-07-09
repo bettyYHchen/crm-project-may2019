@@ -38,7 +38,7 @@ export class GetClassesComponent implements OnInit {
     if (confirm('Are you sure you want to delete the class?')) {
       this.userService.deleteClass(id)
       .subscribe(
-        () => {this.router.navigate(['classes']); },
+        () => {this.reloadPage(); },
         (error: any) => console.error(error)
       );
     }
@@ -55,6 +55,7 @@ export class GetClassesComponent implements OnInit {
       this.userService.updateClassFinishedStatus(id, this.editForm.value).subscribe(
         data => {
           this.message = 'The status has been updated!';
+          this.reloadPage();
           return true;
         },
         error => {
@@ -62,6 +63,10 @@ export class GetClassesComponent implements OnInit {
     } else {
       this.validMessage = 'Please make sure the inputs are valid!';
     }
+  }
+
+  reloadPage() {
+    window.location.reload();
   }
 
 }

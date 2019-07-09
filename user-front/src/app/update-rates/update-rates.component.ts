@@ -40,6 +40,7 @@ export class UpdateRatesComponent implements OnInit {
   this.editForm = this.fb.group({
     taxPercentage: '',
     lateFeeRate: '',
+    creditExtraRate: ''
 
   });
 
@@ -55,6 +56,7 @@ export class UpdateRatesComponent implements OnInit {
   this.editForm.patchValue({
     taxPercentage: this.settingExample.taxPercentage,
     lateFeeRate: this.settingExample.lateFeeRate,
+    creditExtraRate: this.settingExample.creditExtraRate
   });
 
   }

@@ -81,6 +81,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { CrmHeaderComponent } from './header/crm-header/crm-header.component';
+import { GetLocationComponent } from './locationComponents/get-location/get-location.component';
+import { AddLocationComponent } from './locationComponents/add-location/add-location.component';
 library.add(fas, far, fab);
 
 
@@ -140,7 +142,9 @@ library.add(fas, far, fab);
     UpdateRatesComponent,
     GetDropOffComponent,
     PaymentRecordsComponent,
-    CrmHeaderComponent
+    CrmHeaderComponent,
+    GetLocationComponent,
+    AddLocationComponent
   ],
   imports: [
     BrowserModule,

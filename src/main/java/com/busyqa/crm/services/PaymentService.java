@@ -5,6 +5,7 @@ import com.busyqa.crm.model.academic.Course;
 import com.busyqa.crm.model.academic.TrainingClass;
 import com.busyqa.crm.model.user.User;
 import com.busyqa.crm.model.user.payment.Payment;
+import com.busyqa.crm.model.user.payment.PaymentPlan;
 import com.busyqa.crm.model.user.payment.PaymentStatus;
 import com.busyqa.crm.repo.CourseRepository;
 import com.busyqa.crm.repo.PaymentRepository;
@@ -39,6 +40,11 @@ public class PaymentService {
         double regularFee = trainingClass.getCourseFee() - feePaid;
         double taxFee = (regularFee*(trainingClass.getTaxRate()))/100.0;
         double lateFeeRate = trainingClass.getLateFeeRate();
+        if (paymentPlan.equals(PaymentPlan.One_Time_Credit_Card.toString()) ||
+            paymentPlan.equals(PaymentPlan.Automated_BiWeekly_Credit_Card.toString()) ||
+            paymentPlan.equals(PaymentPlan.Automated_Weekly_Credit_Card.toString())) {
+            regularFee *= (1 + trainingClass.getCreditExtraRate()/100.0);
+        }
         List<Payment> payments = Common.generatePayments(paymentPlan, regularFee, taxFee,0,
                 trainingClass.getPaymentDurationWeekly(), trainingClass.getPaymentDurationBiWeekly());
         List<String> dates = Common.generatePaymentDate(trainingClass.getStart(), paymentPlan,

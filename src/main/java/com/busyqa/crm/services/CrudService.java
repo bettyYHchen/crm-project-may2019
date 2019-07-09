@@ -1,3 +1,4 @@
+
 package com.busyqa.crm.services;
 
 import com.busyqa.crm.message.request.LoginForm;
@@ -5,6 +6,7 @@ import com.busyqa.crm.message.request.SignUpForm;
 import com.busyqa.crm.message.request.UserRequest;
 import com.busyqa.crm.message.response.UserResponse;
 import com.busyqa.crm.model.user.*;
+import com.busyqa.crm.repo.EmployeeRepository;
 import com.busyqa.crm.repo.PositionRepository;
 import com.busyqa.crm.repo.UserRepository;
 import com.busyqa.crm.utils.Common;
@@ -32,22 +34,13 @@ public class CrudService {
     @Autowired
     PasswordEncoder encoder;
 
-//    public List<UserResponse> getAll() {
-//
-//        List<User> users = userRepository.findAll();
-//        List<UserResponse> userResponses = new ArrayList<>();
-//
-//        for (User u: users) {
-//            List<String> strRoles = u.getRoles().stream().map(role -> role.getName()).collect(Collectors.toList());
-//            userResponses.add(new UserResponse(u.getName(),u.getUsername(),
-//                    u.getEmail(),strRoles,u.getTeams(),u.isActive()));
-//        }
-//
-//        return userResponses;
-//    }
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+
 
     public UserResponse getUserByUserName(String username) {
-        User user = userRepository.findByUsername(username).
+        Employee user = employeeRepository.findByUsername(username).
                 orElseThrow(() -> new RuntimeException("Fail! -> Cause: User not find."));
         List<String> strPositions  = user.getRolesTeams();
         return new UserResponse(user.getName(),user.getUsername(),
@@ -56,7 +49,7 @@ public class CrudService {
     }
 
     public UserResponse getUserByUserId(Long id) {
-        User user = userRepository.getOne(id);
+        Employee user = employeeRepository.getOne(id);
         List<String> strPositions  = user.getRolesTeams();
         return new UserResponse(user.getName(),user.getUsername(),
                 user.getEmail(),strPositions,user.getStatus(),user.getStatusAsOfDay());
@@ -64,15 +57,15 @@ public class CrudService {
     }
 
     public List<UserResponse> getUsers() {
-        List<User> users = new ArrayList<>();
-        List<User> usersToAdd = userRepository.findByPositions_RoleName("ROLE_USER");
+        List<Employee> users = new ArrayList<>();
+        List<Employee> usersToAdd = employeeRepository.findByPositions_RoleName("ROLE_USER");
         if (!usersToAdd.isEmpty()) {
             users= new Common().mergeTwoList(users,usersToAdd);
         }
 
         List<UserResponse> userResponses = new ArrayList<>();
 
-        for (User u: users) {
+        for (Employee u: users) {
             List<String> strPositions = u.getPositions().stream().map(position -> (position.getRoleName()+","+position.getTeamName()))
                     .collect(Collectors.toList());
             userResponses.add(new UserResponse(u.getName(),u.getUsername(),
@@ -86,15 +79,15 @@ public class CrudService {
 
     public List<UserResponse> getlist(List<String> strTeams) {
 
-        List<User> users = new ArrayList<>();
-        List<User> usersToAdd;
+        List<Employee> users = new ArrayList<>();
+        List<Employee> usersToAdd;
         if (strTeams.contains("TEAM_ADMIN")) {
-            users = userRepository.findAllWithPositions();
+            users = employeeRepository.findAllWithPositions();
         }else{
             // get all users of the login user's team only
             for (String strTeam: strTeams) {
-                usersToAdd = userRepository.findByPositions_TeamName(strTeam);
-                for (User u : usersToAdd){
+                usersToAdd = employeeRepository.findByPositions_TeamName(strTeam);
+                for (Employee u : usersToAdd){
                     if (!users.contains(u))
                         users.add(u);
                 }
@@ -104,7 +97,7 @@ public class CrudService {
 
         List<UserResponse> userResponses = new ArrayList<>();
 
-        for (User u: users) {
+        for (Employee u: users) {
             List<String> strPositions = u.getPositions().stream().map(position -> (position.getRoleName()+","+position.getTeamName()))
                     .collect(Collectors.toList());
             userResponses.add(new UserResponse(u.getName(),u.getUsername(),
@@ -116,10 +109,10 @@ public class CrudService {
 
     public boolean resetPassword(String username, LoginForm loginForm) {
         System.out.println("the username is " + username);
-        User user = userRepository.findByUsername(username).
+        Employee user = employeeRepository.findByUsername(username).
                 orElseThrow(() -> new RuntimeException("Fail! -> Cause: User not found."));
         user.setPassword(encoder.encode(loginForm.getPassword()));
-        userRepository.save(user);
+        employeeRepository.save(user);
         return true;
 
     }
@@ -128,7 +121,7 @@ public class CrudService {
 
     public UserResponse getByUsername(String username) {
 
-        User user = userRepository.findByUsername(username).orElseThrow(
+        Employee user = employeeRepository.findByUsername(username).orElseThrow(
                 () -> new RuntimeException("Error: User not found!"));
 
         List<String> strPositions  = user.getRolesTeams();
@@ -139,7 +132,7 @@ public class CrudService {
     }
 
     public UserResponse update(String username, UserRequest userRequest) {
-        User user = userRepository.findByUsername(username).orElseThrow(
+        Employee user = employeeRepository.findByUsername(username).orElseThrow(
                 () -> new RuntimeException("Error: User not found!"));
         List<String> positionsGet = userRequest.getPositions();
 
@@ -150,21 +143,7 @@ public class CrudService {
         user.setStatus(userRequest.getStatus());
         user.setStatusAsOfDay(LocalDateTime.now().toString());
 
-        // remove all positions
-//        List<String> roleNames = Stream.of(RoleName.values())
-//                .map(Enum::name)
-//                .collect(Collectors.toList());
-//        List<String> teamNames = Stream.of(TeamName.values())
-//                .map(Enum::name)
-//                .collect(Collectors.toList());
-//        for (String r: roleNames){
-//            for (String t: teamNames){
-//                Position position = positionRepository.findByRoleNameAndTeamName(r,t)
-//                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Position not find."));
-//                user.removePosition(position);
-//                positionRepository.save(position);
-//            }
-//        }
+
         List<Position> positions = positionRepository.findAll();
         for (Position p: positions) {
             user.removePosition(p);
@@ -183,7 +162,7 @@ public class CrudService {
         }
 
 
-        userRepository.save(user);
+        employeeRepository.save(user);
 
 
         return new UserResponse(user.getName(),user.getUsername(),
@@ -192,57 +171,12 @@ public class CrudService {
 
     }
 
-//    public void delete(int id) {
-//        userRepository.deleteById(Long.valueOf(id));
-//    }
+
 
     public void delete (String username) {
-        userRepository.deleteByUsername(username);
+        employeeRepository.deleteByUsername(username);
     }
 
-//    public User update(User userDto) {
-//        Optional<User> user = userRepository.findById(Long.valueOf(userDto.getId()));
-//        user.get().setEmail(userDto.getEmail());
-//        user.get().setTeams(userDto.getTeams());
-//        user.get().setRoles((userDto.getRoles()));
-//        user.get().setName(userDto.getName());
-//        user.get().setUsername(userDto.getUsername());
-//        if(user.get() != null) {
-//            BeanUtils.copyProperties(userDto, user, "password");
-//            userRepository.save(user.get());
-//
-//        }
-//        return userDto;
-//    }
-
-//    public List<UserResponse> getlistWithRoles() {
-//        List<User> users = userRepository.findAllWithRoles();
-//        List<UserResponse> userResponses = new ArrayList<>();
-//        for (User u: users) {
-//            List<String> strRoles = u.getRoles().stream().map(role -> role.getName()).collect(Collectors.toList());
-//            userResponses.add(new UserResponse(u.getName(),u.getUsername(),
-//                    u.getEmail(),strRoles,u.getTeams(),u.isActive()));
-//        }
-//
-//        return userResponses;
-//
-//    }
-
-
-
-//
-//        for (User u : users) {
-//            List<Long> roleIds = userRoleRepository.findAllByUserId(u.getId())
-//                    .stream().map(x -> x.getRoleId()).collect(Collectors.toList());
-//            List<String> strRoles = roleRepository.findAllById(roleIds)
-//                    .stream().map(x -> x.getName()).collect(Collectors.toList());
-//
-//            userResponses.add(new UserResponse(u.getName(),u.getUsername()
-//                    ,u.getEmail(),strRoles,u.getTeams(),u.isActive()));
-//        }
-//
-//        return userResponses;
-//    }
 
 
 }

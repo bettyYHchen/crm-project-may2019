@@ -1,5 +1,6 @@
 package com.busyqa.crm.utils;
 
+import com.busyqa.crm.model.user.Employee;
 import com.busyqa.crm.model.user.Lead;
 import com.busyqa.crm.model.user.User;
 import com.busyqa.crm.model.user.payment.Payment;
@@ -15,9 +16,9 @@ import java.util.Date;
 import java.util.List;
 
 public class Common {
-    public List<User> mergeTwoList(List<User> l1, List<User> l2){
+    public List<Employee> mergeTwoList(List<Employee> l1, List<Employee> l2){
 
-        for (User x : l2){
+        for (Employee x : l2){
             if (!l1.contains(x))
                 l1.add(x);
         }
@@ -33,7 +34,8 @@ public class Common {
                 paymentPlan.equals(PaymentPlan.One_Time_Email_Money.toString())) {
             payments.add(new Payment("", regularFee, taxFee, lateFee,
                     regularFee+taxFee+lateFee,PaymentStatus.UNPAID.toString()));
-        }else if (paymentPlan.equals(PaymentPlan.Automated_Weekly.toString())) {
+        }else if (paymentPlan.equals(PaymentPlan.Automated_Weekly_Credit_Card.toString()) ||
+                paymentPlan.equals(PaymentPlan.Automated_Weekly_Debit_Card_Or_Cash.toString())) {
             for (int i = 0; i < weekFrequency; i++) {
                 payments.add(new Payment("", regularFee/weekFrequency, taxFee/weekFrequency, lateFee,
                         ((regularFee+taxFee)/weekFrequency)+lateFee, PaymentStatus.UNPAID.toString(),"",""));
@@ -60,7 +62,8 @@ public class Common {
             // if one time payment selected, the deadline to pay the fee would be one week
             // after the class started.
             dates2Generate.add(date.plus(1, ChronoUnit.WEEKS).format(myFormatObj));
-        }else if (paymentPlan.equals(PaymentPlan.Automated_Weekly.toString())) {
+        }else if (paymentPlan.equals(PaymentPlan.Automated_Weekly_Credit_Card.toString()) ||
+                paymentPlan.equals(PaymentPlan.Automated_Weekly_Debit_Card_Or_Cash.toString())) {
             for (int i = 0; i < weekFrequency; i++) {
                 dates2Generate.add(date.plus(i*7+3, ChronoUnit.DAYS).format(myFormatObj));
             }

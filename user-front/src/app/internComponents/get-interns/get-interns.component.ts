@@ -23,4 +23,5 @@ export class GetInternsComponent implements OnInit {
       () => console.log('all interns are listed!')
     );
   }
+
 }

@@ -25,6 +25,7 @@ import { Instructor } from '../model/instructor';
 import { ClassFinishedStatus } from '../model/class-finished-status';
 import { SettingRequest } from '../model/setting-request';
 import { PaymentMail } from '../model/payment-mail';
+import { LocationRequest } from '../model/location-request';
 
 const httpOptions = {
   'Content-Type': 'application/json'
@@ -404,6 +405,19 @@ export class UserService {
   // get user by id
   getUserById(id: number) {
     return this.http.get(this.getUserByIdUrl + id);
+  }
+
+  // location serve
+  getLocation() {
+    return this.http.get(this.apiUrl + '/academic/locations');
+  }
+
+  createLocation(locationRequest: LocationRequest) {
+    return this.http.post(this.apiUrl + '/academic/addLocation', locationRequest);
+  }
+
+  deleteLocation(id: number) {
+    return this.http.delete(this.apiUrl + '/academic/locations/' + id);
   }
 
 }

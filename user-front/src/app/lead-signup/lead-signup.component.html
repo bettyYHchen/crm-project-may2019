@@ -1,221 +1,129 @@
-<!-- method="post" action="/gustbook.html"  -->
-<form [formGroup]="postForm" (ngSubmit)="onSubmit()" novalidate>
-  <div *ngIf="validMessage != ''">
-    <h3 class="has-info">{{ validMessage }}</h3>
-  </div>
-
-
-
-
-    <div class="form-group">
-      <label for="firstName">First Name:</label>
-      <input type="text" value="" class="form-control" id="firstName" formControlName="firstName" />
+<h3 class="mt-0 p-2 text-white border-top border-dark w-100 bg-secondary">CREATE LEAD</h3>
+<div class="m-3 row">
+    <div class="col-sm-1 col-md-2">
     </div>
+    <div class="col col-centered">
+            <form [formGroup]="postForm" (ngSubmit)="onSubmit()" novalidate>
+              <div *ngIf="validMessage != ''">
+                <h3 class="has-info">{{validMessage}}</h3>
+              </div>
 
-    <div class="form-group">
-      <label for="lastName">Last Name:</label>
-      <input type="text" value="" class="form-control" id="lastName" formControlName="lastName" />
-    </div>
+              <!-- HEADER BUTTONS -->
+              <div class="form-row mb-4 mt-3">
+                <div class="col-9"></div>
+                <div class="col">
+                  <!-- <button class="btn btn-outline-secondary text-center mr-3 my-auto"
+                  style="width:100px;" type="button"
+                  routerLink="/dashboard/{{authority}}">CANCEL
+                  </button> -->
+                  <div class="btn-group">
+                    <button class="btn btn-outline-success text-center mr-3 my-auto"
+                            style="width:140px" value="Post" type="submit">SAVE TO LEAD
+                    </button>
+                    <button class="btn btn-outline-success text-center mr-3 my-auto"
+                            style="width:140px" type="button" title="Send welcome package"
+                            (click)="onSendTemplate()"> SEND EMAIL
+                    </button>
+                  </div>
+                  </div>
+                </div>
+              <hr>
 
-    <div class="form-group">
-      <label for="phone">Phone:</label>
-      <input type="text" value="" class="form-control" id="phone" formControlName="phone" />
-    </div>
+              <!-- LEAD STATUS -->
+            <div class="row pb-3">
+                <div class="col">
+                  <label>Lead Status</label>
+                  <div class="form-row mb-2">
+                      <select class="form-control" formControlName="leadStatus" required>
+                          <option value="">Please select a lead status</option>
+                          <option *ngFor="let item of leadStatusList"
+                                  [value]="item">
+                                  {{  item }}
+                          </option>
+                      </select>
+                  </div>
+                  <label>Lead Source</label>
+                  <div class="form-row mb-2">
+                      <select class="form-control" formControlName="leadSource" required>
+                          <option value="">Please select a lead source</option>
+                          <option *ngFor="let item of leadSourceList"
+                                  [value]="item">
+                                  {{  item }}
+                          </option>
+                      </select>
+                  </div>
+                </div>
+                <div class="col">
+                    <label>Payment Plan</label>
+                    <div class="form-row mb-2">
+                       <select class="form-control" formControlName="paymentPlan" required>
+                          <option value="">Please select a payment plan</option>
+                          <option *ngFor="let item of paymentPlanList"
+                                  [value]="item">
+                                  {{  item }}
+                          </option>
+                       </select>
+                    </div>
+                    <label>Payment Plan Status</label>
+                    <div class="form-row mb-2">
+                       <select class="form-control" formControlName="paymentPlanStatus" required>
+                            <option value="">Please select a payment plan status</option>
+                            <option *ngFor="let item of paymentPlanStatusList"
+                                    [value]="item">
+                                    {{  item }}
+                            </option>
+                        </select>
+                    </div>
 
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="text" value="" class="form-control" id="email" formControlName="email" />
-    </div>
+                    <div class="form-row mb-2">
+                        <label>
+                       <input type="checkbox" style="margin-right: 10px" formControlName="paidDeposit">
+                       Registration Fee Paid?</label>
+                    </div>
+                </div>
+            </div>
 
-    <div class="form-group">
-      <label for="paidDeposit">Deposite Paid: </label>
-      <input type="checkbox" formControlName="paidDeposit">
-    </div>
+            <hr>
+             <!-- BASIC INFO -->
+            <label class="mt-2" for="firstName">Full Name</label>
+            <div class="row mb-2">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="First name"
+                  formControlName="firstName" value="">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Last name"
+                  formControlName="lastName" value="">
+                </div>
+            </div>
 
-    <div class="form-group">
-      <label>Selected Payment Plan:</label>
-      <br/>
-        <select class="form-control" formControlName="paymentPlan" required>
-            <option value="">Please select a payment plan</option>
-            <option *ngFor="let item of paymentPlanList"
-                    [value]="item">
-                    {{  item }}
-            </option>
-        </select>
-    </div>
+            <label class="mt-2" for="firstName">Contacts</label>
+            <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Email Address"
+                  formControlName="email" value="">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Phone Number"
+                  formControlName="phone" value="">
+                </div>
+             </div>
 
-    <div class="form-group">
-      <label>Selected Payment Plan Status:</label>
-      <br/>
-        <select class="form-control" formControlName="paymentPlanStatus" required>
-            <option value="">Please select a payment plan status</option>
-            <option *ngFor="let item of paymentPlanStatusList"
-                    [value]="item">
-                    {{  item }}
-            </option>
-        </select>
-    </div>
-
-    <div class="form-group">
-      <label>Selected Lead Source:</label>
-      <br/>
-        <select class="form-control" formControlName="leadSource" required>
-            <option value="">Please select a lead source</option>
-            <option *ngFor="let item of leadSourceList"
-                    [value]="item">
-                    {{  item }}
-            </option>
-        </select>
-    </div>
-
-    <div class="form-group">
-      <label>Selected Lead Status:</label>
-      <br/>
-        <select class="form-control" formControlName="leadStatus" required>
-            <option value="">Please select a lead status</option>
-            <option *ngFor="let item of leadStatusList"
-                    [value]="item">
-                    {{  item }}
-            </option>
-        </select>
-    </div>
-
-    <div class="form-group">
-      <label>Comments:</label>
-      <textarea placeholder="" class="form-control" formControlName="comment"></textarea>
-    </div>
-
-    <div class="container-fluid">
-      <app-add-class (sendClassInfo)="customFunc($event)"></app-add-class>
-    </div>
+            <div class="mt-3 form-group">
+                <label>Comments:</label>
+                <textarea placeholder="" class="form-control" formControlName="comments"></textarea>
+            </div>
 
 
-    <!-- <form [formGroup]="classForm" (ngSubmit)="onSubmitClassForm()" novalidate>
-      <div class="form-group">
-          <table class="table table-striped">
-            <thead>
-            <tr>
-              <th>Course</th>
-              <th>Term</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>
-              <ng-multiselect-dropdown formControlName="courseName"  name="courseName" class="form-control" id="courseName" [data]="courseDropdownList" [(ngModel)]="selectedCourse"
-                    [settings]="courseDropdownSettings"  (onSelect)="onCourseSelect($event)" (onDeSelect)="OnCourseDeSelect($event)" >
-            </ng-multiselect-dropdown>
-              </td>
-              <td>
-                <ng-multiselect-dropdown formControlName="batch"  name="batch" class="form-control" id="batch" [data]="termDropdownList" [(ngModel)]="selectedTerm"
-                    [settings]="termDropdownSettings"  (onSelect)="onTermSelect($event)" (onDeSelect)="OnTermDeSelect($event)">
-                </ng-multiselect-dropdown>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="form-group">
-            <label>Selected Trainer:</label>
-            <br/>
-              <select class="form-control" formControlName="instructorName" required>
-                  <option value="">Please select an instructor</option>
-                  <option *ngFor="let item of instructorList"
-                          [value]="item">
-                          {{  item }}
-                  </option>
-              </select>
-          </div>
-
-          <div class="form-group">
-            <label>Selected Training Location:</label>
-            <br/>
-              <select class="form-control" formControlName="address" required>
-                  <option value="">Please select a location</option>
-                  <option *ngFor="let item of addressList"
-                          [value]="item">
-                          {{  item }}
-                  </option>
-              </select>
-          </div>
-
-          <div class="form-group">
-              <label for="start">Start Date: </label>
-              <input type="text" formControlName="start">
-          </div>
-
-          <div class="form-group">
-              <label for="end">End Date: </label>
-              <input type="text" formControlName="end">
+          <!-- COURSE LIST -->
+          <div class="container-fluid">
+            <app-add-class (sendClassInfo)="customFunc($event)"></app-add-class>
           </div>
 
 
 
-        <div class="row">
-          <div class="col-sm-8" >
-              <button
-                type="submit"> Add class
-              </button>
-          </div>
-      </div>
-    </form> -->
 
-    <!-- <div class="form-group">
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>Course</th>
-          <th>Term</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>
-          <ng-multiselect-dropdown formControlName="courseName"  name="courseName" class="form-control" id="courseName" [data]="courseDropdownList" [(ngModel)]="selectedCourse"
-                [settings]="courseDropdownSettings"  (onSelect)="onCourseSelect($event)" (onDeSelect)="OnCourseDeSelect($event)" >
-        </ng-multiselect-dropdown>
-          </td>
-          <td>
-            <ng-multiselect-dropdown formControlName="batch"  name="batch" class="form-control" id="batch" [data]="termDropdownList" [(ngModel)]="selectedTerm"
-                [settings]="termDropdownSettings"  (onSelect)="onTermSelect($event)" (onDeSelect)="OnTermDeSelect($event)">
-            </ng-multiselect-dropdown>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div> -->
+          <div class="col-sm-1 col-md-2">
 
-
-
-
-
-<!-- <button class="btn btn-primary mr-3"
-    style="width:80px;"
-    type="submit"> Submit
-</button> -->
-  <!-- <button class="btn btn-primary mr-3"
-            style="width:80px"
-            type="button"
-            title="Delete this lead"
-            (click)="onSendTemplate()"> Send Email
-  </button> -->
-
-  <div class="row">
-      <div class="col-sm-8" >
-        <div class="btn-group">
-          <button
-            type="submit"> Submit
-          </button>
-          <button
-            type="button"
-            title="Send welcome package"
-            (click)="onSendTemplate()"> Send Email
-          </button>
-        </div>
-      </div>
-      <div class="col-sm-4">{{ confirmationMessage }}</div>
-  </div>
-</form>
-
+            </div>
 

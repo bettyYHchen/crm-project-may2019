@@ -22,6 +22,9 @@ export class AddClassComponent implements OnInit {
       'CERTIFIED_SCRUM_MASTER', 'FULLSTACK_JAVA_DEVELOPER', 'PERFORMANCE_TESTING', 'SOFTWARE_TESTING_ONLINE'];
 currentYear = new Date().getFullYear().toString();
 
+locations: any;
+addressList: string[];
+
 
 batchList: string[] = [
       'WINTER ' + this.currentYear,
@@ -30,12 +33,12 @@ batchList: string[] = [
       'FALL ' + this.currentYear,
     ];
 
-addressList: string[] = [
-'Suite 1532, 4 Robert Speck Parkway, Mississauga ON L4Z 1S1',
-'Iceland Mississauga, 705 Matheson Blvd E, Mississauga ON L4Z 3X9',
-'Swansea Town Hall Community Center, 95 Lavinia Ave, Toronto ON M6S 3H9',
-'Armadale Community Center, 2401 Denison St, Markham ON L3S 1E7',
-'Cassie Campbell Community Center, 1050 Sandalwood Pkwy W, Brampton ON L7A 0K9'];
+// addressList: string[] = [
+// 'Suite 1532, 4 Robert Speck Parkway, Mississauga ON L4Z 1S1',
+// 'Iceland Mississauga, 705 Matheson Blvd E, Mississauga ON L4Z 3X9',
+// 'Swansea Town Hall Community Center, 95 Lavinia Ave, Toronto ON M6S 3H9',
+// 'Armadale Community Center, 2401 Denison St, Markham ON L3S 1E7',
+// 'Cassie Campbell Community Center, 1050 Sandalwood Pkwy W, Brampton ON L7A 0K9'];
 
   postForm: FormGroup;
   validMessage = '';
@@ -51,6 +54,13 @@ addressList: string[] = [
   ) {}
 
   ngOnInit() {
+    this.userService.getLocation().subscribe(
+      data => {this.locations = data;
+               this.addressList = this.locations.map(x => x.address);
+            },
+      err => console.log(err),
+      () => console.log('addressList loaded!')
+    );
     this.createForm();
   }
 
