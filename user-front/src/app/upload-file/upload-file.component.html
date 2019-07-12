@@ -1,4 +1,5 @@
-<h2>Please make sure you are uploading the signed agreement</h2>
+
+<h3 class="mt-0 p-2 text-white border-top border-dark w-100 bg-secondary">PDF FILE EXPECTED</h3>
 
 <div>
   <input #fileInput type="file" ng2FileSelect [uploader]="uploader"/>
@@ -13,10 +14,10 @@
   </div>
 </div>
 
-<div *ngFor="let item of uploader.queue">
-    <h5>{{ item?.file?.name }}</h5>
-</div>
+
 
 <div *ngIf="hasUploaded">
-   <h4> Your file has been uploaded successfully! </h4>
+    <div *ngFor="let item of uploader.queue">
+        <h5>{{ item?.file?.name }} has been uploaded successfully!</h5>
+    </div>
 </div>

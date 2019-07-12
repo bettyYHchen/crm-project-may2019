@@ -25,6 +25,7 @@ export class EditResumeComponent implements OnInit {
   hasUploaded: boolean;
   response: string[];
   fileName: string = '';
+  clientEmail: string;
 
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService, private router: Router) {
@@ -38,8 +39,10 @@ export class EditResumeComponent implements OnInit {
       this.getResume(email);
     }
   );
+  this.clientEmail = this.route.snapshot.params.email;
+  this.fileName = 'Resume' + '(' + this.clientEmail.split('.', 2)[0] + ')';
   const headers = [{name: 'Accept', value: 'application/json'}];
-  this.uploader = new FileUploader({url: this.uploadUrl + this.route.snapshot.params.email, autoUpload: true, headers});
+  this.uploader = new FileUploader({url: this.uploadUrl + this.fileName, autoUpload: true, headers});
   this.uploader.onCompleteItem = (item, response, status, headers) => {
       alert('File uploaded');
       this.hasUploaded = true;

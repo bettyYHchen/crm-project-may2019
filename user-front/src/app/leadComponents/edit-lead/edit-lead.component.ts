@@ -4,6 +4,9 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { Lead } from 'src/app/model/lead';
+import { environment } from 'src/environments/environment';
+import { FileUploader } from 'ng2-file-upload';
+import { FileValidator } from 'src/app/file-input.validator';
 
 @Component({
   selector: 'app-edit-lead',
@@ -12,6 +15,8 @@ import { Lead } from 'src/app/model/lead';
 })
 
 export class EditLeadComponent implements OnInit {
+  apiUrl = environment.apiUrl;
+  uploadUrl = this.apiUrl + '/api/file/uploadFile/';
   paymentPlanList = [
     'One_Time_Credit_Card',
     'One_Time_Debit_Card_Or_Cash',
@@ -74,11 +79,7 @@ termList = [
 
 
 
-classList = [];
-
-
-
-
+  classList = [];
 
   editForm: FormGroup;
   validMessage = '';
@@ -87,6 +88,20 @@ classList = [];
   leadExample: any;
   confirmationMessage = '';
   userId: number;
+  clientEmail: string;
+  fileNameComp: string;
+  courseName: string;
+  paymentPlanName: string;
+  leadTmp: any;
+
+  // for file upload
+  uploader: FileUploader;
+  hasUploaded: boolean;
+  response: string[];
+  fileName: string = '';
+
+
+
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService, private router: Router) {
    }
@@ -102,6 +117,17 @@ classList = [];
         this.getLead(email);
       }
     );
+
+    this.clientEmail = this.route.snapshot.params.email;
+    this.fileName = 'PaymentPlanAgreement' + '(' + this.clientEmail.split('.', 2)[0] + ')';
+    const headers = [{name: 'Accept', value: 'application/json'}];
+    this.uploader = new FileUploader({url: this.uploadUrl + this.fileName, autoUpload: true, headers});
+    this.uploader.onCompleteItem = (item, response, status, headers) => {
+      alert('File uploaded');
+      this.hasUploaded = true;
+      this.response = response.split(',', 4);
+      this.fileName = this.response[0].split(':', 2)[1]; }
+
   }
 
 
@@ -109,7 +135,11 @@ classList = [];
     this.userService.listLeadByEmail(email)
     .subscribe(
       data => {
-        console.log(data);
+        this.leadTmp = data;
+        this.courseName = this.leadTmp.aTrainingClassName.split(' ', 3)[0];
+        this.paymentPlanName = this.leadTmp.paymentPlan;
+        this.fileNameComp = '(' + this.courseName + ')' + '(' + this.paymentPlanName + ')';
+        console.log(this.fileNameComp);
         this.displayForm( data);
         },
       (error: any) => console.error(error)
@@ -127,7 +157,7 @@ classList = [];
       discount: '',
       paymentPlan: '',
       paymentPlanStatus: '',
-      paymentPlanAgreement: '',
+      paymentPlanAgreement: ['',    [FileValidator.validate]],
       leadSource: '',
       leadStatus: '',
       aTrainingClassName: '',
@@ -153,7 +183,6 @@ classList = [];
       discount: this.leadExample.discount,
       paymentPlan: this.leadExample.paymentPlan,
       paymentPlanStatus: this.leadExample.paymentPlanStatus,
-      paymentPlanAgreement: this.leadExample.paymentPlanAgreement,
       leadSource: this.leadExample.leadSource,
       leadStatus: this.leadExample.leadStatus,
       aTrainingClassName: this.leadExample.aTrainingClassName,
@@ -220,9 +249,9 @@ classList = [];
 
   }
 
-  onSendPortalLink() {
+  onSendPortalLink(fileNameComp: string) {
     if (confirm('Are you sure you want to send portal link to this lead?')) {
-      this.userService.sendEmailWithAttachment(this.route.snapshot.params.email)
+      this.userService.sendEmailWithAttachment(this.route.snapshot.params.email , this.fileNameComp)
       .subscribe(
         () => this.confirmationMessage = 'The portal link has been sent.',
         (error: any) => console.error(error)

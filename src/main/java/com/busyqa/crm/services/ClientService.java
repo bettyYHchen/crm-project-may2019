@@ -79,7 +79,8 @@ public class ClientService {
         return leadRepository.findByEmail(email).map(recordUpdated -> {
             recordUpdated.setName(leadClientRequest.getName());
             recordUpdated.setPhone(leadClientRequest.getPhone());
-            recordUpdated.setAddress(leadClientRequest.getAddress());
+            recordUpdated.setAddress(leadClientRequest.getCity() + "," + leadClientRequest.getState()
+                    + "," + leadClientRequest.getCountry());
             recordUpdated.setPaymentPlan(leadClientRequest.getPaymentPlan());
             recordUpdated.setPaymentPlanAgreement(leadClientRequest.getPaymentPlanAgreement());
             recordUpdated.setLeadSource(leadClientRequest.getLeadSource());

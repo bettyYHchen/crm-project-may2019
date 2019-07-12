@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
@@ -19,6 +20,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+
+import java.io.File;
 
 @Service
 public class MailService {
@@ -112,7 +115,7 @@ public class MailService {
         }
     }
 
-    public void sendTemplatedEmailWithAttachment(String email) throws MailException, MessagingException {
+    public void sendTemplatedEmailWithAttachment(String email, String fileNameComp) throws MailException, MessagingException {
         // the portal link
         String portalUrl = "http://localhost:4200/client/resetPassword/" + email;
         //get and fill the template
@@ -125,8 +128,9 @@ public class MailService {
         helper.setTo(email);
         helper.setSubject("BusyQA Portal Registration And Payment Plan Agreement");
         helper.setText(body, true);
-        ClassPathResource classPathResource = new ClassPathResource("PaymentPlanAgreement.pdf");
-        helper.addAttachment(classPathResource.getFilename(), classPathResource);
+        String filePath = "/Users/yuehuanchen/Desktop/uploads/PaymentPlanAgreement" + fileNameComp + ".pdf";
+        FileSystemResource file = new FileSystemResource(new File(filePath));
+        helper.addAttachment(file.getFilename(), file);
         javaMailSender.send(mail);
     }
 

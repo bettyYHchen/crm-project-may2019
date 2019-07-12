@@ -7,6 +7,7 @@ import { TrainingClass } from '../model/training-class';
 import { LocationRequest } from '../model/location-request';
 
 
+
 @Component({
   selector: 'app-lead-signup',
   templateUrl: './lead-signup.component.html',
@@ -227,6 +228,11 @@ createForm() {
       );
     }
   }
+
+  // onDownload() {
+  //   const dataObj = {};
+  //   this.userService.downloadPDF(dataObj, );
+  // }
 
   // onSubmitClassForm() {
   //   if (this.classForm.valid) {

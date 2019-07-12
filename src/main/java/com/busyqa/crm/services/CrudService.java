@@ -109,10 +109,10 @@ public class CrudService {
 
     public boolean resetPassword(String username, LoginForm loginForm) {
         System.out.println("the username is " + username);
-        Employee user = employeeRepository.findByUsername(username).
+        User user = userRepository.findByUsername(username).
                 orElseThrow(() -> new RuntimeException("Fail! -> Cause: User not found."));
         user.setPassword(encoder.encode(loginForm.getPassword()));
-        employeeRepository.save(user);
+        userRepository.save(user);
         return true;
 
     }

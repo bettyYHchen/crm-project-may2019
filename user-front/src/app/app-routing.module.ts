@@ -51,10 +51,16 @@ import { EditCourseComponent } from './courseComponent/edit-course/edit-course.c
 import { PaymentRecordsComponent } from './paymentComponents/payment-records/payment-records.component';
 import { AddLocationComponent } from './locationComponents/add-location/add-location.component';
 import { GetLocationComponent } from './locationComponents/get-location/get-location.component';
+import { DownloadFileComponent } from './download-file/download-file.component';
+import { RedirectUploadHelperComponent } from './redirect-upload-helper/redirect-upload-helper.component';
 
 
 
 const routes: Routes = [
+    {
+      path: 'downloadFile/:email',
+      component: DownloadFileComponent
+    },
     {
       path: 'locations',
       component: GetLocationComponent
@@ -136,7 +142,11 @@ const routes: Routes = [
       component: GetClientProfileComponent
     },
     {
-      path: 'client/uploadFile/:email',
+      path: 'redirectUploader',
+      component: RedirectUploadHelperComponent
+    },
+    {
+      path: 'uploadFile/:fileNameComp',
       component: UploadFileComponent
     },
     {

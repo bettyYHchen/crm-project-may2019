@@ -18,11 +18,11 @@ export class GetClientProfileComponent implements OnInit {
   message: string;
   clientExample: any;
   username: string;
-  employmentTypeList = [
-    'FullTime',
+  employmentStatusList = [
+    'Unemployed',
     'PartTime',
-    'Contract',
-    'PaidCoop'
+    'FullTime',
+    'SelfEmployed'
   ];
 
   currentYear = new Date().getFullYear().toString();

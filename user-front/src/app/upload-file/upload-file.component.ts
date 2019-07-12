@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter,  } from
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
-import { FileResponse } from '../model/file-response';
 
 @Component({
   selector: 'app-upload-file',
@@ -22,19 +21,20 @@ export class UploadFileComponent implements OnInit {
   fileName: string;
   downloadUrl: string;
   @Output() valueChange = new EventEmitter();
+
+
   constructor(private route: ActivatedRoute) {
+
   }
 
   ngOnInit(): void {
     const headers = [{name: 'Accept', value: 'application/json'}];
-    this.uploader = new FileUploader({url: this.uploadUrl + this.route.snapshot.params.email, autoUpload: true, headers});
-    // this.uploader.onCompleteAll = () => {alert('File uploaded'); this.hasUploaded = true; };
-// tslint:disable-next-line: max-line-length
+    this.fileName = 'PaymentPlanAgreement'  +
+                    this.route.snapshot.params.fileNameComp;
+    this.uploader = new FileUploader({url: this.uploadUrl + this.fileName, autoUpload: true, headers});
     this.uploader.onCompleteItem = (item, response, status, headers) => {
       alert('File uploaded');
       this.hasUploaded = true;
-      this.response = response.split(',', 4);
-      this.fileName = this.response[0].split(':', 2)[1];
       this.valueChange.emit(this.fileName);
        };
   }
@@ -46,20 +46,5 @@ export class UploadFileComponent implements OnInit {
   fileClicked() {
     this.fileInput.nativeElement.click();
   }
-
-  // getFileName() {
-  //   for (const item of this.uploader.queue) {
-  //     console.log(item.file.name);
-  //     this.fileNames.push(item.file.name);
-  //   }
-  //   // this.str = this.route.snapshot.params.email;
-  //   // this.splitted = this.str.split('.', 2);
-  //   // this.emailSignature = this.splitted[0];
-  //   // this.fileName = this.fileNames.pop();
-  //   // this.fileNameSignature = this.fileName.split('.', 2)[0];
-  //   // this.fileNameExtension = this.fileName.split('.',2)[1];
-  //   // this.fileName = this.fileNameSignature + '(' + this.emailSignature + ')' + '.' + this.fileNameExtension;
-  //   // console.log(this.fileName);
-  // }
 
 }

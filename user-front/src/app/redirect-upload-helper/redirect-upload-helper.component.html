@@ -1,0 +1,37 @@
+<h3 class="mt-0 p-2 text-white border-top border-dark w-100 bg-secondary">TYPE OF PAYMENT PLAN AGREEMENT TO UPDATE</h3>
+<form [formGroup]="editForm" (ngSubmit)="onUpdate()" novalidate>
+  <div *ngIf="validMessage != ''">
+    <h6 class="has-info">{{ validMessage }}</h6>
+  </div>
+
+
+  <div class="col">
+    <label>Course</label>
+    <div class="form-row mb-2">
+        <select class="form-control" formControlName="courseName" required>
+            <option value="">Select Course</option>
+            <option *ngFor="let item of courseList"
+                    [value]="item">
+                    {{  item }}
+            </option>
+        </select>
+    </div>
+  </div>
+
+  <div class="col">
+    <label>Payment Plan</label>
+    <div class="form-row mb-2">
+        <select class="form-control" formControlName="paymentPlan" required>
+            <option value="">Select Payment Plan</option>
+            <option *ngFor="let item of paymentPlanList"
+                    [value]="item">
+                    {{  item }}
+            </option>
+        </select>
+    </div>
+  </div>
+
+  <button class="btn btn-outline-success text-center mr-3 my-auto"
+                            style="width:140px" value="Post" type="submit" [disabled]="!editForm.valid"> Go upload
+  </button>
+</form>

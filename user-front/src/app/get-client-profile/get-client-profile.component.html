@@ -39,11 +39,11 @@
     </div>
 
      <div class="form-group">
-      <label>Employment Type:</label>
+      <label>Employment Status:</label>
       <br/>
-        <select class="form-control" formControlName="employmentType" required>
-            <option value="">Please select a employment type</option>
-            <option *ngFor="let item of employmentTypeList"
+        <select class="form-control" formControlName="employmentStatus" required>
+            <option value="">Please select a employment status</option>
+            <option *ngFor="let item of employmentStatusList"
                     [value]="item">
                     {{  item }}
             </option>

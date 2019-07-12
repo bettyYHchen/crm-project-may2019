@@ -2,7 +2,9 @@ export class LeadClientRequest {
   name: string;
   email: string;
   phone: string;
-  address: string;
+  country: string;
+  state: string;
+  city: string;
   aTrainingClassName: string;
   employmentStatus: string;
   currentJob: string;

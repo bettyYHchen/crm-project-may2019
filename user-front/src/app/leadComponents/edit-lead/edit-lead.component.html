@@ -1,156 +1,3 @@
-<!--
-<form [formGroup]="editForm" (ngSubmit)="onUpdate()" novalidate>
-  <div *ngIf="validMessage != ''">
-    <h3 class="has-info">{{ validMessage }}</h3>
-  </div>
-
-
-  <div class="form-group">
-    <label for="firstName">First Name:</label>
-    <input type="text" value="" class="form-control" formControlName="firstName" />
-  </div>
-
-  <div class="form-group">
-    <label for="lastName">Last Name:</label>
-    <input type="text" value="" class="form-control" formControlName="lastName" />
-  </div>
-
-  <div class="form-group">
-    <label for="phone">Phone:</label>
-    <input type="text" value="" class="form-control" formControlName="phone" />
-  </div>
-
-  <div class="form-group">
-    <label for="email">Email:</label>
-    <input type="text" value="" class="form-control" formControlName="email" />
-  </div>
-
-
-  <div class="row">
-      <div class="col-sm-2">
-          <div class="form-group">
-              <label for="paidDeposit">Deposite Paid: </label>
-              <input type="checkbox" formControlName="paidDeposit">
-            </div>
-      </div>
-  </div>
-
-  <div class="form-group">
-      <label for="discount">Discount:</label>
-      <input type="text" value="" class="form-control" formControlName="discount" />
-  </div>
-
-  <div class="form-group">
-    <label>Selected Payment Plan:</label>
-    <br/>
-      <select class="form-control" formControlName="paymentPlan" required>
-          <option value="">Please select a payment plan</option>
-          <option *ngFor="let item of paymentPlanList"
-                  [value]="item">
-                  {{  item }}
-          </option>
-      </select>
-  </div>
-
-  <div class="form-group">
-    <label>Selected Payment Plan Status:</label>
-    <br/>
-      <select class="form-control" formControlName="paymentPlanStatus" required>
-          <option value="">Please select a payment plan status</option>
-          <option *ngFor="let item of paymentPlanStatusList"
-                  [value]="item">
-                  {{  item }}
-          </option>
-      </select>
-  </div>
-
-  <div class="form-group">
-    <label>Selected Lead Source:</label>
-    <br/>
-      <select class="form-control" formControlName="leadSource" required>
-          <option value="">Please select a lead source</option>
-          <option *ngFor="let item of leadSourceList"
-                  [value]="item">
-                  {{  item }}
-          </option>
-      </select>
-  </div>
-
-  <div class="form-group">
-    <label>Selected Lead Status:</label>
-    <br/>
-      <select class="form-control" formControlName="leadStatus" required>
-          <option value="">Please select a lead status</option>
-          <option *ngFor="let item of leadStatusList"
-                  [value]="item">
-                  {{  item }}
-          </option>
-      </select>
-  </div>
-
-
-
-  <div class="form-group">
-    <label>Selected Class:</label>
-    <br/>
-      <select class="form-control" formControlName="aTrainingClassName" required>
-          <option value="">Please select a class</option>
-          <option *ngFor="let item of classList"
-                  [value]="item">
-                  {{  item }}
-          </option>
-      </select>
-  </div>
-
-  <div class="form-group">
-    <label>Comments:</label>
-    <textarea placeholder="" class="form-control" formControlName="comment"></textarea>
-  </div>
-
-  <div class="btn-group">
-    <button
-      type="submit"
-      [disabled]="!editForm.valid"> Save
-    </button>
-    <button
-        type="button"
-        [routerLink]="['/pm/leads']">Cancel
-    </button>
-    <button
-        type="button"
-        title="Delete this lead"
-        (click)="onDelete()"> Delete
-    </button>
-    <button
-        type="button"
-        title="Change to student"
-        (click)="onConvertToStudent()"> To Student
-    </button>
-    <button
-        type="button"
-        title="Drop off student"
-        (click)="onDropOff()"> Drop Off
-    </button>
-    <button
-        type="button"
-        title="Send portal link"
-        (click)="onSendPortalLink()"> Send Link
-    </button>
-    <button
-          type="button"
-          [routerLink]="['/payments/user/', userId]"> Invoice
-        </button>
-  </div>
-
-
-
-</form>
-
-
-
-
- -->
-
  <h3 class="mt-0 p-2 text-white border-top border-dark w-100 bg-secondary">EDIT LEAD</h3>
 <div class="m-3 row">
     <div class="col-sm-1 col-md-2">
@@ -193,45 +40,57 @@
                 </div>
               <hr>
 
-              <!-- LEAD STATUS -->
+
             <div class="row pb-3">
                 <div class="col">
                   <label>Lead Status</label>
                   <div class="form-row mb-2">
                       <select class="form-control" formControlName="leadStatus" required>
-                          <option value="">Please select a lead status</option>
+                          <option value="" disabled>Please select a lead status</option>
                           <option *ngFor="let item of leadStatusList"
                                   [value]="item">
                                   {{  item }}
                           </option>
                       </select>
                   </div>
+
                   <label>Lead Source</label>
                   <div class="form-row mb-2">
                       <select class="form-control" formControlName="leadSource" required>
-                          <option value="">Please select a lead source</option>
+                          <option value="" disabled>Please select a lead source</option>
                           <option *ngFor="let item of leadSourceList"
                                   [value]="item">
                                   {{  item }}
                           </option>
                       </select>
                   </div>
+
                   <label>Selected Class</label>
                   <div class="form-row mb-2">
                       <select class="form-control" formControlName="aTrainingClassName" required>
-                          <option value="">Please select a class</option>
+                          <option value="" disabled>Please select a class</option>
                           <option *ngFor="let item of classList"
                                   [value]="item">
                                   {{  item }}
                           </option>
                       </select>
                   </div>
+
+                  <label for="paymentPlanAgreement">Please upload the payment plan agreement.</label>
+                  <div class="form-row mb-2">
+                      <input type="file" ng2FileSelect [uploader]="uploader" class="form-control" formControlName="paymentPlanAgreement" />
+                      <div *ngIf="hasUploaded">
+                          <p> Your file has been uploaded successfully! </p>
+                       </div>
+                  </div>
+
                 </div>
+
                 <div class="col">
                     <label>Payment Plan</label>
                     <div class="form-row mb-2">
                        <select class="form-control" formControlName="paymentPlan" required>
-                          <option value="">Please select a payment plan</option>
+                          <option value="" disabled>Please select a payment plan</option>
                           <option *ngFor="let item of paymentPlanList"
                                   [value]="item">
                                   {{  item }}
@@ -241,7 +100,7 @@
                     <label>Payment Plan Status</label>
                     <div class="form-row mb-2">
                        <select class="form-control" formControlName="paymentPlanStatus" required>
-                            <option value="">Please select a payment plan status</option>
+                          <option value="" disabled>Please select a payment plan status</option>
                             <option *ngFor="let item of paymentPlanStatusList"
                                     [value]="item">
                                     {{  item }}
@@ -263,7 +122,7 @@
             </div>
 
             <hr>
-             <!-- BASIC INFO -->
+
             <label class="mt-2" >Full Name</label>
             <div class="row mb-2">
                 <div class="col">
@@ -290,7 +149,7 @@
 
             <div class="mt-3 form-group">
                 <label>Comments:</label>
-                <textarea placeholder="" class="form-control" formControlName="comments"></textarea>
+                <textarea class="form-control" formControlName="comment"></textarea>
             </div>
 
 

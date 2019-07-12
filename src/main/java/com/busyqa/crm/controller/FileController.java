@@ -31,15 +31,14 @@ public class FileController {
     @Autowired
     private FileStorageService fileStorageService;
 
-    @PostMapping("/uploadFile/{email}")
-    public UploadFileResponse uploadFile(@PathVariable("email") String email, @RequestParam("file") MultipartFile file) {
+    @PostMapping("/uploadFile/{newFileName}")
+    public UploadFileResponse uploadFile(@PathVariable("newFileName") String newFileName, @RequestParam("file") MultipartFile file) {
 
         String fileNameTmp = StringUtils.cleanPath(file.getOriginalFilename());
         String[] fileNameTmpList = fileNameTmp.split("\\.");
-        String emailSignature = email.split("\\.")[0];
-        String newFileName = fileNameTmpList[0] + "(" + emailSignature + ")" + "." + fileNameTmpList[1];
-        System.out.println(newFileName);
-        String fileName = fileStorageService.storeFile(file, newFileName);
+        String newName = newFileName + "." + fileNameTmpList[1];
+        System.out.println(newName);
+        String fileName = fileStorageService.storeFile(file, newName);
 
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -75,4 +74,49 @@ public class FileController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
+//
+//    @PostMapping("/uploadPaymentPlanAgreement/{email}")
+//    public UploadFileResponse uploadPaymentPlanAgreement(@PathVariable("email") String email, @RequestParam("agreement") MultipartFile agreement) {
+//
+//        String fileNameTmp = StringUtils.cleanPath(agreement.getOriginalFilename());
+//        String[] fileNameTmpList = fileNameTmp.split("\\.");
+//        String emailSignature = email.split("\\.")[0];
+//        String newFileName = "PaymentPlanAgreement" + "(" + emailSignature + ")" + "." + fileNameTmpList[1];
+//        System.out.println(newFileName);
+//        String agreementName = fileStorageService.storeFile(agreement, newFileName);
+//
+//
+//        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+//                .path("/downloadPaymentPlanAgreement/")
+//                .path(agreementName)
+//                .toUriString();
+//
+//        return new UploadFileResponse(agreementName, fileDownloadUri,
+//                agreement.getContentType(), agreement.getSize());
+//    }
+//
+//
+//    @GetMapping("/downloadPaymentPlanAgreement/{fileName:.+}")
+//    public ResponseEntity<Resource> downloadPaymentPlanAgreement(@PathVariable String fileName, HttpServletRequest request) {
+//        // Load file as Resource
+//        Resource resource = fileStorageService.loadFileAsResource(fileName);
+//
+//        // Try to determine file's content type
+//        String contentType = null;
+//        try {
+//            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+//        } catch (IOException ex) {
+//            logger.info("Could not determine file type.");
+//        }
+//
+//        // Fallback to the default content type if type could not be determined
+//        if (contentType == null) {
+//            contentType = "application/octet-stream";
+//        }
+//
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.parseMediaType(contentType))
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+//                .body(resource);
+//    }
 }

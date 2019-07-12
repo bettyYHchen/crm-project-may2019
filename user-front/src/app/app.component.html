@@ -1,46 +1,4 @@
-<!-- <nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">BusyQA Student Front</a>
-    </div>
-    <ul class="nav navbar-nav" routerLinkActive="active">
-      <li class="nav-item"><a class="nav-link" routerLink="home">Home</a></li>
 
-      <li *ngIf="!authority" class="nav-item">
-        <a class="nav-link" routerLink="auth/login">Login</a>
-      </li>
-      <li *ngIf="authority === 'client' || authority === 'user' ||  authority === 'admin' || authority === 'pm' " class="nav-item">
-          <a class="nav-link" (click)="logout()">Logout</a>
-      </li>
-      <li *ngIf="authority === 'client' || authority === 'user' ||  authority === 'admin' || authority === 'pm' " class="nav-item">
-        <a class="nav-link" [routerLink] = "[myInfoUrl]">My Info</a>
-    </li>
-      <li *ngIf="authority === 'user' || authority === 'user' ||  authority === 'admin' || authority === 'pm' " class="nav-item">
-          <a class="nav-link" routerLink="resetPassword">Reset Password</a>
-      </li>
-      <div fxLayout="row" fxLayoutGap="25px">
-       <div *ngFor="let role of roles">
-          <li *ngIf="role === 'ROLE_USER'" class="nav-item">
-              <a class="nav-link" routerLink="user">Account Panel </a>
-          </li>
-          <li *ngIf="role === 'ROLE_ADMIN'" class="nav-item">
-              <a class="nav-link" routerLink="admin">Admin Panel </a>
-          </li>
-          <li *ngIf="role === 'ROLE_PM'" class="nav-item">
-              <a class="nav-link" routerLink="pm">Sales Panel </a>
-          </li>
-          <li *ngIf="role === 'ROLE_CLIENT'" class="nav-item">
-            <a class="nav-link" routerLink="myProfile">Client Profile </a>
-          </li>
-       </div>
-      </div>
-    </ul>
-
-  </div>
-</nav>
-<div class="container">
-  <router-outlet></router-outlet>
-</div> -->
 <app-crm-header></app-crm-header>
 <div class="container">
   <router-outlet></router-outlet>

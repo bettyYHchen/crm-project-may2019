@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { ResponseContentType } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, from } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {ApiResponse} from "../services/api.response";
@@ -26,6 +27,9 @@ import { ClassFinishedStatus } from '../model/class-finished-status';
 import { SettingRequest } from '../model/setting-request';
 import { PaymentMail } from '../model/payment-mail';
 import { LocationRequest } from '../model/location-request';
+import { map } from 'rxjs/operators';
+
+
 
 const httpOptions = {
   'Content-Type': 'application/json'
@@ -56,6 +60,7 @@ export class UserService {
   private updateSettingUrl = this.apiUrl + '/academic/updateSetting';
   private dropOffUsersUrl = this.apiUrl + '/dropOffUsers';
   private getUserByIdUrl = this.apiUrl + '/getUserById/';
+  private downloadFileUrl = this.apiUrl + '/api/file/downloadFile/';
   info: any;
 
   constructor(private http: HttpClient, private token: TokenStorageService) { }
@@ -149,8 +154,9 @@ export class UserService {
   }
 
   // send portal link and agreement to sign
-  sendEmailWithAttachment(email: string) {
-    return this.http.get(this.sendEmailWithAttachmentUrl + email);
+  sendEmailWithAttachment(email: string, fileNameComp: string) {
+    return this.http.get(this.sendEmailWithAttachmentUrl + email
+      + '/fileNameComp/' + fileNameComp);
   }
 
   // send email for late payment
@@ -420,4 +426,29 @@ export class UserService {
     return this.http.delete(this.apiUrl + '/academic/locations/' + id);
   }
 
+  downloadPDF(fileName: string) {
+           const headerOptions = new HttpHeaders({
+              'Content-Type': 'application/json',
+               Accept: 'application/pdf'
+         //   'Accept': 'application/octet-stream', // for excel file
+        });
+
+           const requestOptions = {headers : headerOptions, responseType: 'blob' as 'blob'};
+            // post or get depending on your requirement
+           this.http.get(this.downloadFileUrl  + fileName, requestOptions).pipe(map((data: any)  => {
+
+                const blob = new Blob([data], {
+                   type: 'application/pdf' // must match the Accept type
+                // type: 'application/octet-stream' // for excel
+                });
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = fileName;
+                link.click();
+                window.URL.revokeObjectURL(link.href);
+
+              })).subscribe((result: any) => {
+              });
+
+        }
 }
